@@ -14,6 +14,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{A013E236-B79D-237E-C708-2ACE47C0255E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemasService", "CinemasService\CinemasService.csproj", "{392806A3-7E9E-85C8-8919-80598BBFEA07}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A19FB574-C5D5-4A85-9A2C-99447BDA7D0E} = {A19FB574-C5D5-4A85-9A2C-99447BDA7D0E}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoviesService", "MoviesService\MoviesService.csproj", "{1C730E40-2AB1-7F57-2E69-419F56D24D71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +51,14 @@ Global
 		{A013E236-B79D-237E-C708-2ACE47C0255E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A013E236-B79D-237E-C708-2ACE47C0255E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A013E236-B79D-237E-C708-2ACE47C0255E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{392806A3-7E9E-85C8-8919-80598BBFEA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{392806A3-7E9E-85C8-8919-80598BBFEA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{392806A3-7E9E-85C8-8919-80598BBFEA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{392806A3-7E9E-85C8-8919-80598BBFEA07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C730E40-2AB1-7F57-2E69-419F56D24D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C730E40-2AB1-7F57-2E69-419F56D24D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C730E40-2AB1-7F57-2E69-419F56D24D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C730E40-2AB1-7F57-2E69-419F56D24D71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

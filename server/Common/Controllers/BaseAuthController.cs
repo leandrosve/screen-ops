@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using ScreenOps.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ScreenOps.AuthenticationService.Controllers
+namespace ScreenOps.Common.Controllers
 {
     [ApiController]
     [Authorize]

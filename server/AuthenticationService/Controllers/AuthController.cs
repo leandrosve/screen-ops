@@ -3,6 +3,7 @@ using ScreenOps.AuthenticationService.Dtos;
 using ScreenOps.AuthenticationService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ScreenOps.Common.Controllers;
 
 namespace ScreenOps.AuthenticationService.Controllers
 {

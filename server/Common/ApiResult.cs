@@ -16,6 +16,12 @@ namespace ScreenOps.Common
         public bool HasError => !Success;
 
         public static ApiResult<T> Ok(T data) => new() { Success = true, Data = data };
+
+        public static ApiResult<T> Ok(T data, bool asd)
+        {
+            return new ApiResult<T> { Success = true, Data = data };
+        }
+
         public static ApiResult<T> Fail(string error)
         {
            return new ApiResult<T>

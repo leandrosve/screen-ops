@@ -1,0 +1,274 @@
+[
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.CinemaController",
+    "Method": "Create",
+    "RelativePath": "cinemas",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "CinemasService.Dtos.CinemaCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "CinemasService.Dtos.CinemaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Cinemas"
+    ],
+    "EndpointName": "Create"
+  },
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.CinemaController",
+    "Method": "Get",
+    "RelativePath": "cinemas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "includeDeleted",
+        "Type": "System.Boolean",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CinemasService.Dtos.CinemaDto, CinemasService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Cinemas"
+    ],
+    "EndpointName": "Get All Cinemas"
+  },
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.CinemaController",
+    "Method": "Update",
+    "RelativePath": "cinemas/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "CinemasService.Dtos.CinemaUpdateDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "CinemasService.Dtos.CinemaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Cinemas"
+    ],
+    "EndpointName": "Update"
+  },
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.CinemaController",
+    "Method": "Get",
+    "RelativePath": "cinemas/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "CinemasService.Dtos.CinemaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Cinemas"
+    ],
+    "EndpointName": "Get Cinema"
+  },
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.CinemaController",
+    "Method": "Delete",
+    "RelativePath": "cinemas/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Cinemas"
+    ],
+    "EndpointName": "Delete"
+  },
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.PublicCinemaController",
+    "Method": "Get",
+    "RelativePath": "public/cinemas",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CinemasService.Dtos.CinemaDto, CinemasService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Public Cinemas"
+    ],
+    "EndpointName": "Get All Public Cinemas"
+  },
+  {
+    "ContainingType": "ScreenOps.CinemasService.Controllers.PublicCinemaController",
+    "Method": "Get",
+    "RelativePath": "public/cinemas/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ScreenOps.Common.ApiError",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "CinemasService.Dtos.CinemaDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "Tags": [
+      "Public Cinemas"
+    ],
+    "EndpointName": "Get Public Cinema"
+  }
+]

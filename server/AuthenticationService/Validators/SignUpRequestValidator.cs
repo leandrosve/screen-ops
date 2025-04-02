@@ -1,8 +1,8 @@
-﻿namespace ScreenOps.AuthenticationService.Validators
-{
-    using ScreenOps.AuthenticationService.Dtos;
-    using FluentValidation;
+﻿using ScreenOps.AuthenticationService.Dtos;
+using FluentValidation;
 
+namespace ScreenOps.AuthenticationService.Validators
+{
     public class SignUpRequestDtoValidator : AbstractValidator<SignUpRequestDto>
     {
         public SignUpRequestDtoValidator()

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
-namespace ScreenOps.AuthenticationService.Controllers
+namespace ScreenOps.Common.Controllers
 {
     [ApiController]
     [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
