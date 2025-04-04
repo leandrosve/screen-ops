@@ -1,0 +1,127 @@
+[
+  {
+    "id": 1,
+    "name": "Acción",
+    "en": "Action"
+  },
+  {
+    "id": 2,
+    "name": "Aventura",
+    "en": "Adventure"
+  },
+  {
+    "id": 3,
+    "name": "Animación",
+    "en": "Animation"
+  },
+  {
+    "id": 4,
+    "name": "Ciencia ficción",
+    "en": "Science Fiction"
+  },
+  {
+    "id": 5,
+    "name": "Fantasía",
+    "en": "Fantasy"
+  },
+  {
+    "id": 6,
+    "name": "Terror",
+    "en": "Horror"
+  },
+  {
+    "id": 7,
+    "name": "Suspense",
+    "en": "Thriller"
+  },
+  {
+    "id": 8,
+    "name": "Misterio",
+    "en": "Mystery"
+  },
+  {
+    "id": 9,
+    "name": "Drama",
+    "en": "Drama"
+  },
+  {
+    "id": 10,
+    "name": "Comedia",
+    "en": "Comedy"
+  },
+  {
+    "id": 11,
+    "name": "Romance",
+    "en": "Romance"
+  },
+  {
+    "id": 12,
+    "name": "Musical",
+    "en": "Musical"
+  },
+  {
+    "id": 13,
+    "name": "Crimen",
+    "en": "Crime"
+  },
+  {
+    "id": 14,
+    "name": "Policíaco",
+    "en": "Detective"
+  },
+  {
+    "id": 15,
+    "name": "Western",
+    "en": "Western"
+  },
+  {
+    "id": 16,
+    "name": "Bélico",
+    "en": "War"
+  },
+  {
+    "id": 17,
+    "name": "Histórico",
+    "en": "Historical"
+  },
+  {
+    "id": 18,
+    "name": "Biográfico",
+    "en": "Biopic"
+  },
+  {
+    "id": 19,
+    "name": "Deportes",
+    "en": "Sports"
+  },
+  {
+    "id": 20,
+    "name": "Superhéroes",
+    "en": "Superhero"
+  },
+  {
+    "id": 21,
+    "name": "Cine negro",
+    "en": "Film Noir"
+  },
+  {
+    "id": 22,
+    "name": "Paranormal",
+    "en": "Paranormal"
+  },
+  {
+    "id": 23,
+    "name": "Metraje encontrado",
+    "en": "Found Footage"
+  },
+  {
+    "id": 24,
+    "name": "Arte y ensayo",
+    "en": "Art House"
+  },
+  {
+    "id": 25,
+    "name": "Documental",
+    "en": "Documentary"
+  }
+]
