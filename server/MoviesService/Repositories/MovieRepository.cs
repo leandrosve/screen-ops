@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Common.Models;
+using Microsoft.EntityFrameworkCore;
+using MoviesService.Dtos;
 using MoviesService.Models;
 using ScreenOps.MoviesService.Data;
+using System.Text.RegularExpressions;
 
 namespace MoviesService.Repositories
 {
@@ -34,6 +37,55 @@ namespace MoviesService.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<PagedResult<Movie>> GetByFilters(MovieFiltersDto filters)
+        {
+            var query = _context.Movies
+                .Include(m => m.Genres).ThenInclude(mg => mg.Genre)
+                .Include(m => m.Media)
+                .AsQueryable();
+
+            if (!filters.IncludeDeleted)
+            {
+                query = query.Where(m => m.DeletedAt == null);
+            }
+
+            if (!String.IsNullOrEmpty(filters.SearchTerm))
+            {
+                // Buscar año en el search term (ej: "Avengers 2012")
+                var match = Regex.Match(filters.SearchTerm, @"\b\d{4}\b");
+
+                var searchTerm = filters.SearchTerm.ToLower();
+
+                if (match.Success && int.TryParse(match.Value, out int year))
+                {
+                    query = query.Where(m => m.OriginalReleaseYear == year
+                        || m.OriginalTitle.ToLower().Contains(searchTerm)
+                        || m.LocalizedTitle.ToLower().Contains(searchTerm));
+                }
+                else
+                {
+                    query = query.Where(m => m.OriginalTitle.ToLower().Contains(searchTerm)
+                        || m.LocalizedTitle.ToLower().Contains(searchTerm));
+                }
+            }
+
+            var totalCount = await query.CountAsync();
+            var pagination = filters.Pagination;
+
+            var offset = Math.Max(pagination.Page - 1, 0) * pagination.PageSize;
+            query = query.Skip(offset).Take(pagination.PageSize);
+
+            var res = await query.ToListAsync();
+
+            return new PagedResult<Movie>
+            {
+                Items = res,
+                PageNumber = pagination.Page,
+                PageSize = pagination.PageSize,
+                TotalCount = totalCount
+            };
         }
 
         public async Task<Movie> Insert(Movie movie)

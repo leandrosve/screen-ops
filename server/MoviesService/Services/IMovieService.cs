@@ -1,4 +1,5 @@
-﻿using MoviesService.Dtos;
+﻿using Common.Models;
+using MoviesService.Dtos;
 using ScreenOps.Common;
 
 namespace MoviesService.Services
@@ -13,6 +14,6 @@ namespace MoviesService.Services
 
         Task<ApiResult<MovieDto>> Get(Guid id);
 
-        Task<ApiResult<IEnumerable<MovieDto>>> GetAll(bool includeDeleted);
+        Task<ApiResult<PagedResult<MovieDto>>> GetByFilters(MovieFiltersDto filters);
     }
 }

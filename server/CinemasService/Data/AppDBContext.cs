@@ -22,8 +22,22 @@ namespace ScreenOps.CinemasService.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<LayoutElement>(b =>
+            {
+                b.Property(m => m.Type).HasConversion<string>();
+                b.HasIndex(m => m.LayoutId);
+                b.HasIndex(p => new { p.PositionX, p.PositionY }).IsUnique();
+            });
+            modelBuilder.Entity<Layout>(b =>
+            {
+                b.HasIndex(u => u.Name).IsUnique();
+            });
         }
 
         public DbSet<Cinema> Cinemas { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Layout> Layouts { get; set; }
+        public DbSet<LayoutElement> LayoutElements { get; set; }
     }
 }

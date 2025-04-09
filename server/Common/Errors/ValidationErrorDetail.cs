@@ -6,6 +6,7 @@ namespace ScreenOps.Errors
     public class ValidationErrorDetail
     {
 
+        private static readonly string GUID_ERROR_PREFIX = "The JSON value could not be converted to System.Guid";
         public static IActionResult MakeValidationResponse(ActionContext context)
         {
 
@@ -22,6 +23,11 @@ namespace ScreenOps.Errors
                     errorMessage = errors.Last().ErrorMessage;
                    
                 }
+            }
+
+            if (errorMessage.StartsWith(GUID_ERROR_PREFIX))
+            {
+                errorMessage = "invalid_guid_format";
             }
 
              var result = new ApiError(errorMessage, context.HttpContext.TraceIdentifier);

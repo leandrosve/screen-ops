@@ -1,8 +1,8 @@
 ﻿using ScreenOps.Common;
 using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
-using CinemasService.Services;
 using CinemasService.Dtos;
+using CinemasService.Services.Interfaces;
 
 namespace ScreenOps.CinemasService.Controllers
 {
@@ -11,9 +11,9 @@ namespace ScreenOps.CinemasService.Controllers
     [Route("public/cinemas")]
     public class PublicCinemaController : BaseController
     {
-        private readonly ICinemaService _service;
+        private readonly IPublicCinemaService _service;
 
-        public PublicCinemaController(ICinemaService service) {
+        public PublicCinemaController(IPublicCinemaService service) {
             _service = service; 
         }
 
@@ -32,7 +32,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(IEnumerable<CinemaDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            ApiResult<IEnumerable<CinemaDto>> res = await _service.GetAll(false);
+            ApiResult<IEnumerable<CinemaDto>> res = await _service.GetAll();
 
             if (res.HasError) return BadRequest(res.Error);
 

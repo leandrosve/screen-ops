@@ -13,19 +13,29 @@ namespace CinemasService.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Cinema>> GetAll(bool includeDeleted)
+        public async Task<IEnumerable<Cinema>> GetAll(bool includeDeleted, bool includeUnpublished)
         {
-            if (includeDeleted)
+            var query = _context.Cinemas.AsQueryable();
+
+            if (!includeDeleted)
             {
-                return await _context.Cinemas.ToListAsync();
+                query = query.Where(m => m.DeletedAt == null);
+            }
+            if (!includeUnpublished)
+            {
+                query = query.Where(m => m.IsPublished);
             }
 
-            return await _context.Cinemas.Where(c => c.DeletedAt == null).ToListAsync();
+            return await query.ToListAsync();
         }
 
-        public async Task<Cinema?> GetById(Guid id)
+        public async Task<Cinema?> GetById(Guid id, bool includeUnpublished)
         {
-            return await _context.Cinemas.Where(u => u.Id == id).FirstOrDefaultAsync();
+            var query = _context.Cinemas.AsQueryable();
+            if (!includeUnpublished) {
+                query.Where(c => c.IsPublished);
+            }
+            return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<Cinema> Insert(Cinema cinema)

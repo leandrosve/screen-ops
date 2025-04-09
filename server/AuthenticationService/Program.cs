@@ -6,6 +6,7 @@ using FluentValidation;
 using ScreenOps.AuthenticationService.Dtos;
 using ScreenOps.Common.Configuration;
 using System.Reflection;
+using Common.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -11,6 +11,7 @@ namespace ScreenOps.Filters
         {
             ApiError error = new ApiError("internal_error");
             error.TraceId = context.HttpContext.TraceIdentifier;
+            Console.WriteLine(error.TraceId);
             if (typeof(ControllerException).IsAssignableFrom(context.Exception.GetType()))
             {
                 ControllerException exception = (ControllerException) context.Exception;

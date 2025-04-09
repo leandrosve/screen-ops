@@ -5,9 +5,9 @@ namespace CinemasService.Repositories
     public interface ICinemaRepository
     {
 
-        Task<IEnumerable<Cinema>> GetAll(bool includeDeleted);
+        Task<IEnumerable<Cinema>> GetAll(bool includeDeleted, bool includeUnpublished);
 
-        Task<Cinema?> GetById(Guid id);
+        Task<Cinema?> GetById(Guid id, bool includeUnpublished);
 
         Task<Cinema> Insert(Cinema cinema);
 

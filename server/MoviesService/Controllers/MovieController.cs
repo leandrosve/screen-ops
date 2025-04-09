@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
 using MoviesService.Services;
 using MoviesService.Dtos;
+using Common.Dtos;
+using Common.Models;
 
 namespace ScreenOps.MoviesService.Controllers
 {
@@ -13,8 +15,9 @@ namespace ScreenOps.MoviesService.Controllers
     {
         private readonly IMovieService _service;
 
-        public MovieController(IMovieService service) {
-            _service = service; 
+        public MovieController(IMovieService service)
+        {
+            _service = service;
         }
 
         [HttpPost(Name = "Create Movie")]
@@ -50,11 +53,15 @@ namespace ScreenOps.MoviesService.Controllers
             return Ok(res.Data);
         }
 
-        [HttpGet(Name = "Get All Movies")]
-        [ProducesResponseType(typeof(IEnumerable<MovieDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] bool includeDeleted = false)
+        [HttpGet(Name = "Get Movies")]
+        [ProducesResponseType(typeof(PagedResult<MovieDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get([FromQuery] string? searchTerm, [FromQuery] bool includeDeleted, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            ApiResult<IEnumerable<MovieDto>> res = await _service.GetAll(includeDeleted);
+            var pagination = new PaginationDto { Page = page, PageSize = pageSize };
+
+            var filters = new MovieFiltersDto { IncludeDeleted = includeDeleted, SearchTerm = searchTerm, Pagination = pagination };
+
+            ApiResult<PagedResult<MovieDto>> res = await _service.GetByFilters(filters);
 
             if (res.HasError) return BadRequest(res.Error);
 

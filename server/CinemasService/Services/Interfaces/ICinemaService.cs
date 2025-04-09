@@ -1,7 +1,7 @@
 ﻿using CinemasService.Dtos;
 using ScreenOps.Common;
 
-namespace CinemasService.Services
+namespace CinemasService.Services.Interfaces
 {
     public interface ICinemaService
     {
@@ -9,9 +9,9 @@ namespace CinemasService.Services
 
         public Task<ApiResult<CinemaDto>> Update(Guid id, CinemaUpdateDto dto);
 
-        public Task<ApiResult<CinemaDto>> GetById(Guid id);
+        public Task<ApiResult<CinemaDto>> GetById(Guid id, bool includeUnpublished);
 
-        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted);
+        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished);
 
         public Task<ApiResult<bool>> Delete(Guid id, Guid userId);
     }

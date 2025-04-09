@@ -44,7 +44,6 @@ FluentValidationConfig.Configure(builder, mvcBuilder);
 services.AddValidatorsFromAssemblyContaining<MovieCreateDto>();
 services.AddValidatorsFromAssemblyContaining<MovieUpdateDto>();
 
-
 // JWT
 AuthConfiguration.Configure(builder);
 

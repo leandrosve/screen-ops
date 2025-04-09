@@ -7,6 +7,9 @@ using CinemasService.Services;
 using CinemasService.Dtos;
 using FluentValidation;
 using Common.Configuration;
+using CinemasService.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,13 +29,17 @@ services.AddProblemDetails();
 //services.AddOpenApi();
 OpenApiConfiguration.Configure(builder);
 
-
 services.AddDbContext<AppDBContext>();
 
 services.AddScoped<ICinemaRepository, CinemaRepository>();
+services.AddScoped<IRoomRepository, RoomRepository>();
+services.AddScoped<ILayoutRepository, LayoutRepository>();
 
 // Services
 services.AddScoped<ICinemaService, CinemaService>();
+services.AddScoped<IPublicCinemaService, PublicCinemaService>();
+services.AddScoped<IRoomService, RoomService>();
+services.AddScoped<ILayoutService, LayoutService>();
 
 // AutoMapper
 services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -41,11 +48,16 @@ services.AddAutoMapper(Assembly.GetExecutingAssembly());
 FluentValidationConfig.Configure(builder, mvcBuilder);
 services.AddValidatorsFromAssemblyContaining<CinemaCreateDto>();
 services.AddValidatorsFromAssemblyContaining<CinemaUpdateDto>();
+services.AddValidatorsFromAssemblyContaining<RoomCreateDto>();
+services.AddValidatorsFromAssemblyContaining<RoomUpdateDto>();
 
 // JWT
 AuthConfiguration.Configure(builder);
 
 var app = builder.Build();
+
+// Transactions
+app.UseMiddleware<TransactionMiddleware<AppDBContext>>();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();

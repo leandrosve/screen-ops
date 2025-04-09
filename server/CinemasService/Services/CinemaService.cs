@@ -2,11 +2,13 @@
 using CinemasService.Dtos;
 using CinemasService.Models;
 using CinemasService.Repositories;
+using CinemasService.Services.Interfaces;
+using Common.Services;
 using ScreenOps.Common;
 
 namespace CinemasService.Services
 {
-    public class CinemaService : ICinemaService
+    public class CinemaService : BaseService, ICinemaService
     {
         private readonly IMapper _mapper;
         private readonly ICinemaRepository _repository;
@@ -27,56 +29,57 @@ namespace CinemasService.Services
                 Capacity = dto.Capacity,
                 CreatedAt = new DateTime(),
                 CreatedBy = userId,
+                IsPublished = false
             };
 
             await _repository.Insert(cinema);
-            return ApiResult<CinemaDto>.Ok(_mapper.Map<CinemaDto>(cinema));
+            return Ok(_mapper.Map<CinemaDto>(cinema));
         }
 
         public async Task<ApiResult<bool>> Delete(Guid id, Guid userId)
         {
-            var cinema = await _repository.GetById(id);
+            var cinema = await _repository.GetById(id, true);
            
             if (cinema == null)
-                return ApiResult<bool>.Fail("cinema_not_found");
+                return Fail<bool>("cinema_not_found");
             
             cinema.DeletedBy = userId;
             cinema.DeletedAt = new DateTime();
 
             await _repository.SaveChanges();
-            return ApiResult<bool>.Ok(true);
+            return Ok(true);
         }
 
-        public async Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted)
+        public async Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished)
         {
-            IEnumerable<Cinema> cinemas = await _repository.GetAll(includeDeleted);
-            IEnumerable<CinemaDto> dtos = _mapper.Map<IEnumerable<CinemaDto>>(cinemas);
-            return ApiResult<IEnumerable<CinemaDto>>.Ok(dtos);
+            var cinemas = await _repository.GetAll(includeDeleted, includeUnpublished);
+            var dtos = _mapper.Map<IEnumerable<CinemaDto>>(cinemas);
+            return Ok(dtos);
         }
 
-        public async Task<ApiResult<CinemaDto>> GetById(Guid id)
+        public async Task<ApiResult<CinemaDto>> GetById(Guid id, bool includeUnpublished)
         {
-            var cinema = await _repository.GetById(id);
+            var cinema = await _repository.GetById(id, includeUnpublished);
 
             if (cinema == null)
-                return ApiResult<CinemaDto>.Fail("cinema_not_found");
+                return Fail<CinemaDto>("cinema_not_found");
 
-            return ApiResult<CinemaDto>.Ok(_mapper.Map<CinemaDto>(cinema));
+            return Ok(_mapper.Map<CinemaDto>(cinema));
         }
 
         public async Task<ApiResult<CinemaDto>> Update(Guid id, CinemaUpdateDto dto)
         {
-            var cinema = await _repository.GetById(id);
+            var cinema = await _repository.GetById(id, true);
             if (cinema == null)
-                return ApiResult<CinemaDto>.Fail("cinema_not_found");
+                return Fail<CinemaDto>("cinema_not_found");
 
-            if (dto.Name is not null)
+            if (dto.Name != null)
                 cinema.Name = dto.Name;
 
-            if (dto.Location is not null)
+            if (dto.Location != null)
                 cinema.Location = dto.Location;
 
-            if (dto.Description is not null)
+            if (dto.Description != null)
                 cinema.Description = dto.Description;
 
             if (dto.Capacity.HasValue)
@@ -84,7 +87,7 @@ namespace CinemasService.Services
 
             await _repository.SaveChanges();
 
-            return ApiResult<CinemaDto>.Ok(_mapper.Map<CinemaDto>(cinema));
+            return Ok(_mapper.Map<CinemaDto>(cinema));
         }
     }
 }

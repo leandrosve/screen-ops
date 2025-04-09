@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Models;
 using MoviesService.Dtos;
 using MoviesService.Models;
 using MoviesService.Repositories;
@@ -58,13 +59,13 @@ namespace MoviesService.Services
             return ApiResult<MovieDto>.Ok(_mapper.Map<MovieDto>(movie));
         }
 
-        public async Task<ApiResult<IEnumerable<MovieDto>>> GetAll(bool includeDeleted)
+        public async Task<ApiResult<PagedResult<MovieDto>>> GetByFilters(MovieFiltersDto filters)
         {
-            var movies = await _movieRepository.GetAll(includeDeleted);
+            var res = await _movieRepository.GetByFilters(filters);
 
-            var dtos = _mapper.Map<ICollection<MovieDto>>(movies);
+            var dtos = _mapper.Map<PagedResult<MovieDto>>(res);
 
-            return ApiResult<IEnumerable<MovieDto>>.Ok(dtos);
+            return ApiResult<PagedResult<MovieDto>>.Ok(dtos);
         }
 
         public async Task<ApiResult<MovieDto>> Update(Guid id, MovieUpdateDto dto)

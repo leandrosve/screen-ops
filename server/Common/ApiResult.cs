@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ScreenOps.Common
 {
@@ -7,13 +8,13 @@ namespace ScreenOps.Common
         [JsonIgnore]
         public bool Success { get; set; }
 
-        public ApiError? Error { get; set; }
+        public ApiError Error { get; set; } = null!;
 
          [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public T? Data { get; set; }
 
         [JsonIgnore]
-        public bool HasError => !Success;
+        public bool HasError => Error != null;
 
         public static ApiResult<T> Ok(T data) => new() { Success = true, Data = data };
 
@@ -28,6 +29,15 @@ namespace ScreenOps.Common
             {
                 Success = false,
                 Error = new ApiError(error)
+            };
+        }
+
+        public static ApiResult<T> Fail(ApiError error)
+        {
+            return new ApiResult<T>
+            {
+                Success = false,
+                Error = error
             };
         }
 

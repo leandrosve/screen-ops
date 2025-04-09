@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -35,12 +36,38 @@ namespace Common.Configuration
                         });
                     }
                 }
+               
+            }
+        }
+
+        public class DynamicServerTransformer : IOpenApiDocumentTransformer
+        {
+            private readonly IHttpContextAccessor _httpContextAccessor;
+
+            public DynamicServerTransformer(IHttpContextAccessor httpContextAccessor)
+            {
+                _httpContextAccessor = httpContextAccessor;
+            }
+
+            public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
+            {
+                var request = _httpContextAccessor.HttpContext?.Request;
+                if (request != null)
+                {
+                    var serverUrl = $"{request.Scheme}://{request.Host.Value}";
+                    document.Servers = new List<OpenApiServer> { new() { Url = serverUrl } };
+                }
+
+                return Task.CompletedTask;
             }
         }
 
         public static void Configure(WebApplicationBuilder builder)
         {
-            builder.Services.AddOpenApi("v1", options => { options.AddDocumentTransformer<BearerSecuritySchemeTransformer>(); });
+            builder.Services.AddOpenApi("v1", options => {
+                options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+                options.AddDocumentTransformer<DynamicServerTransformer>();
+            });
 
         }
     }

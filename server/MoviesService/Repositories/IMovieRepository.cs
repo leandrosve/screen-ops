@@ -1,4 +1,6 @@
-﻿using MoviesService.Models;
+﻿using Common.Models;
+using MoviesService.Dtos;
+using MoviesService.Models;
 
 namespace MoviesService.Repositories
 {
@@ -6,6 +8,9 @@ namespace MoviesService.Repositories
     {
         Task<Movie?> GetById(Guid id);
         Task<IEnumerable<Movie>> GetAll(bool includeDeleted);
+
+        Task<PagedResult<Movie>> GetByFilters(MovieFiltersDto filters);
+
         Task<Movie> Insert(Movie movie);
         Task<bool> SaveChanges();
     }

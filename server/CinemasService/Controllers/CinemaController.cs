@@ -1,9 +1,8 @@
 ﻿using ScreenOps.Common;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
-using CinemasService.Services;
 using CinemasService.Dtos;
+using CinemasService.Services.Interfaces;
 
 namespace ScreenOps.CinemasService.Controllers
 {
@@ -18,7 +17,7 @@ namespace ScreenOps.CinemasService.Controllers
             _service = service; 
         }
 
-        [HttpPost(Name = "Create")]
+        [HttpPost(Name = "Create Cinema")]
         [ProducesResponseType(typeof(CinemaDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(CinemaCreateDto dto)
         {
@@ -30,7 +29,7 @@ namespace ScreenOps.CinemasService.Controllers
             return Ok(res.Data);
         }
 
-        [HttpPatch("{id}", Name = "Update")]
+        [HttpPatch("{id}", Name = "Update Cinema")]
         [ProducesResponseType(typeof(CinemaDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(CinemaUpdateDto dto, Guid id)
         {
@@ -45,7 +44,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(CinemaDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            ApiResult<CinemaDto> res = await _service.GetById(id);
+            ApiResult<CinemaDto> res = await _service.GetById(id, true);
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -54,16 +53,16 @@ namespace ScreenOps.CinemasService.Controllers
 
         [HttpGet(Name = "Get All Cinemas")]
         [ProducesResponseType(typeof(IEnumerable<CinemaDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] bool includeDeleted = false)
+        public async Task<IActionResult> Get([FromQuery] bool deleted = false, [FromQuery] bool unpublished = true)
         {
-            ApiResult<IEnumerable<CinemaDto>> res = await _service.GetAll(includeDeleted);
+            ApiResult<IEnumerable<CinemaDto>> res = await _service.GetAll(deleted, unpublished);
 
             if (res.HasError) return BadRequest(res.Error);
 
             return Ok(res.Data);
         }
 
-        [HttpDelete("{id}", Name = "Delete")]
+        [HttpDelete("{id}", Name = "Delete Cinema")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)
         {

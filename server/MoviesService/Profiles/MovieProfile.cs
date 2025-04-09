@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Models;
 using MoviesService.Dtos;
 using MoviesService.Models;
 using MoviesService.Static;
@@ -10,7 +11,7 @@ namespace CinemasService.Profiles
 
         public MovieProfile()
         {
-
+            CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
             CreateMap<Genre, GenreDto>();
             CreateMap<MovieMediaDto, MovieMedia>();
             CreateMap<MovieMediaCreateDto, MovieMedia>();
