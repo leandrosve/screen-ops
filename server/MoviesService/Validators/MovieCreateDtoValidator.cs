@@ -29,8 +29,8 @@ namespace MoviesService.Validators
                 .MaximumLength(1000).WithMessage(MovieErrors.Create.DescriptionMaxLength);
 
             RuleFor(x => x.Director)
-                .NotEmpty().WithMessage(MovieErrors.Create.DescriptionRequired)
-                .MaximumLength(255).WithMessage(MovieErrors.Create.DescriptionMaxLength);
+                .NotEmpty().WithMessage(MovieErrors.Create.DirectorRequired)
+                .MaximumLength(255).WithMessage(MovieErrors.Create.DirectorMaxLength);
 
             RuleFor(x => x.MainActors)
                 .NotEmpty().WithMessage(MovieErrors.Create.MainActorsRequired)

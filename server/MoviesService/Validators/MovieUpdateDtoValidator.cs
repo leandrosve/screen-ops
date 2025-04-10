@@ -29,7 +29,7 @@ namespace MoviesService.Validators
                 .MaximumLength(1000).WithMessage(MovieErrors.Update.DescriptionMaxLength);
 
             RuleFor(x => x.Director)
-                .MinimumLength(1).WithMessage(MovieErrors.Update.DirectorMaxLength)
+                .MinimumLength(1).WithMessage(MovieErrors.Update.DescriptionMinLength)
                 .MaximumLength(255).WithMessage(MovieErrors.Update.DirectorMaxLength);
 
             RuleFor(x => x.MainActors)
