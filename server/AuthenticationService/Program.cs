@@ -7,6 +7,8 @@ using ScreenOps.AuthenticationService.Dtos;
 using ScreenOps.Common.Configuration;
 using System.Reflection;
 using Common.Configuration;
+using Common.Utils;
+using AuthenticationService.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +60,13 @@ app.MapGet("/status", async context =>
 {
     await context.Response.WriteAsync("OK");
 });
+
+app.MapGet("/errors", () =>
+{
+    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(AuthErrors), typeof(UserErrors)));
+})
+.WithName("Errors Reference")
+.WithTags("Errors Reference");
 
 app.MapOpenApi();
 app.MapScalarApiReference(options =>

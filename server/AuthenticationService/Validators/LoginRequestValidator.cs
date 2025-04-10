@@ -1,5 +1,6 @@
 ﻿using ScreenOps.AuthenticationService.Dtos;
 using FluentValidation;
+using AuthenticationService.Errors;
 
 namespace ScreenOps.AuthenticationService.Validators
 {
@@ -8,14 +9,14 @@ namespace ScreenOps.AuthenticationService.Validators
         public LoginRequestValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("email_required")
-                .EmailAddress().WithMessage("email_invalid")
-                .MaximumLength(255).WithMessage("email_invalid");
+                .NotEmpty().WithMessage(AuthErrors.Login.EmailRequired)
+                .EmailAddress().WithMessage(AuthErrors.Login.EmailInvalid)
+                .MaximumLength(255).WithMessage(AuthErrors.Login.EmailInvalid);
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("password_required")
-                .MinimumLength(6).WithMessage("password_invalid")
-                .MaximumLength(255).WithMessage("password_invalid");
+                .NotEmpty().WithMessage(AuthErrors.Login.PasswordRequired)
+                .MinimumLength(6).WithMessage(AuthErrors.Login.PasswordInvalid)
+                .MaximumLength(255).WithMessage(AuthErrors.Login.PasswordInvalid);
         }
     }
 }

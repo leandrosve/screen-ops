@@ -5,6 +5,7 @@ using ScreenOps.AuthenticationService.Models;
 using ScreenOps.AuthenticationService.Repositories;
 using ScreenOps.AuthenticationService.Utils;
 using Common.Enums;
+using AuthenticationService.Errors;
 
 namespace ScreenOps.AuthenticationService.Services
 {
@@ -23,7 +24,7 @@ namespace ScreenOps.AuthenticationService.Services
         {
             var res = await _repository.GetById(userId);
             if (res == null) {
-                return ApiResult<UserDto>.Fail("user_not_found");
+                return ApiResult<UserDto>.Fail(UserErrors.Me.UserNotFound);
             }
             var dto = _mapper.Map<UserDto>(res);
             return ApiResult<UserDto>.Ok(dto);
@@ -35,7 +36,7 @@ namespace ScreenOps.AuthenticationService.Services
 
             if (exists != null)
             {
-                return ApiResult<UserDto>.Fail("user_already_exists");
+                return ApiResult<UserDto>.Fail(UserErrors.SignUp.UserAlreadyExists);
             }
 
             string passwordHash = EncryptionUtils.EncriptPassword(request.Password);
