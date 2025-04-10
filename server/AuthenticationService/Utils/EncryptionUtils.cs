@@ -30,10 +30,14 @@ namespace ScreenOps.AuthenticationService.Utils
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSecret));
+            
+            string role = user.Role.ToString(); // Dont know why it warns if I do this on Claim constructor
+            
             var claims = new List<Claim>
             {
-                new Claim("email", user.Email),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim("id", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, role),
             };
             var descriptor = new SecurityTokenDescriptor
             {

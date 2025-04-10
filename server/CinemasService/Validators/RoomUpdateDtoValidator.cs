@@ -1,4 +1,5 @@
 ﻿using CinemasService.Dtos;
+using CinemasService.Errors;
 using FluentValidation;
 
 namespace CinemasService.Validators
@@ -9,11 +10,11 @@ namespace CinemasService.Validators
         {
             ClassLevelCascadeMode = CascadeMode.Stop;
             RuleFor(x => x.Name)
-                .MinimumLength(1).WithMessage("name_min_length")
-                .MaximumLength(100).WithMessage("name_max_length");
+                .MinimumLength(1).WithMessage(RoomErrors.Update.NameMinLength)
+                .MaximumLength(100).WithMessage(RoomErrors.Update.NameMaxLength);
             RuleFor(x => x.Description)
-                .MinimumLength(1).WithMessage("description_min_length")
-                .MaximumLength(100).WithMessage("description_max_length");
+                .MinimumLength(1).WithMessage(RoomErrors.Update.DescriptionMinLength)
+                .MaximumLength(100).WithMessage(RoomErrors.Update.DescriptionMaxLength);
         }
     }
 }

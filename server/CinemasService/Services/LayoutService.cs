@@ -6,6 +6,7 @@ using ScreenOps.Common;
 using CinemasService.Models;
 using CinemasService.Services.Interfaces;
 using CinemasService.Enums;
+using CinemasService.Errors;
 
 namespace CinemasService.Services
 {
@@ -42,7 +43,7 @@ namespace CinemasService.Services
             var layout = await _repository.GetById(id, true);
 
             if (layout == null)
-                return Fail<bool>("layout_not_found");
+                return Fail<bool>(LayoutErrors.Delete.LayoutNotFound);
 
             layout.DeletedAt = new DateTime();
 
@@ -56,20 +57,23 @@ namespace CinemasService.Services
             return Ok(_mapper.Map<ICollection<LayoutDto>>(layouts));
         }
 
-        public Task<ApiResult<LayoutDto>> GetById(Guid id, bool includeDeleted)
+        public async Task<ApiResult<LayoutDto>> GetById(Guid id, bool includeDeleted)
         {
-            throw new NotImplementedException();
+            var layout = await _repository.GetById(id, includeDeleted);
+            if (layout == null)
+            {
+                return Fail<LayoutDto>(LayoutErrors.Get.LayoutNotFound);
+            }
+
+            return Ok(_mapper.Map<LayoutDto>(layout));
         }
 
         private (bool, string) ValidateStructure(LayoutCreateDto layout)
         {
             const int MIN_SIZE = 4;
 
-            if (layout == null)
-                return (false, "layout_required");
-
             if (layout.Elements == null || layout.Elements.Count == 0)
-                return (false, "layout_elements_required");
+                return (false, LayoutErrors.Create.ElementsRequired);
 
             int dimensionX = 0, dimensionY = 0, seatCount = 0;
             var seatTypes = new HashSet<LayoutElementType>
@@ -89,28 +93,28 @@ namespace CinemasService.Services
                 if (seatTypes.Contains(element.Type))
                 {
                     seatCount++;
-                    if (element.Label == null) return (false, "layout_seat_label_required");
-                    if (labels.Contains(element.Label)) return (false, "layout_seat_duplicated_label");
+                    if (element.Label == null) return (false, LayoutErrors.Create.SeatLabelRequired);
+                    if (labels.Contains(element.Label)) return (false, LayoutErrors.Create.SeatLabelDuplicated);
                 }
             }
 
             if (dimensionX < MIN_SIZE || dimensionY < MIN_SIZE)
-                return (false, "layout_dimensions_too_small");
+                return (false, LayoutErrors.Create.DimensionsTooSmall);
 
             if (seatCount < MIN_SIZE * MIN_SIZE)
-                return (false, "layout_not_enough_seats");
+                return (false, LayoutErrors.Create.NotEnoughSeats);
 
             var occupiedPositions = new HashSet<(int X, int Y)>();
             foreach (var element in layout.Elements)
             {
                 var pos = (element.PositionX, element.PositionY);
                 if (!occupiedPositions.Add(pos))
-                    return (false, "layout_has_duplicated_positions");
+                    return (false, LayoutErrors.Create.DuplicateSeatPositions);
             }
 
             int expectedTotal = (dimensionX + 1) * (dimensionY + 1);
             if (occupiedPositions.Count != expectedTotal)
-                return (false, "layout_missing_positions");
+                return (false, LayoutErrors.Create.MissingSeatPositions);
 
             return (true, "");
         }

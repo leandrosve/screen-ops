@@ -10,8 +10,8 @@ namespace ScreenOps.AuthenticationService.Profiles
         public IdentityProfile() {
 
             CreateMap<User, UserDto>()
-                .ForMember(dest => dest.JoinedAt, opt => opt.MapFrom(src => src.CreatedAt));
-
+                .ForMember(dest => dest.JoinedAt, opt => opt.MapFrom(src => src.CreatedAt))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()));
         }
 
     }

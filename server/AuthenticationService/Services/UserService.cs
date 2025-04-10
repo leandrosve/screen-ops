@@ -4,6 +4,7 @@ using ScreenOps.AuthenticationService.Dtos;
 using ScreenOps.AuthenticationService.Models;
 using ScreenOps.AuthenticationService.Repositories;
 using ScreenOps.AuthenticationService.Utils;
+using Common.Enums;
 
 namespace ScreenOps.AuthenticationService.Services
 {
@@ -43,7 +44,8 @@ namespace ScreenOps.AuthenticationService.Services
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                Role = UserRole.CLIENT
             };
 
             await _repository.Insert(user);

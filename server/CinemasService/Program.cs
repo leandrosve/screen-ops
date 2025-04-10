@@ -8,8 +8,9 @@ using CinemasService.Dtos;
 using FluentValidation;
 using Common.Configuration;
 using CinemasService.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Common.Middleware;
+using Common.Utils;
+using CinemasService.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +73,13 @@ app.MapGet("/status", async context =>
 {
     await context.Response.WriteAsync("OK");
 });
+
+app.MapGet("/errors", () =>
+{
+    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(CinemaErrors), typeof(LayoutErrors), typeof(RoomErrors)));
+})
+.WithName("Posible Errors")
+.WithTags("Errors Reference");
 
 app.MapOpenApi();
 app.MapScalarApiReference(options =>

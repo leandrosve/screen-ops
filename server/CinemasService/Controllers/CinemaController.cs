@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
 using CinemasService.Dtos;
 using CinemasService.Services.Interfaces;
+using Common.Attributes;
 
 namespace ScreenOps.CinemasService.Controllers
 {
 
     [Tags("Cinemas")]
     [Route("cinemas")]
+    [Manager]
     public class CinemaController : BaseAuthController
     {
         private readonly ICinemaService _service;

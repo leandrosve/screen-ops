@@ -6,5 +6,6 @@
         public required string Token { get; set; }
         public required DateTime ExpiresAt { get; set; }
         public required DateTime CreatedAt { get; set; }
+
     }
 }

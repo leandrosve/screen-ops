@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Models;
 using MoviesService.Dtos;
+using MoviesService.Errors;
 using MoviesService.Models;
 using MoviesService.Repositories;
 using ScreenOps.Common;
@@ -41,7 +42,7 @@ namespace MoviesService.Services
             Movie? movie = await _movieRepository.GetById(id);
             if (movie == null)
             {
-                return ApiResult<bool>.Fail("movie_not_found");
+                return ApiResult<bool>.Fail(MovieErrors.Delete.MovieNotFound);
             }
 
             movie.DeletedAt = DateTime.UtcNow;
@@ -54,7 +55,7 @@ namespace MoviesService.Services
         {
             Movie? movie = await _movieRepository.GetById(id);
             if (movie == null) {
-                return ApiResult<MovieDto>.Fail("movie_not_found");
+                return ApiResult<MovieDto>.Fail(MovieErrors.Get.MovieNotFound);
             }
             return ApiResult<MovieDto>.Ok(_mapper.Map<MovieDto>(movie));
         }
@@ -73,7 +74,7 @@ namespace MoviesService.Services
             var movie = await _movieRepository.GetById(id);
             if (movie == null)
             {
-                return ApiResult<MovieDto>.Fail("movie_not_found");
+                return ApiResult<MovieDto>.Fail(MovieErrors.Update.MovieNotFound);
             }
 
             _mapper.Map(dto, movie);

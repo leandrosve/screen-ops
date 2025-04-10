@@ -16,7 +16,9 @@ namespace CinemasService.Repositories
 
         public async Task<IEnumerable<Layout>> GetAll(bool includeDeleted)
         {
-            var query = _context.Layouts.AsQueryable();
+            var query = _context.Layouts
+               .Include(m => m.Elements)
+               .AsQueryable();
 
             if (!includeDeleted)
             {
@@ -27,7 +29,9 @@ namespace CinemasService.Repositories
 
         public async Task<IEnumerable<Layout>> GetByFilters(LayoutSearchFiltersDto filters)
         {
-            var query = _context.Layouts.AsQueryable();
+            var query = _context.Layouts
+                .Include(m => m.Elements)
+                .AsQueryable();
 
             if (!filters.IncludeDeleted)
             {
@@ -43,7 +47,9 @@ namespace CinemasService.Repositories
 
         public async Task<Layout?> GetById(Guid id, bool includeDeleted)
         {
-            var query = _context.Layouts.AsQueryable();
+            var query = _context.Layouts
+                .Include(m => m.Elements)
+                .AsQueryable();
             if (!includeDeleted)
             {
                 query.Where(c => c.DeletedAt == null);

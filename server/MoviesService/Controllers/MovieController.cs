@@ -3,21 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
 using MoviesService.Services;
 using MoviesService.Dtos;
-using Common.Dtos;
 using Common.Models;
+using FluentValidation;
+using Common.Attributes;
 
 namespace ScreenOps.MoviesService.Controllers
 {
 
     [Tags("Movies")]
     [Route("movies")]
+    [Manager]
     public class MovieController : BaseAuthController
     {
         private readonly IMovieService _service;
+        private readonly IValidator<MovieFiltersDto> _validator;
 
-        public MovieController(IMovieService service)
+        public MovieController(IMovieService service, IValidator<MovieFiltersDto> validator)
         {
             _service = service;
+            _validator = validator;
         }
 
         [HttpPost(Name = "Create Movie")]
@@ -57,9 +61,17 @@ namespace ScreenOps.MoviesService.Controllers
         [ProducesResponseType(typeof(PagedResult<MovieDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] string? searchTerm, [FromQuery] bool includeDeleted, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var pagination = new PaginationDto { Page = page, PageSize = pageSize };
 
-            var filters = new MovieFiltersDto { IncludeDeleted = includeDeleted, SearchTerm = searchTerm, Pagination = pagination };
+            var filters = new MovieFiltersDto
+            {
+                IncludeDeleted = includeDeleted,
+                SearchTerm = searchTerm,
+                Pagination = new (page,pageSize)
+            };
+
+            var validation = await _validator.ValidateAsync(filters);
+
+            if (!validation.IsValid) return BadRequest(new ApiError(validation));
 
             ApiResult<PagedResult<MovieDto>> res = await _service.GetByFilters(filters);
 

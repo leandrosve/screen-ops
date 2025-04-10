@@ -8,6 +8,8 @@ using FluentValidation;
 using MoviesService.Static;
 using MoviesService.Repositories;
 using MoviesService.Services;
+using MoviesService.Errors;
+using Common.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +69,13 @@ app.MapGet("/status", async context =>
 {
     await context.Response.WriteAsync("OK");
 });
+
+app.MapGet("/errors", () =>
+{
+    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(MovieErrors)));
+})
+.WithName("Posible Errors")
+.WithTags("Errors Reference");
 
 app.MapOpenApi();
 app.MapScalarApiReference(options =>

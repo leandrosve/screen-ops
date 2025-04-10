@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using FluentValidation.Results;
+using System.Text.Json.Serialization;
 
 namespace ScreenOps.Common
 {
@@ -18,6 +19,14 @@ namespace ScreenOps.Common
         public ApiError(string error)
         {
             Error = error;
+        }
+
+        public ApiError(ValidationResult error)
+        {
+            if (error.IsValid || error.Errors.Count <= 0) {
+                Error = "internal_error";
+            }
+            Error = error.Errors[0].ErrorMessage;
         }
     }
 }

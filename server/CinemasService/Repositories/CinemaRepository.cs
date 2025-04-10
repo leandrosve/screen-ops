@@ -38,6 +38,12 @@ namespace CinemasService.Repositories
             return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<Cinema?> GetByName(string name)
+        {
+            var query = _context.Cinemas.AsQueryable();
+            return await query.Where(u => u.Name.ToLower() == name.ToLower()).FirstOrDefaultAsync();
+        }
+
         public async Task<Cinema> Insert(Cinema cinema)
         {
             _context.Cinemas.Add(cinema);

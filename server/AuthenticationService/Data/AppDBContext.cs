@@ -22,6 +22,10 @@ namespace ScreenOps.AuthenticationService.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>(b =>
+            {
+                b.Property(m => m.Role).HasConversion<string>();
+            });
         }
 
         public DbSet<User> Users { get; set; }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CinemasService.Dtos;
+using CinemasService.Errors;
 using CinemasService.Models;
 using CinemasService.Repositories;
 using CinemasService.Services.Interfaces;
@@ -21,9 +22,15 @@ namespace CinemasService.Services
 
         public async Task<ApiResult<CinemaDto>> Create(CinemaCreateDto dto, Guid userId)
         {
+            var exists = await _repository.GetByName(dto.Name.Trim());
+            if (exists!= null && !exists.IsDeleted)
+            {
+                return Fail<CinemaDto>(CinemaErrors.Create.NameAlreadyExists);
+            }
+
             Cinema cinema = new Cinema
             {
-                Name = dto.Name,
+                Name = dto.Name.Trim(),
                 Description = dto.Description,
                 Location = dto.Location,
                 Capacity = dto.Capacity,
@@ -41,7 +48,7 @@ namespace CinemasService.Services
             var cinema = await _repository.GetById(id, true);
            
             if (cinema == null)
-                return Fail<bool>("cinema_not_found");
+                return Fail<bool>(CinemaErrors.Delete.CinemaNotFound);
             
             cinema.DeletedBy = userId;
             cinema.DeletedAt = new DateTime();
@@ -62,7 +69,7 @@ namespace CinemasService.Services
             var cinema = await _repository.GetById(id, includeUnpublished);
 
             if (cinema == null)
-                return Fail<CinemaDto>("cinema_not_found");
+                return Fail<CinemaDto>(CinemaErrors.Get.CinemaNotFound);
 
             return Ok(_mapper.Map<CinemaDto>(cinema));
         }
@@ -71,7 +78,7 @@ namespace CinemasService.Services
         {
             var cinema = await _repository.GetById(id, true);
             if (cinema == null)
-                return Fail<CinemaDto>("cinema_not_found");
+                return Fail<CinemaDto>(CinemaErrors.Update.CinemaNotFound);
 
             if (dto.Name != null)
                 cinema.Name = dto.Name;

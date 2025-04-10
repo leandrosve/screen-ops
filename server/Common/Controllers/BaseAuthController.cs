@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace ScreenOps.Common.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "ADMIN, MANAGER")]
     [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
     public class BaseAuthController : ControllerBase
     {

@@ -5,6 +5,7 @@ using Common.Services;
 using ScreenOps.Common;
 using CinemasService.Models;
 using CinemasService.Services.Interfaces;
+using CinemasService.Errors;
 
 namespace CinemasService.Services
 {
@@ -28,7 +29,7 @@ namespace CinemasService.Services
 
             if (cinema == null)
             {
-                return Fail<RoomDto>("cinema_not_found");
+                return Fail<RoomDto>(RoomErrors.Create.CinemaNotFound);
             }
 
             Room room = new Room
@@ -50,7 +51,7 @@ namespace CinemasService.Services
 
             if (room == null)
             {
-                return Fail<RoomDto>("room_not_found");
+                return Fail<RoomDto>(RoomErrors.Update.RoomNotFound);
             }
 
             _mapper.Map(dto, room);
@@ -65,11 +66,11 @@ namespace CinemasService.Services
             var room = await _repository.GetById(id, false, true);
             if (room == null)
             {
-                return Fail<RoomDto>("room_not_found");
+                return Fail<RoomDto>(RoomErrors.Publish.RoomNotFound);
             }
             if (room.Layout == null)
             {
-                return Fail<RoomDto>("missing_layout");
+                return Fail<RoomDto>(RoomErrors.Publish.LayoutMissing);
             }
 
             room.PublishedAt = DateTime.UtcNow;
@@ -83,7 +84,7 @@ namespace CinemasService.Services
             var room = await _repository.GetById(id, true, true);
 
             if (room == null)
-                return Fail<bool>("room_not_found");
+                return Fail<bool>(RoomErrors.Delete.RoomNotFound);
 
             room.DeletedAt = new DateTime();
 
@@ -103,7 +104,7 @@ namespace CinemasService.Services
             var cinema = await _repository.GetById(id, includeDeleted, includeUnpublished);
 
             if (cinema == null)
-                return Fail<RoomDto>("room_not_found");
+                return Fail<RoomDto>(RoomErrors.Get.RoomNotFound);
 
             return Ok(_mapper.Map<RoomDto>(cinema));
         }

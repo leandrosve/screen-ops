@@ -4,6 +4,7 @@ using ScreenOps.AuthenticationService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
+using Common.Enums;
 
 namespace ScreenOps.AuthenticationService.Controllers
 {

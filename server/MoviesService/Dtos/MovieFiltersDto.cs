@@ -8,6 +8,6 @@ namespace MoviesService.Dtos
 
         public bool IncludeDeleted { get; set; } = false;
 
-        public required PaginationDto Pagination { get; set; }
+        public required PaginationFilterDto Pagination { get; set; }
     }
 }
