@@ -3,7 +3,6 @@ using ScreenOps.Common;
 using ScreenOps.AuthenticationService.Dtos;
 using ScreenOps.AuthenticationService.Models;
 using ScreenOps.AuthenticationService.Repositories;
-using ScreenOps.AuthenticationService.Utils;
 using Common.Enums;
 using AuthenticationService.Errors;
 
@@ -13,11 +12,13 @@ namespace ScreenOps.AuthenticationService.Services
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _repository;
+        private readonly IAuthService _authService;
 
-        public UserService(IMapper mapper, IUserRepository repository)
+        public UserService(IMapper mapper, IAuthService authService, IUserRepository repository)
         {
             _mapper = mapper;
             _repository = repository;
+            _authService = authService;
         }
 
         public async Task<ApiResult<UserDto>> GetById(Guid userId)
@@ -39,7 +40,7 @@ namespace ScreenOps.AuthenticationService.Services
                 return ApiResult<UserDto>.Fail(UserErrors.SignUp.UserAlreadyExists);
             }
 
-            string passwordHash = EncryptionUtils.EncriptPassword(request.Password);
+            string passwordHash = _authService.EncryptPassword(request.Password);
             User user = new User
             {
                 Email = request.Email,

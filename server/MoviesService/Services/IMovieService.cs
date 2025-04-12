@@ -1,4 +1,5 @@
 ﻿using Common.Models;
+using Contracts.Movies;
 using MoviesService.Dtos;
 using ScreenOps.Common;
 
@@ -13,6 +14,8 @@ namespace MoviesService.Services
         Task<ApiResult<bool>> Delete(Guid id);
 
         Task<ApiResult<MovieDto>> Get(Guid id);
+
+        Task<ApiResult<MovieSummaryDto>> GetSummary(Guid id);
 
         Task<ApiResult<PagedResult<MovieDto>>> GetByFilters(MovieFiltersDto filters);
     }

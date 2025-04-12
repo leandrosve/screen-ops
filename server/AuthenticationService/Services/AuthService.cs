@@ -3,12 +3,11 @@ using ScreenOps.Common;
 using ScreenOps.AuthenticationService.Dtos;
 using ScreenOps.AuthenticationService.Models;
 using ScreenOps.AuthenticationService.Repositories;
-using ScreenOps.AuthenticationService.Utils;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace ScreenOps.AuthenticationService.Services
 {
@@ -34,7 +33,7 @@ namespace ScreenOps.AuthenticationService.Services
                 return ApiResult<UserSessionDto>.Fail("invalid_credentials");
             }
 
-            string passwordHash = EncryptionUtils.EncriptPassword(req.Password);
+            string passwordHash = EncryptPassword(req.Password);
 
             if (user.PasswordHash != passwordHash)
             {
@@ -42,7 +41,7 @@ namespace ScreenOps.AuthenticationService.Services
             }
 
             DateTime expiresAt = DateTime.UtcNow.AddDays(1);
-            string token = EncryptionUtils.GenerateToken(user, expiresAt, _tokenSecret);
+            string token = GenerateToken(user, expiresAt, _tokenSecret);
 
             UserSessionDto session = new UserSessionDto
             {
@@ -53,6 +52,47 @@ namespace ScreenOps.AuthenticationService.Services
             };
 
             return ApiResult<UserSessionDto>.Ok(session);
+        }
+
+        private string GenerateToken(User user, DateTime expiresAt, string tokenSecret)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSecret));
+
+            string role = user.Role.ToString(); // Dont know why it warns if I do this on Claim constructor
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("id", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, role),
+            };
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = expiresAt,
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(descriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
+
+        public string EncryptPassword(string rawPassword)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (var hash = SHA256.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                byte[] result = hash.ComputeHash(enc.GetBytes(rawPassword));
+
+                foreach (byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
         }
 
     }

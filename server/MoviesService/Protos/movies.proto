@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "MoviesService";
+
+service GrpcMovie{
+	rpc GetMovieById (GetMovieByIdRequest) returns (GrpcMovieSummaryResponse);
+}
+
+message GetMovieByIdRequest{
+	string id = 1;
+}
+
+message GrpcMovieSummaryResponse{
+	string error = 1;
+	GrpcMovieSummaryModel data = 2;
+}
+
+message GrpcMovieSummaryModel{
+	string id = 1;
+	string original_title = 2;
+	string localized_title = 3;
+	int32 duration = 4;
+}

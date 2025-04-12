@@ -17,6 +17,7 @@
     <ProjectReference Include="..\MoviesService\MoviesService.csproj" />
     <ProjectReference Include="..\NotificationService\NotificationService.csproj" />
     <ProjectReference Include="..\AuthenticationService\AuthenticationService.csproj" />
+    <ProjectReference Include="..\ScreeningsService\ScreeningsService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

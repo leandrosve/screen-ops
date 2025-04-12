@@ -1,0 +1,16 @@
+﻿using ScreeningsService.Dtos;
+using ScreenOps.Common;
+
+namespace ScreeningsService.Services
+{
+    public interface IScreeningService
+    {
+        public Task<ApiResult<ScreeningDto>> Create(ScreeningCreateDto dto);
+
+        public Task<ApiResult<ScreeningDto>> GetById(Guid id);
+
+        public Task<ApiResult<ICollection<ScreeningDto>>> GetByFilters(ScreeningSearchFiltersDto dto);
+
+        public Task<ApiResult<bool>> Delete(Guid id);
+    }
+}

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Common.Models;
+using Common.Services;
+using Contracts.Movies;
 using MoviesService.Dtos;
 using MoviesService.Errors;
 using MoviesService.Models;
@@ -8,7 +10,7 @@ using ScreenOps.Common;
 
 namespace MoviesService.Services
 {
-    public class MovieService : IMovieService
+    public class MovieService : BaseService, IMovieService
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IGenreRepository _genreRepository;
@@ -34,7 +36,7 @@ namespace MoviesService.Services
 
             await _movieRepository.Insert(movie);
 
-            return ApiResult<MovieDto>.Ok(_mapper.Map<MovieDto>(movie));
+            return Ok(_mapper.Map<MovieDto>(movie));
         }
 
         public async Task<ApiResult<bool>> Delete(Guid id)
@@ -42,22 +44,32 @@ namespace MoviesService.Services
             Movie? movie = await _movieRepository.GetById(id);
             if (movie == null)
             {
-                return ApiResult<bool>.Fail(MovieErrors.Delete.MovieNotFound);
+                return Fail<bool>(MovieErrors.Delete.MovieNotFound);
             }
 
             movie.DeletedAt = DateTime.UtcNow;
 
             var res = await _movieRepository.SaveChanges();
-            return ApiResult<bool>.Ok(res);
+            return Ok(res);
         }
 
         public async Task<ApiResult<MovieDto>> Get(Guid id)
         {
             Movie? movie = await _movieRepository.GetById(id);
             if (movie == null) {
-                return ApiResult<MovieDto>.Fail(MovieErrors.Get.MovieNotFound);
+                return Fail<MovieDto>(MovieErrors.Get.MovieNotFound);
             }
-            return ApiResult<MovieDto>.Ok(_mapper.Map<MovieDto>(movie));
+            return Ok(_mapper.Map<MovieDto>(movie));
+        }
+
+        public async Task<ApiResult<MovieSummaryDto>> GetSummary(Guid id)
+        {
+            Movie? movie = await _movieRepository.GetById(id);
+            if (movie == null)
+            {
+                return Fail<MovieSummaryDto>(MovieErrors.Get.MovieNotFound);
+            }
+            return Ok(_mapper.Map<MovieSummaryDto>(movie));
         }
 
         public async Task<ApiResult<PagedResult<MovieDto>>> GetByFilters(MovieFiltersDto filters)
@@ -66,7 +78,7 @@ namespace MoviesService.Services
 
             var dtos = _mapper.Map<PagedResult<MovieDto>>(res);
 
-            return ApiResult<PagedResult<MovieDto>>.Ok(dtos);
+            return Ok(dtos);
         }
 
         public async Task<ApiResult<MovieDto>> Update(Guid id, MovieUpdateDto dto)
@@ -74,7 +86,7 @@ namespace MoviesService.Services
             var movie = await _movieRepository.GetById(id);
             if (movie == null)
             {
-                return ApiResult<MovieDto>.Fail(MovieErrors.Update.MovieNotFound);
+                return Fail<MovieDto>(MovieErrors.Update.MovieNotFound);
             }
 
             _mapper.Map(dto, movie);
@@ -90,7 +102,7 @@ namespace MoviesService.Services
             await _movieRepository.SaveChanges();
 
             var resultDto = _mapper.Map<MovieDto>(movie);
-            return ApiResult<MovieDto>.Ok(resultDto);
+            return Ok(resultDto);
         }
     }
 }

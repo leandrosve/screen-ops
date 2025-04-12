@@ -1,9 +1,9 @@
-﻿using ScreenOps.Common;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common.Controllers;
 using CinemasService.Dtos;
 using CinemasService.Services.Interfaces;
 using Common.Attributes;
+using ScreenOps.Common;
 
 namespace ScreenOps.CinemasService.Controllers
 {

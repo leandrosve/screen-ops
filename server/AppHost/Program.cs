@@ -8,6 +8,8 @@ var notificationService = builder.AddProject<Projects.NotificationService>("Noti
 
 var cinemasService = builder.AddProject<Projects.CinemasService>("CinemaService");
 
-builder.AddProject<Projects.MoviesService>("moviesservice");
+var screeningsService = builder.AddProject<Projects.ScreeningsService>("ScreeningsService");
+
+var moviesService = builder.AddProject<Projects.MoviesService>("MoviesService");
 
 builder.Build().Run();

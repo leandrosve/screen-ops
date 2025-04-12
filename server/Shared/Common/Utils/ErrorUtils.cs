@@ -18,7 +18,7 @@ namespace Common.Utils
                 foreach (var nested in nestedTypes)
                 {
                     var nestedName = nested.Name;
-                    var constants = nested
+                    List<string> constants = nested
                         .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                         .Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType == typeof(string))
                         .Select(fi => fi.GetRawConstantValue()?.ToString())

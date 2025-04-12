@@ -2,15 +2,15 @@ using Scalar.AspNetCore;
 using ScreenOps.Common.Configuration;
 using System.Reflection;
 using Common.Configuration;
-using ScreenOps.MoviesService.Data;
-using MoviesService.Dtos;
-using FluentValidation;
-using MoviesService.Static;
-using MoviesService.Repositories;
-using MoviesService.Services;
-using MoviesService.Errors;
+using ScreeningsService.Data;
+using ScreeningsService.Services;
+using ScreeningsService.Repositories;
 using Common.Utils;
-using MoviesService.Grpc;
+using ScreeningsService.Errors;
+using ScreeningsService.Dtos;
+using FluentValidation;
+using ScreeningsService.Enums;
+using ScreeningsService.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,30 +33,23 @@ OpenApiConfiguration.Configure(builder);
 
 services.AddDbContext<AppDBContext>();
 
-services.AddScoped<IMovieRepository, MovieRepository>();
-services.AddScoped<IGenreRepository, GenreRepository>();
+services.AddScoped<IScreeningRepository, ScreeningRepository>();
 
 // Services
-services.AddScoped<IMovieService, MovieService>();
+services.AddScoped<IScreeningService, ScreeningService>();
 
-//Grpc
-services.AddGrpc();
+// Grpc Data client
+services.AddScoped<IMovieDataClient, GrpcMovieDataClient>();
 
 // AutoMapper
 services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 // Fluent Validation
 FluentValidationConfig.Configure(builder, mvcBuilder);
-services.AddValidatorsFromAssemblyContaining<MovieCreateDto>();
-services.AddValidatorsFromAssemblyContaining<MovieUpdateDto>();
+services.AddValidatorsFromAssemblyContaining<ScreeningCreateDto>();
 
 // JWT
 AuthConfiguration.Configure(builder);
-
-
-// Load static data
-CountryConstants.Load();
-LanguageConstants.Load();
 
 var app = builder.Build();
 
@@ -64,33 +57,30 @@ var app = builder.Build();
 app.UseExceptionHandler();
 
 app.MapControllers();
-
-
 app.MapDefaultEndpoints();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Grpc Endpoints
-app.MapGrpcService<GrpcMovieService>();
 
 app.MapGet("/status", async context =>
 {
     await context.Response.WriteAsync("OK");
 });
 
+
 app.MapGet("/errors", () =>
 {
-    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(MovieErrors)));
+    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(ScreeningErrors)));
 })
 .WithName("Posible Errors")
 .WithTags("Errors Reference");
+
 
 app.MapOpenApi();
 app.MapScalarApiReference(options =>
 {
     options.Servers = [
-        new ScalarServer("https://localhost:7040", "Movies Service"),
+        new ScalarServer("https://localhost:7050", "Screening Service"),
         new ScalarServer("https://localhost:7000/api", "API Gateway")
     ];
 });

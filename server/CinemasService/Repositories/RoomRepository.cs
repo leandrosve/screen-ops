@@ -48,7 +48,7 @@ namespace CinemasService.Repositories
             }
             if (filters.CinemaId.HasValue)
             {
-                query.Where(m => m.CinemaId == filters.CinemaId.Value);
+                query = query.Where(m => m.CinemaId == filters.CinemaId.Value);
             }
 
             return await query.AsNoTracking().ToListAsync();
@@ -59,11 +59,11 @@ namespace CinemasService.Repositories
             var query = _context.Rooms.AsQueryable();
             if (!includeUnpublished)
             {
-                query.Where(c => c.PublishedAt != null);
+                query = query.Where(c => c.PublishedAt != null);
             }
             if (!includeDeleted)
             {
-                query.Where(c => c.DeletedAt == null);
+                query = query.Where(c => c.DeletedAt == null);
             }
             return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }

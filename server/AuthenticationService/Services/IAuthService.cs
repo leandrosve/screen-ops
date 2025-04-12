@@ -7,5 +7,8 @@ namespace ScreenOps.AuthenticationService.Services
     public interface IAuthService
     {
         Task<ApiResult<UserSessionDto>> Login(LoginRequestDto req);
+
+        string EncryptPassword(string password);
+
     }
 }

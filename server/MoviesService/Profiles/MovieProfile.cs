@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Common.Models;
+using Contracts.Movies;
+using MoviesService;
 using MoviesService.Dtos;
 using MoviesService.Models;
 using MoviesService.Static;
@@ -30,6 +32,11 @@ namespace CinemasService.Profiles
             CreateMap<Movie, MovieDto>()
                 .ForMember(dest => dest.OriginalLanguage, opt => opt.MapFrom(x => LanguageConstants.GetByCode(x.OriginalLanguageCode)))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(x => CountryConstants.GetByCode(x.CountryCode)));
+
+            CreateMap<Movie, MovieSummaryDto>();
+            CreateMap<MovieDto, MovieSummaryDto>();
+
+            CreateMap<MovieSummaryDto, GrpcMovieSummaryModel>();
         }
 
     }
