@@ -3,7 +3,6 @@ using Contracts.Movies;
 using Grpc.Net.Client;
 using MoviesService;
 using ScreenOps.Common;
-using System.Net;
 
 namespace ScreeningsService.Grpc
 {

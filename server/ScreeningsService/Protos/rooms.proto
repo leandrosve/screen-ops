@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "GrpcRoomsService";
+
+service GrpcRoom{
+	rpc GetRoomById (GetRoomByIdRequest) returns (GrpcRoomSummaryResponse);
+}
+
+message GetRoomByIdRequest{
+	string id = 1;
+}
+
+message GrpcRoomSummaryResponse{
+	google.protobuf.StringValue error = 1;
+	GrpcRoomSummaryModel data = 2;
+}
+
+message GrpcRoomSummaryModel{
+	string id = 1;
+	string cinema_id = 2;
+	string name = 3;
+}

@@ -32,13 +32,10 @@
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Protos\" />
-	</ItemGroup>
 	
 	<ItemGroup>
 		<Protobuf Include="Protos\movies.proto" GrpcServices="Client" />
+		<Protobuf Include="Protos\rooms.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Models;
 using Contracts.Movies;
+using Contracts.Rooms;
 using MoviesService;
 using MoviesService.Dtos;
 using MoviesService.Models;

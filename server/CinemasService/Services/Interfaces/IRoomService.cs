@@ -1,4 +1,5 @@
 ﻿using CinemasService.Dtos;
+using Contracts.Rooms;
 using ScreenOps.Common;
 
 namespace CinemasService.Services.Interfaces
@@ -10,6 +11,7 @@ namespace CinemasService.Services.Interfaces
         public Task<ApiResult<RoomDto>> Update(Guid id, RoomUpdateDto dto);
 
         public Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished);
+        public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id);
 
         public Task<ApiResult<RoomDto>> Publish(Guid id);
 

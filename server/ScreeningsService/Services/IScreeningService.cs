@@ -1,4 +1,5 @@
 ﻿using ScreeningsService.Dtos;
+using ScreeningsService.Enums;
 using ScreenOps.Common;
 
 namespace ScreeningsService.Services
@@ -10,6 +11,8 @@ namespace ScreeningsService.Services
         public Task<ApiResult<ScreeningDto>> GetById(Guid id);
 
         public Task<ApiResult<ICollection<ScreeningDto>>> GetByFilters(ScreeningSearchFiltersDto dto);
+
+        public Task<ApiResult<ScreeningDto>> UpdateStatus(Guid id, ScreeningStatusEnum status);
 
         public Task<ApiResult<bool>> Delete(Guid id);
     }

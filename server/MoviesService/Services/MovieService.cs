@@ -26,6 +26,16 @@ namespace MoviesService.Services
 
         public async Task<ApiResult<MovieDto>> Create(MovieCreateDto dto)
         {
+            if (!dto.ForceCreate)
+            {
+                var movieWithSameTitle = await _movieRepository.GetByExactTitleAndYearAsync(dto.OriginalTitle, dto.OriginalReleaseYear);
+
+                if (movieWithSameTitle != null)
+                {
+                    return Fail<MovieDto>(MovieErrors.Create.OriginalTitleRepeated);
+                }
+            }
+
             Movie movie = _mapper.Map<Movie>(dto);
 
             movie.CreatedAt = DateTime.UtcNow;
@@ -87,6 +97,18 @@ namespace MoviesService.Services
             if (movie == null)
             {
                 return Fail<MovieDto>(MovieErrors.Update.MovieNotFound);
+            }
+
+            if ((dto.OriginalTitle != null || dto.OriginalReleaseYear != null) && !dto.ForceUpdate)
+            {
+                var title = dto.OriginalTitle ?? movie.OriginalTitle;
+                var year = dto.OriginalReleaseYear ?? movie.OriginalReleaseYear;
+                var movieWithSameTitle = await _movieRepository.GetByExactTitleAndYearAsync(title, year);
+
+                if (movieWithSameTitle != null)
+                {
+                    return Fail<MovieDto>(MovieErrors.Update.OriginalTitleRepeated);
+                }
             }
 
             _mapper.Map(dto, movie);

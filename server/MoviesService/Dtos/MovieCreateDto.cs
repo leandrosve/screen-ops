@@ -16,6 +16,9 @@
 
         public string CountryCode { get; set; } = "";
         public string OriginalLanguageCode { get; set; } = "";
+
+        // Create despite repeated title warning
+        public bool ForceCreate { get; set; } = false;
     }
 
     public class MovieMediaCreateDto

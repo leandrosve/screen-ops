@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/wrappers.proto";
+
 option csharp_namespace = "MoviesService";
 
 service GrpcMovie{
@@ -11,7 +13,7 @@ message GetMovieByIdRequest{
 }
 
 message GrpcMovieSummaryResponse{
-	string error = 1;
+	google.protobuf.StringValue error = 1;
 	GrpcMovieSummaryModel data = 2;
 }
 

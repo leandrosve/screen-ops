@@ -16,5 +16,7 @@
 
         public string? CountryCode { get; set; }
         public string? OriginalLanguageCode { get; set; }
+
+        public bool ForceUpdate { get; set; } = false;
     }
 }

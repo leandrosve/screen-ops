@@ -28,9 +28,9 @@ namespace ScreeningsService.Repositories
             }
             if (filters.MovieId.HasValue)
             {
-                query =  query.Where(m => m.MovieId == filters.MovieId.Value);
+                query = query.Where(m => m.MovieId == filters.MovieId.Value);
             }
-            if (filters.Status!= null && filters.Status.Count > 0)
+            if (filters.Status != null && filters.Status.Count > 0)
             {
                 query = query.Where(m => filters.Status.Contains(m.Status));
             }
@@ -41,10 +41,20 @@ namespace ScreeningsService.Repositories
             return await query.AsNoTracking().ToListAsync();
         }
 
+        public async Task<bool> CheckRoomAvailability(Guid roomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+        {
+            var query = _context.Screenings.AsQueryable()
+                .Where(s => s.RoomId == roomId && s.Date == date
+                && (s.StartTime.IsBetween(startTime, endTime) || s.EndTime.IsBetween(startTime, endTime)));
+
+            var occupied = await query.AsNoTracking().AnyAsync();
+            return !occupied;
+        }
+
         public async Task<Screening?> GetById(Guid id)
         {
             var query = _context.Screenings.AsQueryable();
-         
+
             return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 

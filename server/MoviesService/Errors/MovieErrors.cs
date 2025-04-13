@@ -8,6 +8,7 @@
 
             public const string OriginalTitleRequired = "original_title_required";
             public const string OriginalTitleMaxLength = "original_title_max_length";
+            public const string OriginalTitleRepeated = "original_title_repeated_use_force_create";
 
             public const string LocalizedTitleRequired = "localized_title_required";
             public const string LocalizedTitleMaxLength = "localized_title_max_length";
@@ -49,6 +50,7 @@
 
             public const string OriginalTitleMinLength = "original_title_min_length";
             public const string OriginalTitleMaxLength = "original_title_max_length";
+            public const string OriginalTitleRepeated = "original_title_repeated_use_force_update";
 
             public const string LocalizedTitleMinLength = "localized_title_min_length";
             public const string LocalizedTitleMaxLength = "localized_title_max_length";

@@ -6,6 +6,7 @@ using ScreenOps.Common;
 using CinemasService.Models;
 using CinemasService.Services.Interfaces;
 using CinemasService.Errors;
+using Contracts.Rooms;
 
 namespace CinemasService.Services
 {
@@ -101,12 +102,22 @@ namespace CinemasService.Services
 
         public async Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished)
         {
-            var cinema = await _repository.GetById(id, includeDeleted, includeUnpublished);
+            var room = await _repository.GetById(id, includeDeleted, includeUnpublished);
 
-            if (cinema == null)
+            if (room == null)
                 return Fail<RoomDto>(RoomErrors.Get.RoomNotFound);
 
-            return Ok(_mapper.Map<RoomDto>(cinema));
+            return Ok(_mapper.Map<RoomDto>(room));
+        }
+
+        public async Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id)
+        {
+            var room = await _repository.GetById(id, true, true);
+
+            if (room == null)
+                return Fail<RoomSummaryDto>(RoomErrors.Get.RoomNotFound);
+
+            return Ok(_mapper.Map<RoomSummaryDto>(room));
         }
 
     }

@@ -40,6 +40,7 @@ services.AddScoped<IScreeningService, ScreeningService>();
 
 // Grpc Data client
 services.AddScoped<IMovieDataClient, GrpcMovieDataClient>();
+services.AddScoped<IRoomDataClient, GrpcRoomDataClient>();
 
 // AutoMapper
 services.AddAutoMapper(Assembly.GetExecutingAssembly());

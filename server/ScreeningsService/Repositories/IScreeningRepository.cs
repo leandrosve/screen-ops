@@ -12,6 +12,8 @@ namespace ScreeningsService.Repositories
 
         Task<Screening> Insert(Screening screening);
 
+        Task<bool> CheckRoomAvailability(Guid roomId, DateOnly date, TimeOnly startTime, TimeOnly endTime);
+
         Task SaveChanges();
     }
 }

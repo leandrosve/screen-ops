@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CinemasService.Dtos;
 using CinemasService.Models;
+using Contracts.Rooms;
+using GrpcRoomsService;
 
 namespace CinemasService.Profiles
 {
@@ -28,6 +30,8 @@ namespace CinemasService.Profiles
             CreateMap<Layout, LayoutDto>();
             CreateMap<LayoutElement, LayoutElementDto>();
 
+            CreateMap<Room, RoomSummaryDto>();
+            CreateMap<RoomSummaryDto, GrpcRoomSummaryModel>();
 
         }
 

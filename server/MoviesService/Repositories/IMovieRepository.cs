@@ -10,6 +10,7 @@ namespace MoviesService.Repositories
         Task<IEnumerable<Movie>> GetAll(bool includeDeleted);
 
         Task<PagedResult<Movie>> GetByFilters(MovieFiltersDto filters);
+        Task<Movie?> GetByExactTitleAndYearAsync(string originalTitle, int year);
 
         Task<Movie> Insert(Movie movie);
         Task<bool> SaveChanges();

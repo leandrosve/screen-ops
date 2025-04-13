@@ -11,6 +11,7 @@ using CinemasService.Services.Interfaces;
 using Common.Middleware;
 using Common.Utils;
 using CinemasService.Errors;
+using CinemasService.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,9 @@ services.AddValidatorsFromAssemblyContaining<CinemaUpdateDto>();
 services.AddValidatorsFromAssemblyContaining<RoomCreateDto>();
 services.AddValidatorsFromAssemblyContaining<RoomUpdateDto>();
 
+//Grpc
+services.AddGrpc();
+
 // JWT
 AuthConfiguration.Configure(builder);
 
@@ -68,6 +72,9 @@ app.MapDefaultEndpoints();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Grpc Endpoints
+app.MapGrpcService<GrpcRoomService>();
 
 app.MapGet("/status", async context =>
 {

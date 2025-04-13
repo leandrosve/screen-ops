@@ -88,6 +88,15 @@ namespace MoviesService.Repositories
             };
         }
 
+        public async Task<Movie?> GetByExactTitleAndYearAsync(string originalTitle, int year)
+        {
+            return await _context.Movies
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m =>
+                    m.OriginalTitle.ToLower() == originalTitle.ToLower()
+                    && m.OriginalReleaseYear == year);
+        }
+
         public async Task<Movie> Insert(Movie movie)
         {
             await _context.Movies.AddAsync(movie);
