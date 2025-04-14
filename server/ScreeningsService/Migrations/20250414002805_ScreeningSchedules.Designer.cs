@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ScreeningsService.Data;
@@ -11,9 +12,11 @@ using ScreeningsService.Data;
 namespace ScreeningsService.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250414002805_ScreeningSchedules")]
+    partial class ScreeningSchedules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,11 +39,6 @@ namespace ScreeningsService.Migrations
 
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time without time zone");
-
-                    b.Property<string>("FeaturesRaw")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
 
                     b.Property<Guid>("MovieId")
                         .HasColumnType("uuid");
@@ -70,6 +68,25 @@ namespace ScreeningsService.Migrations
                     b.HasIndex("Status");
 
                     b.ToTable("Screenings");
+                });
+
+            modelBuilder.Entity("ScreeningsService.Models.ScreeningFeature", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Feature")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ScreeningId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScreeningId");
+
+                    b.ToTable("ScreeningFeature");
                 });
 
             modelBuilder.Entity("ScreeningsService.Models.ScreeningSchedule", b =>
@@ -143,11 +160,20 @@ namespace ScreeningsService.Migrations
 
             modelBuilder.Entity("ScreeningsService.Models.Screening", b =>
                 {
-                    b.HasOne("ScreeningsService.Models.ScreeningSchedule", "ScreeningSchedule")
+                    b.HasOne("ScreeningsService.Models.ScreeningSchedule", null)
                         .WithMany("Screenings")
                         .HasForeignKey("ScreeningScheduleId");
+                });
 
-                    b.Navigation("ScreeningSchedule");
+            modelBuilder.Entity("ScreeningsService.Models.ScreeningFeature", b =>
+                {
+                    b.HasOne("ScreeningsService.Models.Screening", "Screening")
+                        .WithMany("Features")
+                        .HasForeignKey("ScreeningId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Screening");
                 });
 
             modelBuilder.Entity("ScreeningsService.Models.ScreeningScheduleTime", b =>
@@ -159,6 +185,11 @@ namespace ScreeningsService.Migrations
                         .IsRequired();
 
                     b.Navigation("Schedule");
+                });
+
+            modelBuilder.Entity("ScreeningsService.Models.Screening", b =>
+                {
+                    b.Navigation("Features");
                 });
 
             modelBuilder.Entity("ScreeningsService.Models.ScreeningSchedule", b =>

@@ -29,8 +29,17 @@ namespace ScreeningsService.Data
                 b.HasIndex(x => x.CinemaId);
                 b.HasIndex(x => x.Status);
             });
+            modelBuilder.Entity<ScreeningSchedule>(b =>
+            {
+                b.HasIndex(x => x.MovieId);
+                b.HasIndex(x => x.RoomId);
+                b.HasIndex(x => x.CinemaId);
+                b.HasIndex(x => x.Status);
+            });
         }
 
         public DbSet<Screening> Screenings { get; set; }
+        public DbSet<ScreeningSchedule> ScreeningSchedules { get; set; }
+
     }
 }

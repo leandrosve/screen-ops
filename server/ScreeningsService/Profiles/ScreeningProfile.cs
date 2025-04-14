@@ -12,10 +12,12 @@ namespace ScreeningsService.Profiles
     {
         public ScreeningProfile()
         {
-            CreateMap<Screening, ScreeningDto>()
-                 .ForMember(dest => dest.Features, opt => opt.MapFrom(src => src.Features.Select(f => f.Feature)));
+            CreateMap<Screening, ScreeningDto>();
             CreateMap<GrpcMovieSummaryModel, MovieSummaryDto>();
             CreateMap<GrpcRoomSummaryModel, RoomSummaryDto>();
+
+            CreateMap<ScreeningSchedule, ScreeningScheduleDto>();
+            CreateMap<ScreeningScheduleTime, ScreeningTimeDto>();
         }
     }
 }

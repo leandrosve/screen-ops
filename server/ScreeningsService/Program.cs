@@ -9,8 +9,8 @@ using Common.Utils;
 using ScreeningsService.Errors;
 using ScreeningsService.Dtos;
 using FluentValidation;
-using ScreeningsService.Enums;
 using ScreeningsService.Grpc;
+using Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +34,12 @@ OpenApiConfiguration.Configure(builder);
 services.AddDbContext<AppDBContext>();
 
 services.AddScoped<IScreeningRepository, ScreeningRepository>();
+services.AddScoped<IScreeningScheduleRepository, ScreeningScheduleRepository>();
+
 
 // Services
 services.AddScoped<IScreeningService, ScreeningService>();
+services.AddScoped<IScreeningScheduleService, ScreeningScheduleService>();
 
 // Grpc Data client
 services.AddScoped<IMovieDataClient, GrpcMovieDataClient>();
@@ -48,6 +51,8 @@ services.AddAutoMapper(Assembly.GetExecutingAssembly());
 // Fluent Validation
 FluentValidationConfig.Configure(builder, mvcBuilder);
 services.AddValidatorsFromAssemblyContaining<ScreeningCreateDto>();
+services.AddValidatorsFromAssemblyContaining<ScreeningScheduleCreateDto>();
+services.AddValidatorsFromAssemblyContaining<ScreeningScheduleSearchFiltersDto>();
 
 // JWT
 AuthConfiguration.Configure(builder);
@@ -63,6 +68,9 @@ app.MapDefaultEndpoints();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Transactions
+app.UseMiddleware<TransactionMiddleware<AppDBContext>>();
+
 app.MapGet("/status", async context =>
 {
     await context.Response.WriteAsync("OK");
@@ -71,7 +79,7 @@ app.MapGet("/status", async context =>
 
 app.MapGet("/errors", () =>
 {
-    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(ScreeningErrors)));
+    return Results.Ok(ErrorUtils.GetGroupedErrorConstants(typeof(ScreeningErrors), typeof(ScreeningScheduleErrors)));
 })
 .WithName("Posible Errors")
 .WithTags("Errors Reference");

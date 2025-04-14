@@ -67,15 +67,9 @@ namespace ScreeningsService.Services
                 Date = dto.Date,
                 StartTime = dto.StartTime,
                 EndTime = dto.EndTime,
-                Status = ScreeningStatusEnum.Draft
+                Status = ScreeningStatusEnum.Draft,
+                Features = dto.Features.ToHashSet().ToList()
             };
-
-            var features = dto.Features.ToHashSet().Select((f) => ( new ScreeningFeature { 
-                Feature = f,
-                Screening = screening
-            }));
-
-            screening.Features = features.ToList();
 
             await _repository.Insert(screening);
 

@@ -34,10 +34,6 @@ namespace ScreeningsService.Repositories
             {
                 query = query.Where(m => filters.Status.Contains(m.Status));
             }
-            if (filters.Features != null && filters.Features.Count > 0)
-            {
-                query = query.Where(m => m.Features.Any(f => filters.Features.Contains(f.Feature)));
-            }
             return await query.AsNoTracking().ToListAsync();
         }
 
@@ -64,6 +60,14 @@ namespace ScreeningsService.Repositories
             await SaveChanges();
             return screening;
         }
+
+        public async Task<ICollection<Screening>> InsertMultiple(ICollection<Screening> screenings)
+        {
+            _context.Screenings.AddRange(screenings);
+            await SaveChanges();
+            return screenings;
+        }
+
 
         public async Task SaveChanges()
         {

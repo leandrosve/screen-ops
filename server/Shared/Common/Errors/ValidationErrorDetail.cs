@@ -7,6 +7,8 @@ namespace ScreenOps.Errors
     {
 
         private static readonly string GUID_ERROR_PREFIX = "The JSON value could not be converted to System.Guid";
+
+        private static readonly string DATE_ERROR_PREFIX = "The JSON value could not be converted to System.DateOnly";
         public static IActionResult MakeValidationResponse(ActionContext context)
         {
 
@@ -28,6 +30,10 @@ namespace ScreenOps.Errors
             if (errorMessage.StartsWith(GUID_ERROR_PREFIX))
             {
                 errorMessage = "invalid_guid_format";
+            }
+            if (errorMessage.StartsWith(DATE_ERROR_PREFIX))
+            {
+                errorMessage = "invalid_date_format";
             }
 
              var result = new ApiError(errorMessage, context.HttpContext.TraceIdentifier);

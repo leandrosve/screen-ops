@@ -11,6 +11,7 @@ using MoviesService.Services;
 using MoviesService.Errors;
 using Common.Utils;
 using MoviesService.Grpc;
+using Common.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,6 +71,9 @@ app.MapDefaultEndpoints();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Transactions
+app.UseMiddleware<TransactionMiddleware<AppDBContext>>();
 
 // Grpc Endpoints
 app.MapGrpcService<GrpcMovieService>();

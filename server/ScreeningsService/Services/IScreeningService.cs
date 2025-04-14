@@ -6,14 +6,14 @@ namespace ScreeningsService.Services
 {
     public interface IScreeningService
     {
-        public Task<ApiResult<ScreeningDto>> Create(ScreeningCreateDto dto);
+        Task<ApiResult<ScreeningDto>> Create(ScreeningCreateDto dto);
 
-        public Task<ApiResult<ScreeningDto>> GetById(Guid id);
+        Task<ApiResult<ScreeningDto>> GetById(Guid id);
 
-        public Task<ApiResult<ICollection<ScreeningDto>>> GetByFilters(ScreeningSearchFiltersDto dto);
+        Task<ApiResult<ICollection<ScreeningDto>>> GetByFilters(ScreeningSearchFiltersDto dto);
 
-        public Task<ApiResult<ScreeningDto>> UpdateStatus(Guid id, ScreeningStatusEnum status);
+        Task<ApiResult<ScreeningDto>> UpdateStatus(Guid id, ScreeningStatusEnum status);
 
-        public Task<ApiResult<bool>> Delete(Guid id);
+        Task<ApiResult<bool>> Delete(Guid id);
     }
 }
