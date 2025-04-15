@@ -42,6 +42,7 @@ services.AddAutoMapper(Assembly.GetExecutingAssembly());
 FluentValidationConfig.Configure(builder, mvcBuilder);
 services.AddValidatorsFromAssemblyContaining<SignUpRequestDto>();
 
+OpenApiConfiguration.Configure(builder);
 // JWT
 AuthConfiguration.Configure(builder);
 

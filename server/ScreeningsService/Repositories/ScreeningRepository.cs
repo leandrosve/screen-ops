@@ -34,6 +34,18 @@ namespace ScreeningsService.Repositories
             {
                 query = query.Where(m => filters.Status.Contains(m.Status));
             }
+
+            if (filters.FromDate.HasValue || filters.ToDate.HasValue)
+            {
+                var fromDate = filters.FromDate ?? DateOnly.MinValue;
+                var toDate = filters.ToDate ?? DateOnly.MaxValue;
+
+                query = query.Where(m =>
+                   m.Date >= fromDate &&
+                   m.Date <= toDate
+                );
+            }
+
             return await query.AsNoTracking().ToListAsync();
         }
 

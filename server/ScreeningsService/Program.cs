@@ -53,6 +53,7 @@ FluentValidationConfig.Configure(builder, mvcBuilder);
 services.AddValidatorsFromAssemblyContaining<ScreeningCreateDto>();
 services.AddValidatorsFromAssemblyContaining<ScreeningScheduleCreateDto>();
 services.AddValidatorsFromAssemblyContaining<ScreeningScheduleSearchFiltersDto>();
+services.AddValidatorsFromAssemblyContaining<ScreeningSearchFiltersDto>();
 
 // JWT
 AuthConfiguration.Configure(builder);

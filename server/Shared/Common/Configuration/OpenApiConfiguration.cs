@@ -52,10 +52,13 @@ namespace Common.Configuration
             public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
             {
                 var request = _httpContextAccessor.HttpContext?.Request;
+                
+                document.Servers = new List<OpenApiServer> { new() { Url = "https://localhost:7000/api" } };
+
                 if (request != null)
                 {
                     var serverUrl = $"{request.Scheme}://{request.Host.Value}";
-                    document.Servers = new List<OpenApiServer> { new() { Url = serverUrl } };
+                    document.Servers.Add(new() { Url = serverUrl });
                 }
 
                 return Task.CompletedTask;

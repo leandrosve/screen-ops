@@ -75,7 +75,7 @@ namespace ScreeningsService.Controllers
             return Ok(res.Data);
         }
 
-        [HttpPatch("{id}/status")]
+        [HttpPatch("{id}/status", Name = "Update Screening Schedule Status")]
         [ProducesResponseType(typeof(ScreeningScheduleDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateScreeningStatus(
           [FromRoute] Guid id,

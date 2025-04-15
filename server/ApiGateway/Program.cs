@@ -1,8 +1,8 @@
+using ApiGateway;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Ocelot.Values;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,9 @@ IConfiguration configuration = new ConfigurationBuilder()
                             .Build();
 var services = builder.Services;
 
-services.AddOcelot(configuration);
+
+services.AddOcelot(configuration)
+        .AddSingletonDefinedAggregator<AllErrorsAggregator>();
 
 var corsPolicy = "_allowScalarUI";
 builder.Services.AddCors(options =>

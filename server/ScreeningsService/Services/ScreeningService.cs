@@ -78,12 +78,16 @@ namespace ScreeningsService.Services
 
         public Task<ApiResult<bool>> Delete(Guid id)
         {
+            // Check if its posible to delete first
+
             throw new NotImplementedException();
         }
 
-        public Task<ApiResult<ICollection<ScreeningDto>>> GetByFilters(ScreeningSearchFiltersDto dto)
+        public async Task<ApiResult<ICollection<ScreeningDto>>> GetByFilters(ScreeningSearchFiltersDto filters)
         {
-            throw new NotImplementedException();
+            var schedule = await _repository.GetByFilters(filters);
+
+            return Ok(_mapper.Map<ICollection<ScreeningDto>>(schedule));
         }
 
         public async Task<ApiResult<ScreeningDto>> GetById(Guid id)
@@ -105,14 +109,6 @@ namespace ScreeningsService.Services
             if (screening == null)
             {
                 return Fail<ScreeningDto>(ScreeningErrors.UpdateStatus.ScreeningNotFound);
-            }
-
-            if (new[] { ScreeningStatusEnum.Published, ScreeningStatusEnum.Active }.Contains(status))
-            {
-                if (screening.Date < DateOnly.FromDateTime(DateTime.UtcNow))
-                {
-                    return Fail<ScreeningDto>(ScreeningErrors.Get.ScreeningNotFound);
-                }
             }
 
             screening.Status = status;

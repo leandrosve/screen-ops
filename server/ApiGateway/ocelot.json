@@ -1,7 +1,10 @@
 {
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7000"
+  },
   "Routes": [
     {
-      "DownstreamPathTemplate": "/status",
+      "DownstreamPathTemplate": "/auth/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,23 +12,97 @@
           "Port": 7010
         }
       ],
-      "UpstreamPathTemplate": "/api/identity-service/status",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/signup",
+      "DownstreamPathTemplate": "/cinemas/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7010
+          "Port": 7030
         }
       ],
-      "UpstreamPathTemplate": "/api/signup",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamPathTemplate": "/api/cinemas/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/login",
+      "DownstreamPathTemplate": "/layouts/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7030
+        }
+      ],
+      "UpstreamPathTemplate": "/api/layouts/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/public/cinemas/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7030
+        }
+      ],
+      "UpstreamPathTemplate": "/api/public/cinemas/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/rooms/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7030
+        }
+      ],
+      "UpstreamPathTemplate": "/api/rooms/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/movies/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7040
+        }
+      ],
+      "UpstreamPathTemplate": "/api/movies/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/screenings/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7050
+        }
+      ],
+      "UpstreamPathTemplate": "/api/screenings/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/schedules/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7050
+        }
+      ],
+      "UpstreamPathTemplate": "/api/schedules/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
+    },
+    {
+      "Key": "authentication-service-errors",
+      "UpstreamPathTemplate": "/internal/auth/errors",
+      "DownstreamPathTemplate": "/errors",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -33,21 +110,31 @@
           "Port": 7010
         }
       ],
-      "UpstreamPathTemplate": "/api/login",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "Key": "movies-service-errors",
+      "UpstreamPathTemplate": "/internal/movies/errors",
+      "DownstreamPathTemplate": "/errors",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7040
+        }
+      ],
+      "UpstreamHttpMethod": [ "GET" ]
     }
-
   ],
-  "SwaggerEndPoints": [
+  "Aggregates": [
     {
-      "Key": "identity",
-      "Config": [
-        {
-          "Name": "Identity API",
-          "Version": "v1",
-          "Url": "http://localhost:5100/swagger/v1/swagger.json"
-        }
-      ]
+      "RouteKeys": [
+        "authentication-service-errors",
+        "movies-service-errors"
+      ],
+      "Aggregator": "AllErrorsAggregator",
+      "UpstreamPathTemplate": "/api/consolidated-errors",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }

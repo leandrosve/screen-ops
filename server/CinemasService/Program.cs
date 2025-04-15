@@ -89,6 +89,7 @@ app.MapGet("/errors", () =>
 .WithTags("Errors Reference");
 
 app.MapOpenApi();
+
 app.MapScalarApiReference(options =>
 {
     options.Servers = [

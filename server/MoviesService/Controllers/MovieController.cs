@@ -6,6 +6,7 @@ using MoviesService.Dtos;
 using Common.Models;
 using FluentValidation;
 using Common.Attributes;
+using MoviesService.Errors;
 
 namespace ScreenOps.MoviesService.Controllers
 {

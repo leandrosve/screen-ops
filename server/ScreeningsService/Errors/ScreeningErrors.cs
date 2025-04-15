@@ -41,7 +41,6 @@
         public static class UpdateStatus
         {
             public const string ScreeningNotFound = "screening_not_found";
-            public const string DateBustBeTodayOrFuture = "date_must_be_today_or_future";
         }
 
     }
