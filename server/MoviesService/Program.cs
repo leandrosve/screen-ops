@@ -1,4 +1,4 @@
-using Scalar.AspNetCore;
+﻿using Scalar.AspNetCore;
 using ScreenOps.Common.Configuration;
 using System.Reflection;
 using Common.Configuration;
@@ -39,6 +39,7 @@ services.AddScoped<IGenreRepository, GenreRepository>();
 
 // Services
 services.AddScoped<IMovieService, MovieService>();
+services.AddScoped<IAuditableMovieService, AuditableMovieService>();
 
 //Grpc
 services.AddGrpc();
@@ -54,6 +55,7 @@ services.AddValidatorsFromAssemblyContaining<MovieUpdateDto>();
 // JWT
 AuthConfiguration.Configure(builder);
 
+AuditClientConfiguration.Configure(builder);
 
 // Load static data
 CountryConstants.Load();

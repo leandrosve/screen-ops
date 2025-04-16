@@ -7,6 +7,7 @@ using Common.Models;
 using FluentValidation;
 using Common.Attributes;
 using MoviesService.Errors;
+using Common.Audit;
 
 namespace ScreenOps.MoviesService.Controllers
 {
@@ -18,18 +19,20 @@ namespace ScreenOps.MoviesService.Controllers
     {
         private readonly IMovieService _service;
         private readonly IValidator<MovieFiltersDto> _validator;
+        private readonly IAuditableMovieService _auditableMovieService;
 
-        public MovieController(IMovieService service, IValidator<MovieFiltersDto> validator)
+        public MovieController(IMovieService service, IValidator<MovieFiltersDto> validator, IAuditableMovieService auditableMovieService)
         {
             _service = service;
             _validator = validator;
+            _auditableMovieService = auditableMovieService;
         }
 
         [HttpPost(Name = "Create Movie")]
         [ProducesResponseType(typeof(MovieDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(MovieCreateDto dto)
         {
-            ApiResult<MovieDto> res = await _service.Create(dto);
+            ApiResult<MovieDto> res = await _auditableMovieService.Create(dto, GetUserId(), GetIpAddress());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -40,7 +43,7 @@ namespace ScreenOps.MoviesService.Controllers
         [ProducesResponseType(typeof(MovieDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(MovieUpdateDto dto, Guid id)
         {
-            ApiResult<MovieDto> res = await _service.Update(id, dto);
+            ApiResult<MovieDto> res = await _auditableMovieService.Update(id, dto, GetUserId(), GetIpAddress());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -67,7 +70,7 @@ namespace ScreenOps.MoviesService.Controllers
             {
                 IncludeDeleted = includeDeleted,
                 SearchTerm = searchTerm,
-                Pagination = new (page,pageSize)
+                Pagination = new(page, pageSize)
             };
 
             var validation = await _validator.ValidateAsync(filters);
@@ -86,7 +89,7 @@ namespace ScreenOps.MoviesService.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             Guid userId = GetUserId();
-            ApiResult<bool> res = await _service.Delete(id);
+            ApiResult<bool> res = await _auditableMovieService.Delete(id, GetUserId(), GetIpAddress());
 
             if (res.HasError) return BadRequest(res.Error);
 

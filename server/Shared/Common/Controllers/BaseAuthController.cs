@@ -4,6 +4,9 @@ using Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using ScreenOps.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Common.Extensions;
+using System.Net;
+using Common.Audit;
 
 namespace ScreenOps.Common.Controllers
 {
@@ -19,6 +22,17 @@ namespace ScreenOps.Common.Controllers
             var id = User.Identity.GetUserId();
             if (id == Guid.Empty) throw new UnauthorizedException();
             return id;
+        }
+
+        protected string GetIpAddress()
+        {
+            var clientIp = HttpContext.GetClientIpAddress();
+            return clientIp.ToString();
+        }
+
+        protected AuthorInfo GetAuthorInfo()
+        {
+            return new AuthorInfo { Id = GetUserId(), IpAddress = GetIpAddress() };
         }
     }
 }

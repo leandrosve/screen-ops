@@ -14,17 +14,19 @@ namespace ScreenOps.CinemasService.Controllers
     public class LayoutController : BaseAuthController
     {
         private readonly ILayoutService _service;
+        private readonly IAuditableLayoutService _auditableService;
 
-        public LayoutController(ILayoutService service)
+        public LayoutController(ILayoutService service, IAuditableLayoutService auditableService)
         {
             _service = service;
+            _auditableService = auditableService;
         }
 
         [HttpPost(Name = "Create Layout")]
         [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(LayoutCreateDto dto)
         {
-            ApiResult<LayoutDto> res = await _service.Create(dto);
+            ApiResult<LayoutDto> res = await _auditableService.Create(dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -62,7 +64,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            ApiResult<bool> res = await _service.Delete(id);
+            ApiResult<bool> res = await _auditableService.Delete(id, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

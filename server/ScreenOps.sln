@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcServer", "Shared\Grpc\G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcClient", "Shared\Grpc\GrpcClient\GrpcClient.csproj", "{75D6309B-C16B-4DFA-BF5E-289EC58A9554}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuditService", "AuditService\AuditService.csproj", "{915E9E02-86C6-BA1D-B6A2-EBF21489EC68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{75D6309B-C16B-4DFA-BF5E-289EC58A9554}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75D6309B-C16B-4DFA-BF5E-289EC58A9554}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75D6309B-C16B-4DFA-BF5E-289EC58A9554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{915E9E02-86C6-BA1D-B6A2-EBF21489EC68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{915E9E02-86C6-BA1D-B6A2-EBF21489EC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{915E9E02-86C6-BA1D-B6A2-EBF21489EC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{915E9E02-86C6-BA1D-B6A2-EBF21489EC68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ApiGateway\ApiGateway.csproj" />
+    <ProjectReference Include="..\AuditService\AuditService.csproj" />
     <ProjectReference Include="..\CinemasService\CinemasService.csproj" />
     <ProjectReference Include="..\MoviesService\MoviesService.csproj" />
     <ProjectReference Include="..\NotificationService\NotificationService.csproj" />

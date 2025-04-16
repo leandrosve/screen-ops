@@ -1,7 +1,7 @@
 ﻿using CinemasService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ScreenOps.CinemasService.Data
+namespace CinemasService.Data
 {
     public class AppDBContext : DbContext
     {

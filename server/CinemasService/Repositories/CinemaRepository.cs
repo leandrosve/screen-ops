@@ -1,6 +1,6 @@
-﻿using CinemasService.Models;
+﻿using CinemasService.Data;
+using CinemasService.Models;
 using Microsoft.EntityFrameworkCore;
-using ScreenOps.CinemasService.Data;
 
 namespace CinemasService.Repositories
 {

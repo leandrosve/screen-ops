@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Audit;
 using Common.Models;
 using Common.Services;
 using Contracts.Movies;
@@ -15,13 +16,17 @@ namespace MoviesService.Services
         private readonly IMovieRepository _movieRepository;
         private readonly IGenreRepository _genreRepository;
 
+        private readonly IAuditClient _auditClient;
+
+
         private readonly IMapper _mapper;
 
-        public MovieService(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper)
+        public MovieService(IMovieRepository movieRepository, IGenreRepository genreRepository, IMapper mapper, IAuditClient auditClient)
         {
             _movieRepository = movieRepository;
             _genreRepository = genreRepository;
             _mapper = mapper;
+            _auditClient = auditClient;
         }
 
         public async Task<ApiResult<MovieDto>> Create(MovieCreateDto dto)
@@ -46,7 +51,9 @@ namespace MoviesService.Services
 
             await _movieRepository.Insert(movie);
 
-            return Ok(_mapper.Map<MovieDto>(movie));
+            var movieDto = _mapper.Map<MovieDto>(movie);
+
+            return Ok(movieDto);
         }
 
         public async Task<ApiResult<bool>> Delete(Guid id)

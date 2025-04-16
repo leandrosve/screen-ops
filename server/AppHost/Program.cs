@@ -12,4 +12,6 @@ var screeningsService = builder.AddProject<Projects.ScreeningsService>("Screenin
 
 var moviesService = builder.AddProject<Projects.MoviesService>("MoviesService");
 
+var auditService = builder.AddProject<Projects.AuditService>("AuditService");
+
 builder.Build().Run();

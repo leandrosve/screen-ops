@@ -1,7 +1,6 @@
 using Scalar.AspNetCore;
 using ScreenOps.Common.Configuration;
 using System.Reflection;
-using ScreenOps.CinemasService.Data;
 using CinemasService.Repositories;
 using CinemasService.Services;
 using CinemasService.Dtos;
@@ -12,6 +11,8 @@ using Common.Middleware;
 using Common.Utils;
 using CinemasService.Errors;
 using CinemasService.Grpc;
+using CinemasService.Data;
+using CinemasService.Services.Audit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,6 @@ var services = builder.Services;
 
 // Add controllers
 var mvcBuilder = services.AddControllers();
-
 
 // Add services to the container.
 services.AddProblemDetails();
@@ -43,6 +43,11 @@ services.AddScoped<IPublicCinemaService, PublicCinemaService>();
 services.AddScoped<IRoomService, RoomService>();
 services.AddScoped<ILayoutService, LayoutService>();
 
+// Audit Service
+services.AddScoped<IAuditableCinemaService, AuditableCinemaService>();
+services.AddScoped<IAuditableRoomService, AuditableRoomService>();
+services.AddScoped<IAuditableLayoutService, AuditableLayoutService>();
+
 // AutoMapper
 services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -52,6 +57,8 @@ services.AddValidatorsFromAssemblyContaining<CinemaCreateDto>();
 services.AddValidatorsFromAssemblyContaining<CinemaUpdateDto>();
 services.AddValidatorsFromAssemblyContaining<RoomCreateDto>();
 services.AddValidatorsFromAssemblyContaining<RoomUpdateDto>();
+
+AuditClientConfiguration.Configure(builder);
 
 //Grpc
 services.AddGrpc();

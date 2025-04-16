@@ -19,7 +19,7 @@ namespace ScreeningsService.Validators
 
             RuleFor(x => x.Date)
                .NotEmpty().WithMessage(ScreeningErrors.Create.DateRequired)
-               .GreaterThanOrEqualTo(x => DateOnly.FromDateTime(DateTime.Now)).WithMessage(ScreeningErrors.Create.DateBustBeTodayOrFuture);
+               .GreaterThanOrEqualTo(x => DateOnly.FromDateTime(DateTime.UtcNow)).WithMessage(ScreeningErrors.Create.DateBustBeTodayOrFuture);
 
             RuleFor(x => x.StartTime)
                 .NotEmpty().WithMessage(ScreeningErrors.Create.StartTimeRequired)

@@ -14,9 +14,12 @@ namespace ScreenOps.CinemasService.Controllers
     public class CinemaController : BaseAuthController
     {
         private readonly ICinemaService _service;
+        private readonly IAuditableCinemaService _auditableService;
 
-        public CinemaController(ICinemaService service) {
-            _service = service; 
+        public CinemaController(ICinemaService service, IAuditableCinemaService auditableService )
+        {
+            _service = service;
+            _auditableService = auditableService;
         }
 
         [HttpPost(Name = "Create Cinema")]
@@ -24,7 +27,7 @@ namespace ScreenOps.CinemasService.Controllers
         public async Task<IActionResult> Create(CinemaCreateDto dto)
         {
             Guid userId = GetUserId();
-            ApiResult<CinemaDto> res = await _service.Create(dto, userId);
+            ApiResult<CinemaDto> res = await _auditableService.Create(dto, userId, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -35,7 +38,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(CinemaDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(CinemaUpdateDto dto, Guid id)
         {
-            ApiResult<CinemaDto> res = await _service.Update(id, dto);
+            ApiResult<CinemaDto> res = await _auditableService.Update(id, dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -69,7 +72,7 @@ namespace ScreenOps.CinemasService.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             Guid userId = GetUserId();
-            ApiResult<bool> res = await _service.Delete(id, userId);
+            ApiResult<bool> res = await _auditableService.Delete(id, userId, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
