@@ -1,15 +1,13 @@
 ﻿using ScreenOps.Common;
 using Microsoft.AspNetCore.Mvc;
-using ScreenOps.Common.Controllers;
 using MoviesService.Services;
 using MoviesService.Dtos;
 using Common.Models;
 using FluentValidation;
 using Common.Attributes;
-using MoviesService.Errors;
-using Common.Audit;
+using Common.Controllers;
 
-namespace ScreenOps.MoviesService.Controllers
+namespace MoviesService.Controllers
 {
 
     [Tags("Movies")]
@@ -17,22 +15,20 @@ namespace ScreenOps.MoviesService.Controllers
     [Manager]
     public class MovieController : BaseAuthController
     {
-        private readonly IMovieService _service;
         private readonly IValidator<MovieFiltersDto> _validator;
-        private readonly IAuditableMovieService _auditableMovieService;
+        private readonly IAuditableMovieService _service;
 
         public MovieController(IMovieService service, IValidator<MovieFiltersDto> validator, IAuditableMovieService auditableMovieService)
         {
-            _service = service;
+            _service = auditableMovieService;
             _validator = validator;
-            _auditableMovieService = auditableMovieService;
         }
 
         [HttpPost(Name = "Create Movie")]
         [ProducesResponseType(typeof(MovieDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(MovieCreateDto dto)
         {
-            ApiResult<MovieDto> res = await _auditableMovieService.Create(dto, GetUserId(), GetIpAddress());
+            ApiResult<MovieDto> res = await _service.Create(dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -43,7 +39,7 @@ namespace ScreenOps.MoviesService.Controllers
         [ProducesResponseType(typeof(MovieDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(MovieUpdateDto dto, Guid id)
         {
-            ApiResult<MovieDto> res = await _auditableMovieService.Update(id, dto, GetUserId(), GetIpAddress());
+            ApiResult<MovieDto> res = await _service.Update(id, dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -89,7 +85,7 @@ namespace ScreenOps.MoviesService.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             Guid userId = GetUserId();
-            ApiResult<bool> res = await _auditableMovieService.Delete(id, GetUserId(), GetIpAddress());
+            ApiResult<bool> res = await _service.Delete(id, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

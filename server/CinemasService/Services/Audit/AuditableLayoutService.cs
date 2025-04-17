@@ -1,10 +1,11 @@
 ﻿using CinemasService.Dtos;
 using CinemasService.Models;
+using CinemasService.Services.Interfaces;
 using Common.Audit;
 using Common.Utils;
 using ScreenOps.Common;
 
-namespace CinemasService.Services.Interfaces
+namespace CinemasService.Services.Audit
 {
     public class AuditableLayoutService: IAuditableLayoutService
     {
@@ -55,6 +56,16 @@ namespace CinemasService.Services.Interfaces
             });
 
             return res;
+        }
+
+        public Task<ApiResult<ICollection<LayoutDto>>> GetByFilters(LayoutSearchFiltersDto filters)
+        {
+            return _service.GetByFilters(filters);
+        }
+
+        public Task<ApiResult<LayoutDto>> GetById(Guid id, bool includeDeleted)
+        {
+            return _service.GetById(id, includeDeleted);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Common.Audit;
+using Common.Models;
 using Common.Utils;
+using Contracts.Movies;
 using MoviesService.Dtos;
 using ScreenOps.Common;
 using System.Text.Json;
@@ -17,7 +19,7 @@ namespace MoviesService.Services
             _auditClient = auditClient;
         }
 
-        public async Task<ApiResult<MovieDto>> Create(MovieCreateDto dto, Guid userId, string ipAddress)
+        public async Task<ApiResult<MovieDto>> Create(MovieCreateDto dto, AuthorInfo author)
         {
             var res = await _movieService.Create(dto);
 
@@ -26,51 +28,65 @@ namespace MoviesService.Services
             await _auditClient.Log(new AuditLogDto
             {
                 Action = "MOVIE_CREATED",
-                UserId = userId,
+                UserId = author.Id,
                 EntityType = "Movie",
                 EntityGuid = res.Data?.Id,
                 Timestamp = DateTime.UtcNow,
-                IpAddress = ipAddress,
+                IpAddress = author.IpAddress,
                 AdditionalData = res.Data?.OriginalTitle
             });
 
             return res;
         }
 
-        public async Task<ApiResult<MovieDto>> Update(Guid id, MovieUpdateDto dto, Guid userId, string ipAddress)
+        public async Task<ApiResult<MovieDto>> Update(Guid id, MovieUpdateDto dto, AuthorInfo author)
         {
             var res = await _movieService.Update(id, dto);
 
             await _auditClient.Log(new AuditLogDto
             {
                 Action = "MOVIE_UPDATED",
-                UserId = userId,
+                UserId = author.Id,
                 EntityType = "Movie",
                 EntityGuid = res.Data?.Id,
                 Timestamp = DateTime.UtcNow,
-                IpAddress = ipAddress,
+                IpAddress = author.IpAddress,
                 AdditionalData = JsonSerializer.Serialize(DtoUtils.GetNonNullFields(dto, "ForceUpdate"))
             });
 
             return res;
         }
 
-        public async Task<ApiResult<bool>> Delete(Guid id, Guid userId, string ipAddress)
+        public async Task<ApiResult<bool>> Delete(Guid id, AuthorInfo author)
         {
             var res = await _movieService.Delete(id);
 
             await _auditClient.Log(new AuditLogDto
             {
                 Action = "MOVIE_DELETED",
-                UserId = userId,
+                UserId = author.Id,
                 EntityType = "Movie",
                 EntityGuid = id,
                 Timestamp = DateTime.UtcNow,
-                IpAddress = ipAddress,
+                IpAddress = author.IpAddress,
             });
 
             return res;
         }
 
+        public Task<ApiResult<MovieDto>> Get(Guid id)
+        {
+            return _movieService.Get(id);
+        }
+
+        public Task<ApiResult<MovieSummaryDto>> GetSummary(Guid id)
+        {
+            return _movieService.GetSummary(id);
+        }
+
+        public Task<ApiResult<PagedResult<MovieDto>>> GetByFilters(MovieFiltersDto filters)
+        {
+            return _movieService.GetByFilters(filters);
+        }
     }
 }

@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Http;
 using ScreenOps.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Common.Extensions;
-using System.Net;
 using Common.Audit;
 
-namespace ScreenOps.Common.Controllers
+namespace Common.Controllers
 {
     [ApiController]
     [Authorize(Roles = "ADMIN, MANAGER")]

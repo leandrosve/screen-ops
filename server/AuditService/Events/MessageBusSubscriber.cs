@@ -30,15 +30,16 @@ namespace AuditService.Events
 
             var factory = new ConnectionFactory() { HostName = host, Port = port };
 
-            _connection = await factory.CreateConnectionAsync();
-            _channel = await _connection.CreateChannelAsync();
+            _connection = await factory.CreateConnectionAsync(cancellationToken);
+            _channel = await _connection.CreateChannelAsync(cancellationToken: cancellationToken);
             await _channel.QueueDeclareAsync(queue: _queueName,
+                cancellationToken: cancellationToken,
                 durable: false,
                 exclusive: false,
                 autoDelete: false,
 
                 arguments: null);
-            await _channel.QueueBindAsync(queue: _queueName, exchange: "amq.direct", routingKey: "audit-logs");
+            await _channel.QueueBindAsync(cancellationToken: cancellationToken, queue: _queueName, exchange: "amq.direct", routingKey: "audit-logs");
             _connection.ConnectionShutdownAsync += OnConnectionShutdown;
 
              _logger.LogInformation("[MessageBusSubscriber] Listening on the Message Bus");

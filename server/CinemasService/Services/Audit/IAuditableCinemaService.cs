@@ -2,7 +2,7 @@
 using Common.Audit;
 using ScreenOps.Common;
 
-namespace CinemasService.Services.Interfaces
+namespace CinemasService.Services.Audit
 {
     public interface IAuditableCinemaService
     {
@@ -11,5 +11,9 @@ namespace CinemasService.Services.Interfaces
          Task<ApiResult<CinemaDto>> Update(Guid id, CinemaUpdateDto dto, AuthorInfo author);
 
          Task<ApiResult<bool>> Delete(Guid id, Guid userId, AuthorInfo author);
+
+        Task<ApiResult<CinemaDto>> GetById(Guid id, bool includeUnpublished) ;
+
+        Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ScreenOps.Common.Controllers;
 using CinemasService.Dtos;
-using CinemasService.Services.Interfaces;
 using Common.Attributes;
 using ScreenOps.Common;
+using CinemasService.Services.Audit;
+using Common.Controllers;
 
-namespace ScreenOps.CinemasService.Controllers
+namespace CinemasService.Controllers
 {
 
     [Tags("Cinemas")]
@@ -13,13 +13,11 @@ namespace ScreenOps.CinemasService.Controllers
     [Manager]
     public class CinemaController : BaseAuthController
     {
-        private readonly ICinemaService _service;
-        private readonly IAuditableCinemaService _auditableService;
+        private readonly IAuditableCinemaService _service;
 
-        public CinemaController(ICinemaService service, IAuditableCinemaService auditableService )
+        public CinemaController( IAuditableCinemaService service )
         {
             _service = service;
-            _auditableService = auditableService;
         }
 
         [HttpPost(Name = "Create Cinema")]
@@ -27,7 +25,7 @@ namespace ScreenOps.CinemasService.Controllers
         public async Task<IActionResult> Create(CinemaCreateDto dto)
         {
             Guid userId = GetUserId();
-            ApiResult<CinemaDto> res = await _auditableService.Create(dto, userId, GetAuthorInfo());
+            ApiResult<CinemaDto> res = await _service.Create(dto, userId, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -38,7 +36,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(CinemaDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(CinemaUpdateDto dto, Guid id)
         {
-            ApiResult<CinemaDto> res = await _auditableService.Update(id, dto, GetAuthorInfo());
+            ApiResult<CinemaDto> res = await _service.Update(id, dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -72,7 +70,7 @@ namespace ScreenOps.CinemasService.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             Guid userId = GetUserId();
-            ApiResult<bool> res = await _auditableService.Delete(id, userId, GetAuthorInfo());
+            ApiResult<bool> res = await _service.Delete(id, userId, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

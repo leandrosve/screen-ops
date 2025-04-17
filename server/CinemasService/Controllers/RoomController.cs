@@ -1,11 +1,11 @@
 ﻿using ScreenOps.Common;
 using Microsoft.AspNetCore.Mvc;
-using ScreenOps.Common.Controllers;
 using CinemasService.Dtos;
-using CinemasService.Services.Interfaces;
 using Common.Attributes;
+using CinemasService.Services.Audit;
+using Common.Controllers;
 
-namespace ScreenOps.CinemasService.Controllers
+namespace CinemasService.Controllers
 {
 
     [Tags("Rooms")]
@@ -13,21 +13,18 @@ namespace ScreenOps.CinemasService.Controllers
     [Manager]
     public class RoomController : BaseAuthController
     {
-        private readonly IRoomService _service;
-        private readonly IAuditableRoomService _auditableService;
+        private readonly IAuditableRoomService _service;
 
-
-        public RoomController(IRoomService service, IAuditableRoomService auditableService)
+        public RoomController(IAuditableRoomService auditableService)
         {
-            _service = service;
-            _auditableService = auditableService;
+            _service = auditableService;
         }
 
         [HttpPost(Name = "Create Room")]
         [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(RoomCreateDto dto)
         {
-            ApiResult<RoomDto> res = await _auditableService.Create(dto, GetAuthorInfo());
+            ApiResult<RoomDto> res = await _service.Create(dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -38,7 +35,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Update(RoomUpdateDto dto, Guid id)
         {
-            ApiResult<RoomDto> res = await _auditableService.Update(id, dto, GetAuthorInfo());
+            ApiResult<RoomDto> res = await _service.Update(id, dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -77,7 +74,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            ApiResult<bool> res = await _auditableService.Delete(id, GetAuthorInfo());
+            ApiResult<bool> res = await _service.Delete(id, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -89,7 +86,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Publish(Guid id)
         {
-            ApiResult<RoomDto> res = await _auditableService.Publish(id, GetAuthorInfo());
+            ApiResult<RoomDto> res = await _service.Publish(id, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

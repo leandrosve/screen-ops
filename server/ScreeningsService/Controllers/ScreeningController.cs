@@ -1,11 +1,12 @@
 ﻿using Common.Attributes;
+using Common.Controllers;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ScreeningsService.Dtos;
 using ScreeningsService.Enums;
 using ScreeningsService.Services;
+using ScreeningsService.Services.Audit;
 using ScreenOps.Common;
-using ScreenOps.Common.Controllers;
 
 namespace ScreeningsService.Controllers
 {
@@ -15,10 +16,10 @@ namespace ScreeningsService.Controllers
     public class ScreeningController : BaseAuthController
     {
 
-        private readonly IScreeningService _service;
+        private readonly IAuditableScreeningService _service;
         private readonly IValidator<ScreeningSearchFiltersDto> _filtersValidator;
 
-        public ScreeningController(IScreeningService service, IValidator<ScreeningSearchFiltersDto> filtersValidator)
+        public ScreeningController(IAuditableScreeningService service, IValidator<ScreeningSearchFiltersDto> filtersValidator)
         {
             _service = service;
             _filtersValidator = filtersValidator;
@@ -28,7 +29,7 @@ namespace ScreeningsService.Controllers
         [ProducesResponseType(typeof(ScreeningDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(ScreeningCreateDto dto)
         {
-            ApiResult<ScreeningDto> res = await _service.Create(dto);
+            ApiResult<ScreeningDto> res = await _service.Create(dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -81,7 +82,7 @@ namespace ScreeningsService.Controllers
          [FromRoute] Guid id,
          [FromBody] ScreeningUpdateStatusDto request)
         {
-            var res = await _service.UpdateStatus(id, request.Status);
+            var res = await _service.UpdateStatus(id, request.Status, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

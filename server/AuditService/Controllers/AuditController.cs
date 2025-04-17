@@ -1,10 +1,10 @@
 ﻿using AuditService.Dtos;
 using AuditService.Services;
 using Common.Attributes;
+using Common.Controllers;
 using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using ScreenOps.Common;
-using ScreenOps.Common.Controllers;
 
 namespace AuditService.Controllers
 {

@@ -1,11 +1,11 @@
 ﻿using Common.Attributes;
+using Common.Controllers;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ScreeningsService.Dtos;
 using ScreeningsService.Enums;
 using ScreeningsService.Services;
 using ScreenOps.Common;
-using ScreenOps.Common.Controllers;
 
 namespace ScreeningsService.Controllers
 {

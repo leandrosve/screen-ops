@@ -1,11 +1,12 @@
 ﻿using CinemasService.Dtos;
 using CinemasService.Models;
+using CinemasService.Services.Interfaces;
 using Common.Audit;
 using Common.Utils;
 using ScreenOps.Common;
 using System.Text.Json;
 
-namespace CinemasService.Services.Interfaces
+namespace CinemasService.Services.Audit
 {
     public class AuditableCinemaService : IAuditableCinemaService
     {
@@ -34,7 +35,7 @@ namespace CinemasService.Services.Interfaces
                 IpAddress = author.IpAddress,
                 AdditionalData = DtoUtils.GetSelectedFieldsAsJson(res.Data, "Name")
             });
-            
+
             return res;
         }
 
@@ -72,6 +73,18 @@ namespace CinemasService.Services.Interfaces
             });
             return res;
 
+        }
+
+        // Not audited for now
+
+        public Task<ApiResult<CinemaDto>> GetById(Guid id, bool includeUnpublished)
+        {
+            return _service.GetById(id, includeUnpublished);
+        }
+
+        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished)
+        {
+            return _service.GetAll(includeDeleted, includeUnpublished);
         }
     }
 }

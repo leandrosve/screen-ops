@@ -1,10 +1,10 @@
 ﻿using ScreenOps.Common;
 using Microsoft.AspNetCore.Mvc;
-using ScreenOps.Common.Controllers;
 using CinemasService.Dtos;
 using CinemasService.Services.Interfaces;
+using Common.Controllers;
 
-namespace ScreenOps.CinemasService.Controllers
+namespace CinemasService.Controllers
 {
 
     [Tags("Public Cinemas")]

@@ -3,6 +3,7 @@ using CinemasService.Models;
 using CinemasService.Services.Interfaces;
 using Common.Audit;
 using Common.Utils;
+using Contracts.Rooms;
 using ScreenOps.Common;
 
 namespace CinemasService.Services.Audit
@@ -87,6 +88,21 @@ namespace CinemasService.Services.Audit
                 IpAddress = author.IpAddress
             });
             return res;
+        }
+
+        public Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto dto)
+        {
+            return _service.GetByFilters(dto);
+        }
+
+        public Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished)
+        {
+            return _service.GetById(id, includeDeleted, includeUnpublished);
+        }
+
+        public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id)
+        {
+            return _service.GetSummary(id);
         }
     }
 }

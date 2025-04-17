@@ -1,11 +1,12 @@
 ﻿using ScreenOps.Common;
 using Microsoft.AspNetCore.Mvc;
-using ScreenOps.Common.Controllers;
 using CinemasService.Dtos;
 using CinemasService.Services.Interfaces;
 using Common.Attributes;
+using CinemasService.Services.Audit;
+using Common.Controllers;
 
-namespace ScreenOps.CinemasService.Controllers
+namespace CinemasService.Controllers
 {
 
     [Tags("Layouts")]
@@ -13,20 +14,18 @@ namespace ScreenOps.CinemasService.Controllers
     [Manager]
     public class LayoutController : BaseAuthController
     {
-        private readonly ILayoutService _service;
-        private readonly IAuditableLayoutService _auditableService;
+        private readonly IAuditableLayoutService _service;
 
         public LayoutController(ILayoutService service, IAuditableLayoutService auditableService)
         {
-            _service = service;
-            _auditableService = auditableService;
+            _service = auditableService;
         }
 
         [HttpPost(Name = "Create Layout")]
         [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(LayoutCreateDto dto)
         {
-            ApiResult<LayoutDto> res = await _auditableService.Create(dto, GetAuthorInfo());
+            ApiResult<LayoutDto> res = await _service.Create(dto, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -64,7 +63,7 @@ namespace ScreenOps.CinemasService.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            ApiResult<bool> res = await _auditableService.Delete(id, GetAuthorInfo());
+            ApiResult<bool> res = await _service.Delete(id, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

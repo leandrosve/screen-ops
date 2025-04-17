@@ -1,8 +1,9 @@
 ﻿using CinemasService.Dtos;
 using Common.Audit;
+using Contracts.Rooms;
 using ScreenOps.Common;
 
-namespace CinemasService.Services.Interfaces
+namespace CinemasService.Services.Audit
 {
     public interface IAuditableRoomService
     {
@@ -13,5 +14,10 @@ namespace CinemasService.Services.Interfaces
         public Task<ApiResult<RoomDto>> Publish(Guid id, AuthorInfo info);
 
         public Task<ApiResult<bool>> Delete(Guid id, AuthorInfo info);
+
+        // Not audited for now
+        public Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished);
+        public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id);
+        public Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto dto);
     }
 }

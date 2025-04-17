@@ -11,6 +11,7 @@ using ScreeningsService.Dtos;
 using FluentValidation;
 using ScreeningsService.Grpc;
 using Common.Middleware;
+using ScreeningsService.Services.Audit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,9 @@ services.AddScoped<IScreeningScheduleRepository, ScreeningScheduleRepository>();
 services.AddScoped<IScreeningService, ScreeningService>();
 services.AddScoped<IScreeningScheduleService, ScreeningScheduleService>();
 
+services.AddScoped<IAuditableScreeningService, AuditableScreeningService>();
+
+
 // Grpc Data client
 services.AddScoped<IMovieDataClient, GrpcMovieDataClient>();
 services.AddScoped<IRoomDataClient, GrpcRoomDataClient>();
@@ -57,6 +61,8 @@ services.AddValidatorsFromAssemblyContaining<ScreeningSearchFiltersDto>();
 
 // JWT
 AuthConfiguration.Configure(builder);
+
+AuditClientConfiguration.Configure(builder);
 
 var app = builder.Build();
 
