@@ -1,0 +1,35 @@
+#root {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  overflow-x: hidden;
+ /** background: rgb(12, 12, 12); */
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+  to {
+    transform: scale(1);
+    height: auto; /* O el valor específico que necesites */
+    opacity: 1;
+  }
+}
+
+@keyframes scale-out {
+  from {
+    transform: scale(1);
+    height: auto;
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.95);
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
