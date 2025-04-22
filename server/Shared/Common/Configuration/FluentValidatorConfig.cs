@@ -16,7 +16,7 @@ namespace ScreenOps.Common.Configuration
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
 
-            ValidatorOptions.Global.PropertyNameResolver = (a, b, c) => b.Name.ToLowerInvariant();
+            ValidatorOptions.Global.PropertyNameResolver = (a, b, c) => b?.Name?.ToLowerInvariant();
 
             if (_enableCustomErrorDetail)
             {

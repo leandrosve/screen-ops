@@ -51,6 +51,12 @@ namespace MoviesService.Repositories
                 query = query.Where(m => m.DeletedAt == null);
             }
 
+
+            if (filters.Status != null && filters.Status.Count > 0)
+            {
+                query = query.Where(m => filters.Status.Contains(((int)m.Status)));
+            }
+
             if (!String.IsNullOrEmpty(filters.SearchTerm))
             {
                 // Buscar año en el search term (ej: "Avengers 2012")

@@ -34,11 +34,12 @@
             public const string LanguageCodeRequired = "language_code_required";
             public const string LanguageCodeInvalid = "language_code_invalid";
 
-            public const string MediaRequired = "media_required";
-            public const string MediaUrlRequired = "media_url_required";
-            public const string MediaUrlInvalid = "media_url_invalid";
-            public const string MediaTypeRequired = "media_type_required";
-            public const string MediaTypeInvalid = "media_type_invalid";
+            public const string TrailerUrlRequired = "trailer_url_required";
+            public const string TrailerUrlInvalid = "trailer_url_invalid";
+            public const string PosterUrlRequired = "poster_url_required";
+            public const string PosterUrlInvalid = "poster_url_invalid";
+
+            public const string ExtraImageUrlInvalid = "extra_image_url_invalid";
 
             public const string GenresRequired = "genres_required";
             public const string GenreIdInvalid = "genre_id_invalid";
@@ -79,6 +80,9 @@
 
             public const string GenreIdRequired = "genre_id_required";
             public const string GenreIdInvalid = "genre_id_invalid";
+
+            public const string StatusInvalid = "status_invalid";
+
         }
 
         public static class Get
@@ -88,6 +92,8 @@
             public const string PaginationRequired = "pagination_required";
             public const string PageInvalid = "page_invalid";
             public const string PageSizeOutOfRange = "page_size_out_of_range";
+            public const string StatusInvalid = "status_invalid";
+
         }
 
         public static class Delete

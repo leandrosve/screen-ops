@@ -48,17 +48,20 @@ namespace MoviesService.Validators
             RuleFor(x => x.OriginalLanguageCode)
                 .Must(x => x == null || LanguageConstants.GetByCode(x) != null).WithMessage(MovieErrors.Update.LanguageCodeInvalid);
 
-            RuleForEach(m => m.Media).ChildRules(media =>
-            {
-                media.RuleFor(m => m.Url)
-                    .NotEmpty().WithMessage(MovieErrors.Update.MediaUrlRequired)
-                    .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Update.MediaUrlInvalid);
+            RuleFor(x => x.Status)
+               .IsInEnum().WithMessage(MovieErrors.Update.LanguageCodeInvalid);
 
-                media.RuleFor(m => m.Type)
-                    .NotEmpty().WithMessage(MovieErrors.Update.MediaTypeRequired)
-                    .Must(type => Enum.IsDefined(typeof(MovieMediaType), type))
-                    .WithMessage(MovieErrors.Update.MediaTypeRequired);
-            });
+            RuleFor(m => m.TrailerUrl)
+               .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.TrailerUrlInvalid);
+
+            RuleFor(m => m.PosterUrl)
+                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.PosterUrlInvalid);
+
+            RuleForEach(m => m.ExtraImageUrls).ChildRules(media =>
+            {
+                media.RuleFor(m => m)
+                    .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.ExtraImageUrlInvalid);
+            }).When(x => x.ExtraImageUrls != null);
 
             RuleFor(x => x.GenreIds)
                 .Must(ids => ids == null || ids.Count > 0).WithMessage(MovieErrors.Update.GenreIdRequired)

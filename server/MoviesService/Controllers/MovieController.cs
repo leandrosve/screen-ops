@@ -59,13 +59,14 @@ namespace MoviesService.Controllers
 
         [HttpGet(Name = "Get Movies")]
         [ProducesResponseType(typeof(PagedResult<MovieDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] string? searchTerm, [FromQuery] bool includeDeleted, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> Get([FromQuery] string? searchTerm, [FromQuery] bool includeDeleted, [FromQuery] ICollection<int>? status, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
 
             var filters = new MovieFiltersDto
             {
                 IncludeDeleted = includeDeleted,
                 SearchTerm = searchTerm,
+                Status = status,
                 Pagination = new(page, pageSize)
             };
 

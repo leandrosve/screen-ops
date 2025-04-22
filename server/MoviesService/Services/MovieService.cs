@@ -4,6 +4,7 @@ using Common.Models;
 using Common.Services;
 using Contracts.Movies;
 using MoviesService.Dtos;
+using MoviesService.Enums;
 using MoviesService.Errors;
 using MoviesService.Models;
 using MoviesService.Repositories;
@@ -43,11 +44,15 @@ namespace MoviesService.Services
 
             Movie movie = _mapper.Map<Movie>(dto);
 
+
+            movie.Status = MovieStatusEnum.Draft;
             movie.CreatedAt = DateTime.UtcNow;
 
             var genres = await _genreRepository.GetByIds(dto.GenreIds);
 
             movie.Genres = genres.Select(genre => new MovieGenre { Genre = genre, Movie = movie }).ToList();
+
+            movie.Media = BuildMovieMedia(movie, dto);
 
             await _movieRepository.Insert(movie);
 
@@ -128,10 +133,70 @@ namespace MoviesService.Services
                 movie.Genres = genres.Select(genre => new MovieGenre { Genre = genre, Movie = movie }).ToList();
             }
 
+            UpdateMovieMedia(movie, dto);
+
             await _movieRepository.SaveChanges();
 
             var resultDto = _mapper.Map<MovieDto>(movie);
             return Ok(resultDto);
+        }
+
+        private ICollection<MovieMedia> BuildMovieMedia(Movie movie, MovieCreateDto dto)
+        {
+            var media = new List<MovieMedia>();
+
+            media.Add(new MovieMedia { Movie = movie, Type = MovieMediaType.TRAILER.ToString(), Url = dto.TrailerUrl });
+            media.Add(new MovieMedia { Movie = movie, Type = MovieMediaType.POSTER.ToString(), Url = dto.PosterUrl });
+
+            foreach (var url in dto.ExtraImageUrls)
+            {
+                media.Add(new MovieMedia { Movie = movie, Type = MovieMediaType.EXTRA_IMAGE.ToString(), Url = url });
+            }
+
+            return media;
+        }
+
+        private void UpdateMovieMedia(Movie movie, MovieUpdateDto dto)
+        {
+            if (dto.TrailerUrl != null)
+            {
+                var trailer = movie.Media.FirstOrDefault(m => m.Type == MovieMediaType.TRAILER.ToString());
+
+                if (trailer is not null)
+                    trailer.Url = dto.TrailerUrl;
+                else
+                    movie.Media.Add(new MovieMedia
+                    {
+                        Movie = movie,
+                        Type = MovieMediaType.TRAILER.ToString(),
+                        Url = dto.TrailerUrl
+                    });
+            }
+
+            if (dto.PosterUrl != null)
+            {
+                var trailer = movie.Media.FirstOrDefault(m => m.Type == MovieMediaType.POSTER.ToString());
+
+                if (trailer is not null)
+                    trailer.Url = dto.PosterUrl;
+                else
+                    movie.Media.Add(new MovieMedia
+                    {
+                        Movie = movie,
+                        Type = MovieMediaType.POSTER.ToString(),
+                        Url = dto.PosterUrl
+                    });
+            }
+
+            if (dto.ExtraImageUrls != null)
+            {
+                var media = movie.Media.Where(m => m.Type != MovieMediaType.EXTRA_IMAGE.ToString()).ToList();
+                foreach (var item in dto.ExtraImageUrls)
+                {
+                    media.Add(new MovieMedia { Movie = movie, Type = MovieMediaType.EXTRA_IMAGE.ToString(), Url = item });
+                }
+                movie.Media = media;
+            }
         }
     }
 }

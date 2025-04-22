@@ -1,4 +1,5 @@
 ﻿using Common.Dtos;
+using MoviesService.Enums;
 
 namespace MoviesService.Dtos
 {
@@ -7,6 +8,8 @@ namespace MoviesService.Dtos
         public string? SearchTerm { get; set; }
 
         public bool IncludeDeleted { get; set; } = false;
+
+        public ICollection<int>? Status { get; set; }
 
         public required PaginationFilterDto Pagination { get; set; }
     }

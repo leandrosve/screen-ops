@@ -1,4 +1,6 @@
-﻿namespace MoviesService.Models
+﻿using MoviesService.Enums;
+
+namespace MoviesService.Models
 {
     public class Movie
     {
@@ -16,7 +18,7 @@
 
         public required ICollection<MovieGenre> Genres{ get; set; } = new List<MovieGenre>();
         public required ICollection<MovieMedia> Media { get; set; } = new List<MovieMedia>();
-
+        public required MovieStatusEnum Status { get; set; } = MovieStatusEnum.Draft;
         public required DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
     }

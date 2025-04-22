@@ -2,7 +2,8 @@
 {
     public enum MovieMediaType
     {
-        VIDEO,
-        POSTER
+        TRAILER = 0,
+        POSTER = 1,
+        EXTRA_IMAGE = 2,
     }
 }

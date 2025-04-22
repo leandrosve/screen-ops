@@ -1,4 +1,6 @@
-﻿namespace MoviesService.Dtos
+﻿using MoviesService.Enums;
+
+namespace MoviesService.Dtos
 {
     public class MovieDto
     {
@@ -14,8 +16,12 @@
         public ICollection<GenreDto> Genres { get; set; } = new List<GenreDto>();
         public required CountryDto Country { get; set; }
         public required LanguageDto OriginalLanguage { get; set; }
-        public ICollection<MovieMediaDto> Media { get; set; } = new List<MovieMediaDto>();
 
+        public string? TrailerUrl { get; set; } = "";
+        public string? PosterUrl { get; set; } = "";
+
+        public ICollection<string> ExtraImageUrls { get; set; } = new List<string>();
+        public MovieStatusEnum Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
     }

@@ -100,41 +100,16 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
     },
     {
-      "Key": "authentication-service-errors",
-      "UpstreamPathTemplate": "/internal/auth/errors",
-      "DownstreamPathTemplate": "/errors",
+      "DownstreamPathTemplate": "/audit/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7010
+          "Port": 7090
         }
       ],
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "Key": "movies-service-errors",
-      "UpstreamPathTemplate": "/internal/movies/errors",
-      "DownstreamPathTemplate": "/errors",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7040
-        }
-      ],
-      "UpstreamHttpMethod": [ "GET" ]
-    }
-  ],
-  "Aggregates": [
-    {
-      "RouteKeys": [
-        "authentication-service-errors",
-        "movies-service-errors"
-      ],
-      "Aggregator": "AllErrorsAggregator",
-      "UpstreamPathTemplate": "/api/consolidated-errors",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/api/audit/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH", "PUT", "DELETE" ]
     }
   ]
 }
