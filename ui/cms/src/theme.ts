@@ -37,17 +37,6 @@ export const customConfig = defineConfig({
           emphasized: { value: "{colors.brand.300}" },
           focusRing: { value: "{colors.brand.500}" },
         },
-        bg: {
-          DEFAULT: {
-            value: { _light: "{colors.white}", _dark: "rgb(12, 12, 12)" }, // Custom dark background
-          },
-          subtle: {
-            value: { _light: "{colors.gray.50}", _dark: "red" }, // Custom dark subtle background
-          },
-          muted: {
-            value: { _light: "{colors.gray.100}", _dark: "red" }, // Custom dark muted background
-          },
-        },
         borders: {
           subtle: {value:{ _light: "{colors.gray.200}", _dark: "#18181b" }},
         },

@@ -19,7 +19,7 @@ const PrivateLayout = ({ children }: Props) => {
       maxWidth="100%"
       bg="bg"
     >
-      <Navbar hasSidebar  />
+      <Navbar   />
 
       <Flex grow={1} alignSelf="stretch">
         <Sidebar />
@@ -38,7 +38,8 @@ const PrivateLayout = ({ children }: Props) => {
           paddingX={5}
         >
           <Flex id="breadcrumb-container" />
-          {children} <Outlet />
+          
+          <Outlet  />
           
         </Flex>
       </Flex>

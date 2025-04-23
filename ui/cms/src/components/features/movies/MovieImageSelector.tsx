@@ -1,3 +1,4 @@
+import SafeImage from "@/components/common/SafeImage";
 import {
   Box,
   Button,
@@ -171,15 +172,11 @@ export default function MovieImageSelector({ onChange, value }: Props) {
                     border="1px solid"
                     borderColor="borders.subtle"
                   >
-                    <Image
-                      src={url || "/placeholder.svg"}
+                    <SafeImage
+                      src={url}
                       width="full"
                       height="full"
                       alt={`Image ${index + 1}`}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "/placeholder.svg?height=64&width=64";
-                      }}
                     />
                   </Box>
                   <Text flex={1} truncate fontSize="sm">{url}</Text>

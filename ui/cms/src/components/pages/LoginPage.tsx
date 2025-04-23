@@ -61,7 +61,6 @@ const LoginPage = () => {
       align="center"
       justify="space-between"
       direction={"column"}
-      className="dark"
     >
       <Card.Root
         p="6"

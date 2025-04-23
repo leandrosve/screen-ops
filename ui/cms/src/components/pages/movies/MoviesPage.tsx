@@ -10,12 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
-import MovieCardItem from "../../components/features/movies/MovieCardItem";
 import { MovieStatus } from "@/model/movies/Movie";
 import { MultiSelect } from "@/components/common/MultiSelect";
 import { toMovieStatus } from "@/utils/EnumUtils";
 import { Link } from "react-router-dom";
 import { Paginator } from "@/components/common/Pagination";
+import MovieCardItem from "@/components/features/movies/MovieCardItem";
 
 const statusOptions = [
   {
@@ -84,7 +84,7 @@ const MoviesPage = () => {
         </Link>
       </Flex>
 
-      {!!data?.totalCount ? (
+      {(!loading && !!data?.totalCount) ? (
         <span>
           {data.totalCount} resultado{data.totalCount > 1 ? "s" : ""}
         </span>

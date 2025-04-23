@@ -10,7 +10,7 @@ interface Props {
 
 const GuestLayout = ({ children }: Props) => {
   return (
-    <Flex className='background-tone' grow={1} align='stretch' justify='stretch' direction='column'>
+    <Flex grow={1} align='stretch' justify='stretch' direction='column'>
       <Flex id='main' as='main' alignItems='center' justifyContent='center' grow={1} padding={[0, 5]} paddingBottom={50}>
         {children}
         <Outlet />

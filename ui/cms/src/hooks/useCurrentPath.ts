@@ -6,7 +6,6 @@ const useCurrentPath = () => {
 
   const item = useMemo(() => {
     const pathname = location.pathname;
-    console.log({pathname})
 
     return pathname;
   }, [location]);

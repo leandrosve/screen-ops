@@ -32,7 +32,7 @@ interface Movie {
   localizedTitle: string;
   description: string;
   director: string;
-  mainActors: string[];
+  mainActors: string;
   duration: number; // en minutos
   originalReleaseYear: number;
   genres: Genre[];
@@ -40,7 +40,7 @@ interface Movie {
   originalLanguage: Language;
   trailerUrl: string;
   posterUrl: string;
-  extraImages: string[];
+  extraImageUrls: string[];
   status: MovieStatus;
   createdAt: Date;
   deletedAt: Date | null;
