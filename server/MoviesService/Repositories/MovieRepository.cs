@@ -77,6 +77,8 @@ namespace MoviesService.Repositories
                 }
             }
 
+            query = query.OrderByDescending(x => x.CreatedAt);
+
             var totalCount = await query.CountAsync();
             var pagination = filters.Pagination;
 

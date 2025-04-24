@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+﻿using AuthenticationService.Models;
+using AutoMapper;
 using ScreenOps.AuthenticationService.Dtos;
-using ScreenOps.AuthenticationService.Models;
 
 namespace ScreenOps.AuthenticationService.Profiles
 {
@@ -8,6 +8,7 @@ namespace ScreenOps.AuthenticationService.Profiles
     {
 
         public IdentityProfile() {
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
 
             CreateMap<User, UserDto>()
                 .ForMember(dest => dest.JoinedAt, opt => opt.MapFrom(src => src.CreatedAt))

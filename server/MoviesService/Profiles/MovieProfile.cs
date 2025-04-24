@@ -15,6 +15,8 @@ namespace CinemasService.Profiles
 
         public MovieProfile()
         {
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
+
             CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
             CreateMap<Genre, GenreDto>();
             CreateMap<MovieMediaDto, MovieMedia>();

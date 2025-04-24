@@ -69,7 +69,7 @@ export const Paginator = ({
         <Select
           options={pageSizes}
           value={`${pageSize}`}
-          onValueChange={(v) => onPageSizeChange?.(parseInt(v[0]))}
+          onValueChange={(v) => onPageSizeChange?.(parseInt(v))}
           placeholder=""
           width="4em"
         />

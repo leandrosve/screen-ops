@@ -91,6 +91,7 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
             label="Título original"
             placeholder="Título original"
             required
+            autoFocus
             error={errors.originalTitle?.message}
             {...register("originalTitle")}
           />
@@ -130,8 +131,9 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
             placeholder="Descripción"
             required
             error={errors.description?.message}
-            register={register("description")}
-            innerProps={{ autoresize: true, minHeight: 200 }}
+            autoresize= {true}
+            minHeight={200}
+            {...register("description")}
           />
           <TextField
             label="Director"
@@ -153,7 +155,7 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
               placeholder="Duración"
               required
               error={errors.duration?.message}
-              register={register("duration")}
+              {...register("duration")}
             />
 
             <NumberField
@@ -161,8 +163,8 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
               placeholder="Año de estreno"
               required
               error={errors.originalReleaseYear?.message}
-              inputProps={{ defaultValue: new Date().getFullYear() }}
-              register={register("originalReleaseYear")}
+              defaultValue = {new Date().getFullYear() }
+              {...register("originalReleaseYear")}
             />
           </HStack>
           <Field.Root invalid={!!errors.countryCode}>

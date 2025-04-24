@@ -1,4 +1,5 @@
-﻿using Common.Models;
+﻿using Common.Enums;
+using Common.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace CinemasService.Models
@@ -14,6 +15,9 @@ namespace CinemasService.Models
         [MaxLength(512)]
         public required string Description { get; set; }
         public required int Capacity { get; set; }
-        public required bool IsPublished { get; set; } = false;
+
+        [MaxLength(256)]
+        public string? ImageUrl { get; set; }
+        public EntityStatus Status { get; set; } = EntityStatus.Draft;
     }
 }

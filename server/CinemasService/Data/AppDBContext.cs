@@ -27,8 +27,11 @@ namespace CinemasService.Data
             {
                 b.Property(m => m.Type).HasConversion<string>();
                 b.HasIndex(m => m.LayoutId);
-                b.HasIndex(p => new { p.PositionX, p.PositionY }).IsUnique();
+                b.HasIndex(m => m.PositionY);
+                b.HasIndex(m => m.PositionX);
+
             });
+           
             modelBuilder.Entity<Layout>(b =>
             {
                 b.HasIndex(u => u.Name).IsUnique();

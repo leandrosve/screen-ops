@@ -23,7 +23,7 @@ namespace CinemasService.Repositories
             }
             if (!includeUnpublished)
             {
-                query = query.Where(m => m.IsPublished);
+                query = query.Where(m => m.Status == Common.Enums.EntityStatus.Published);
             }
 
             return await query.ToListAsync();
@@ -33,7 +33,7 @@ namespace CinemasService.Repositories
         {
             var query = _context.Cinemas.AsQueryable();
             if (!includeUnpublished) {
-                query.Where(c => c.IsPublished);
+                query.Where(c => c.Status == Common.Enums.EntityStatus.Published);
             }
             return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }

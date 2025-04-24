@@ -1,6 +1,6 @@
 ﻿using ScreenOps.AuthenticationService.Data;
-using ScreenOps.AuthenticationService.Models;
 using Microsoft.EntityFrameworkCore;
+using AuthenticationService.Models;
 
 namespace ScreenOps.AuthenticationService.Repositories
 {

@@ -83,7 +83,7 @@ export const ConfirmationDialogProvider = () => {
                 {state.options.confirmText || "Confirmar"}
               </Button>
             </Dialog.Footer>
-            <Dialog.CloseTrigger asChild>
+            <Dialog.CloseTrigger asChild onClick={handleCancel}>
               <CloseButton size="sm" />
             </Dialog.CloseTrigger>
           </Dialog.Content>

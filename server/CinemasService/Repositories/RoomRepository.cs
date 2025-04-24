@@ -1,6 +1,7 @@
 ﻿using CinemasService.Data;
 using CinemasService.Dtos;
 using CinemasService.Models;
+using Common.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemasService.Repositories
@@ -14,18 +15,12 @@ namespace CinemasService.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Room>> GetAll(Guid? cinemaId, bool includeDeleted, bool includeUnpublished)
+        public async Task<IEnumerable<Room>> GetAll(Guid? cinemaId)
         {
             var query = _context.Rooms.AsQueryable();
 
-            if (!includeDeleted)
-            {
-                query = query.Where(m => m.DeletedAt == null);
-            }
-            if (!includeUnpublished)
-            {
-                query = query.Where(m => m.PublishedAt != null);
-            }
+            query = query.Where(m => m.Status != EntityStatus.Deleted);
+
             if (cinemaId.HasValue)
             {
                 query.Where(m => m.CinemaId == cinemaId);
@@ -38,14 +33,11 @@ namespace CinemasService.Repositories
         {
             var query = _context.Rooms.AsQueryable();
 
-            if (!filters.IncludeDeleted)
+            if (filters.Status == null || filters.Status.Count == 0)
             {
-                query = query.Where(m => m.DeletedAt == null);
+                query = query.Where(m => m.Status != EntityStatus.Deleted);
             }
-            if (!filters.IncludeUnpublished)
-            {
-                query = query.Where(m => m.PublishedAt != null);
-            }
+          
             if (filters.CinemaId.HasValue)
             {
                 query = query.Where(m => m.CinemaId == filters.CinemaId.Value);
@@ -54,17 +46,10 @@ namespace CinemasService.Repositories
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Room?> GetById(Guid id, bool includeDeleted, bool includeUnpublished)
+        public async Task<Room?> GetById(Guid id)
         {
             var query = _context.Rooms.AsQueryable();
-            if (!includeUnpublished)
-            {
-                query = query.Where(c => c.PublishedAt != null);
-            }
-            if (!includeDeleted)
-            {
-                query = query.Where(c => c.DeletedAt == null);
-            }
+            
             return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 

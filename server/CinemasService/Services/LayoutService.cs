@@ -45,7 +45,7 @@ namespace CinemasService.Services
             if (layout == null)
                 return Fail<bool>(LayoutErrors.Delete.LayoutNotFound);
 
-            layout.DeletedAt = new DateTime();
+            layout.DeletedAt = DateTime.UtcNow;
 
             await _repository.SaveChanges();
             return Ok(true);

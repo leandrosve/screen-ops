@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Common.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace CinemasService.Models
 {
@@ -13,8 +14,7 @@ namespace CinemasService.Models
         public Guid CinemaId { get; set; }
         public Layout? Layout { get; set; }
         public int LayoutId { get; set; }
-        public DateTime? PublishedAt { get; set; }
         public required DateTime CreatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public EntityStatus Status { get; set; }
     }
 }

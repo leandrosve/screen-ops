@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using ScreenOps.Common;
 using ScreenOps.AuthenticationService.Dtos;
-using ScreenOps.AuthenticationService.Models;
 using ScreenOps.AuthenticationService.Repositories;
 using Common.Enums;
 using AuthenticationService.Errors;
+using AuthenticationService.Models;
 
 namespace ScreenOps.AuthenticationService.Services
 {

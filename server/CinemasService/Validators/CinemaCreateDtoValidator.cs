@@ -23,6 +23,11 @@ namespace CinemasService.Validators
 
             RuleFor(x => x.Capacity)
                 .GreaterThan(0).WithMessage(CinemaErrors.Create.CapacityInvalid);
+
+            RuleFor(x => x.ImageUrl)
+                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(CinemaErrors.Create.ImageUrlInvalid)
+                .When(x => x.ImageUrl != null);
+                
         }
     }
 }

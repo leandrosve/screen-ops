@@ -16,6 +16,7 @@
             public const string DescriptionMaxLength = "description_max_length";
 
             public const string CapacityInvalid = "capacity_invalid";
+            public const string ImageUrlInvalid = "image_url_invalid";
         }
 
         public static class Update
@@ -31,7 +32,12 @@
             public const string DescriptionMinLength = "description_min_length";
             public const string DescriptionMaxLength = "description_max_length";
 
+            public const string ImageUrlInvalid = "image_url_invalid";
+
             public const string CapacityInvalid = "capacity_invalid";
+
+            public const string StatusInvalid = "status_invalid";
+
         }
 
         public static class Get

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Audit;
+using Common.Enums;
 using Common.Models;
 using Common.Services;
 using Contracts.Movies;
@@ -45,7 +46,7 @@ namespace MoviesService.Services
             Movie movie = _mapper.Map<Movie>(dto);
 
 
-            movie.Status = MovieStatusEnum.Draft;
+            movie.Status = EntityStatus.Draft;
             movie.CreatedAt = DateTime.UtcNow;
 
             var genres = await _genreRepository.GetByIds(dto.GenreIds);

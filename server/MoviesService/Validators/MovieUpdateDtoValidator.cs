@@ -49,13 +49,15 @@ namespace MoviesService.Validators
                 .Must(x => x == null || LanguageConstants.GetByCode(x) != null).WithMessage(MovieErrors.Update.LanguageCodeInvalid);
 
             RuleFor(x => x.Status)
-               .IsInEnum().WithMessage(MovieErrors.Update.LanguageCodeInvalid);
+               .IsInEnum().WithMessage(MovieErrors.Update.StatusInvalid);
 
             RuleFor(m => m.TrailerUrl)
-               .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.TrailerUrlInvalid);
+               .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.TrailerUrlInvalid)
+               .When(x => x.TrailerUrl != null);
 
             RuleFor(m => m.PosterUrl)
-                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.PosterUrlInvalid);
+                .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(MovieErrors.Create.PosterUrlInvalid)
+                .When(x => x.PosterUrl != null);
 
             RuleForEach(m => m.ExtraImageUrls).ChildRules(media =>
             {

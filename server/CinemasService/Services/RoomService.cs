@@ -7,6 +7,7 @@ using CinemasService.Models;
 using CinemasService.Services.Interfaces;
 using CinemasService.Errors;
 using Contracts.Rooms;
+using Common.Enums;
 
 namespace CinemasService.Services
 {
@@ -48,33 +49,21 @@ namespace CinemasService.Services
 
         public async Task<ApiResult<RoomDto>> Update(Guid id, RoomUpdateDto dto)
         {
-            var room = await _repository.GetById(id, true, true);
+            var room = await _repository.GetById(id);
 
-            if (room == null)
+            if (room == null || room.Status == EntityStatus.Deleted)
             {
                 return Fail<RoomDto>(RoomErrors.Update.RoomNotFound);
             }
 
+
             _mapper.Map(dto, room);
 
-            await _repository.SaveChanges();
-
-            return Ok(_mapper.Map<RoomDto>(room));
-        }
-
-        public async Task<ApiResult<RoomDto>> Publish(Guid id)
-        {
-            var room = await _repository.GetById(id, false, true);
-            if (room == null)
-            {
-                return Fail<RoomDto>(RoomErrors.Publish.RoomNotFound);
-            }
-            if (room.Layout == null)
+            if (room.Status == EntityStatus.Published && room.Layout == null)
             {
                 return Fail<RoomDto>(RoomErrors.Publish.LayoutMissing);
             }
 
-            room.PublishedAt = DateTime.UtcNow;
             await _repository.SaveChanges();
 
             return Ok(_mapper.Map<RoomDto>(room));
@@ -82,12 +71,14 @@ namespace CinemasService.Services
 
         public async Task<ApiResult<bool>> Delete(Guid id)
         {
-            var room = await _repository.GetById(id, true, true);
+            var room = await _repository.GetById(id);
 
             if (room == null)
                 return Fail<bool>(RoomErrors.Delete.RoomNotFound);
 
-            room.DeletedAt = new DateTime();
+            // Chequear condiciones para ver si se puede eliminar o no
+
+            room.Status = EntityStatus.Deleted;
 
             await _repository.SaveChanges();
             return Ok(true);
@@ -100,9 +91,9 @@ namespace CinemasService.Services
             return Ok(dtos);
         }
 
-        public async Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished)
+        public async Task<ApiResult<RoomDto>> GetById(Guid id)
         {
-            var room = await _repository.GetById(id, includeDeleted, includeUnpublished);
+            var room = await _repository.GetById(id);
 
             if (room == null)
                 return Fail<RoomDto>(RoomErrors.Get.RoomNotFound);
@@ -112,7 +103,7 @@ namespace CinemasService.Services
 
         public async Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id)
         {
-            var room = await _repository.GetById(id, true, true);
+            var room = await _repository.GetById(id);
 
             if (room == null)
                 return Fail<RoomSummaryDto>(RoomErrors.Get.RoomNotFound);

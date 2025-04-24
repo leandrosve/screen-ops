@@ -34,8 +34,8 @@ const statusOptions = [
 const MoviesPage = () => {
   const { data, loading, error, updateFilters, filters } = useMovies();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [status, setStatus] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState(filters.searchTerm);
+  const [status, setStatus] = useState<string[]>(filters.status?.map(s => s.toString()) ?? []);
   if (error) return <div>{error}</div>;
 
   return (
@@ -84,13 +84,14 @@ const MoviesPage = () => {
         </Link>
       </Flex>
 
-      {(!loading && !!data?.totalCount) ? (
-        <span>
-          {data.totalCount} resultado{data.totalCount > 1 ? "s" : ""}
-        </span>
-      ) : (
-        <Heading>No se encontraron resultados</Heading>
-      )}
+      {!loading &&
+        (!!data?.totalCount ? (
+          <span>
+            {data.totalCount} resultado{data.totalCount > 1 ? "s" : ""}
+          </span>
+        ) : (
+          !loading && <Heading>No se encontraron resultados</Heading>
+        ))}
       <Box>
         <Grid
           templateColumns="repeat(auto-fit, minmax(260px, 5fr))"

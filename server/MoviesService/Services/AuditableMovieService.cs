@@ -43,6 +43,8 @@ namespace MoviesService.Services
         {
             var res = await _movieService.Update(id, dto);
 
+            if (res.HasError) return res;
+
             await _auditClient.Log(new AuditLogDto
             {
                 Action = "MOVIE_UPDATED",
@@ -60,6 +62,8 @@ namespace MoviesService.Services
         public async Task<ApiResult<bool>> Delete(Guid id, AuthorInfo author)
         {
             var res = await _movieService.Delete(id);
+
+            if (res.HasError) return res;
 
             await _auditClient.Log(new AuditLogDto
             {

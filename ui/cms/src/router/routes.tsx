@@ -1,102 +1,158 @@
-import { JSX, lazy, LazyExoticComponent, ReactElement, ReactNode } from 'react';
-import Role from '../model/user/Role';
+import { JSX, lazy, LazyExoticComponent, ReactElement } from "react";
+import Role from "../model/user/Role";
 
-/*const LoginPage = async () => (await import('@/components/pages/LoginPage')).default;
-const MoviesPage = async () =>  (await import('@/components/pages/movies/MoviesPage')).default;
-const MovieCreatePage = async () =>  (await import('@/components/pages/movies/MovieCreatePage')).default;
-const MovieUpdatePage = async () =>  (await import('@/components/pages/movies/MovieUpdatePage')).default;
-const MovieDetailPage = async () =>  (await import('@/components/pages/movies/MovieDetailPage')).default;*/
-
-const LoginPage = lazy( () => import('@/components/pages/LoginPage'));
-const MoviesPage = lazy( () => import('@/components/pages/movies/MoviesPage'));
-const MovieCreatePage = lazy( () => import('@/components/pages/movies/MovieCreatePage'));
-const MovieUpdatePage = lazy( () => import('@/components/pages/movies/MovieUpdatePage'));
-const MovieDetailPage = lazy( () => import('@/components/pages/movies/MovieDetailPage'));
+const LoginPage = lazy(() => import("@/components/pages/LoginPage"));
+const MoviesPage = lazy(() => import("@/components/pages/movies/MoviesPage"));
+const MovieCreatePage = lazy(
+  () => import("@/components/pages/movies/MovieCreatePage")
+);
+const MovieUpdatePage = lazy(
+  () => import("@/components/pages/movies/MovieUpdatePage")
+);
+const MovieDetailPage = lazy(
+  () => import("@/components/pages/movies/MovieDetailPage")
+);
+const CinemasPage = lazy(
+  () => import("@/components/pages/cinemas/CinemasPage")
+);
+const CinemaCreatePage = lazy(
+  () => import("@/components/pages/cinemas/CinemaCreatePage")
+);
+const CinemaDetailPage = lazy(
+  () => import("@/components/pages/cinemas/CinemaDetailPage")
+);
+const CinemaUpdatePage = lazy(
+  () => import("@/components/pages/cinemas/CinemaUpdatePage")
+);
 
 export enum CmsRoutes {
-  HOME = '/',
-  SIGNUP = '/signup',
-  LOGIN = '/login',
-  MOVIES = '/movies',
-  MOVIE_CREATE = '/movies/create',
-  MOVIE_DETAIL = '/movies/detail/:id',
-  MOVIE_UPDATE = '/movies/update/:id'
+  HOME = "/",
+  SIGNUP = "/signup",
+  LOGIN = "/login",
+  MOVIES = "/movies",
+  MOVIE_CREATE = "/movies/create",
+  MOVIE_DETAIL = "/movies/detail/:id",
+  MOVIE_UPDATE = "/movies/update/:id",
+  CINEMAS = "/cinemas",
+  CINEMA_CREATE = "/cinemas/create",
+  CINEMA_DETAIL = "/cinemas/detail/:id",
+  CINEMA_UPDATE = "/cinemas/update/:id",
 }
 
 interface CmsRoute {
-    path: string,
-    type: 'private' | 'guest' | 'any',
-    title: string,
-    hasSubroutes?: boolean,
-    subroutes?: {title: string, path: string}[],
-    element?: ReactElement,
-    lazy?: LazyExoticComponent<() => JSX.Element>
-    roles?: Role[]
+  path: string;
+  type: "private" | "guest" | "any";
+  title: string;
+  hasSubroutes?: boolean;
+  subroutes?: { title: string; path: string }[];
+  element?: ReactElement;
+  lazy?: LazyExoticComponent<() => JSX.Element>;
+  roles?: Role[];
 }
 
 const routes: CmsRoute[] = [
-
   {
     path: CmsRoutes.MOVIE_CREATE,
-    type: 'private',
-    title: 'Añadir Película',
+    type: "private",
+    title: "Añadir Película",
     hasSubroutes: false,
     subroutes: [],
     lazy: MovieCreatePage,
-    roles: [Role.MANAGER, Role.ADMIN]
+    roles: [Role.MANAGER, Role.ADMIN],
   },
   {
     path: CmsRoutes.MOVIE_DETAIL,
-    type: 'private',
-    title: 'Detalle de Película',
+    type: "private",
+    title: "Detalle de Película",
     hasSubroutes: false,
     subroutes: [],
     lazy: MovieDetailPage,
-    roles: [Role.MANAGER, Role.ADMIN]
+    roles: [Role.MANAGER, Role.ADMIN],
   },
   {
     path: CmsRoutes.MOVIE_UPDATE,
-    type: 'private',
-    title: 'Actualizar Película',
+    type: "private",
+    title: "Actualizar Película",
     hasSubroutes: false,
     subroutes: [],
     lazy: MovieUpdatePage,
-    roles: [Role.MANAGER, Role.ADMIN]
+    roles: [Role.MANAGER, Role.ADMIN],
   },
   {
     path: CmsRoutes.MOVIES,
-    type: 'private',
-    title: 'Películas',
+    type: "private",
+    title: "Películas",
     hasSubroutes: false,
     subroutes: [],
     lazy: MoviesPage,
-    roles: [Role.MANAGER, Role.ADMIN]
+    roles: [Role.MANAGER, Role.ADMIN],
   },
   {
-    type: 'guest',
-    path: '/',
-    title: 'Controla el progreso de tus alumnos',
+    path: CmsRoutes.CINEMA_CREATE,
+    type: "private",
+    title: "Crear Cine",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: CinemaCreatePage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.CINEMA_DETAIL,
+    type: "private",
+    title: "Detalle del cine",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: CinemaDetailPage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.CINEMA_UPDATE,
+    type: "private",
+    title: "Editar cine",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: CinemaUpdatePage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.CINEMAS,
+    type: "private",
+    title: "Cines",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: CinemasPage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    type: "guest",
+    path: "/",
+    title: "Controla el progreso de tus alumnos",
     element: <div>Landing Page</div>,
   },
   {
-    type: 'guest',
-    path: '/signup',
-    title: 'Sign Up',
+    type: "guest",
+    path: "/signup",
+    title: "Sign Up",
     element: <div>Registrarse</div>,
   },
   {
-    type: 'guest',
-    path: '/login',
-    title: 'Iniciar Sesión',
+    type: "guest",
+    path: "/login",
+    title: "Iniciar Sesión",
     lazy: LoginPage,
   },
   {
-    path: '/mantenimiento',
-    type: 'any',
-    title: 'Mantenimiento',
+    path: "/mantenimiento",
+    type: "any",
+    title: "Mantenimiento",
     element: <div>mantenimiento</div>,
   },
-  { path: '*', type: 'any', title: 'Página no encontrada', element: <div>Pagina no encontrada</div> },
+  {
+    path: "*",
+    type: "any",
+    title: "Página no encontrada",
+    element: <div>Pagina no encontrada</div>,
+  },
 ];
 
 export default routes;

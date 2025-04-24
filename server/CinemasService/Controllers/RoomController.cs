@@ -46,7 +46,7 @@ namespace CinemasService.Controllers
         [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
         {
-            ApiResult<RoomDto> res = await _service.GetById(id, true, true);
+            ApiResult<RoomDto> res = await _service.GetById(id);
 
             if (res.HasError) return BadRequest(res.Error);
 
@@ -55,13 +55,12 @@ namespace CinemasService.Controllers
 
         [HttpGet(Name = "Get All Rooms")]
         [ProducesResponseType(typeof(IEnumerable<RoomDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get([FromQuery] Guid? cinemaId, [FromQuery] bool includeDeleted, [FromQuery] bool includeUnpublished)
+        public async Task<IActionResult> Get([FromQuery] Guid? cinemaId, [FromQuery] bool includeDeleted, [FromQuery] ICollection<int>? status)
         {
             var filters = new RoomSearchFiltersDto
             {
                 CinemaId = cinemaId,
-                IncludeDeleted = includeDeleted,
-                IncludeUnpublished = includeUnpublished
+                Status = status,
             };
             ApiResult<IEnumerable<RoomDto>> res = await _service.GetByFilters(filters);
 
@@ -75,18 +74,6 @@ namespace CinemasService.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             ApiResult<bool> res = await _service.Delete(id, GetAuthorInfo());
-
-            if (res.HasError) return BadRequest(res.Error);
-
-            return Ok(res.Data);
-        }
-
-
-        [HttpPost("{id}/publish", Name = "Publish Room")]
-        [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Publish(Guid id)
-        {
-            ApiResult<RoomDto> res = await _service.Publish(id, GetAuthorInfo());
 
             if (res.HasError) return BadRequest(res.Error);
 

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using ScreenOps.Common;
 using ScreenOps.AuthenticationService.Dtos;
-using ScreenOps.AuthenticationService.Models;
 using ScreenOps.AuthenticationService.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Security.Cryptography;
+using AuthenticationService.Models;
 
 namespace ScreenOps.AuthenticationService.Services
 {

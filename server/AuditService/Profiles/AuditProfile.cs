@@ -9,6 +9,8 @@ namespace AuditService.Profiles
     {
 
         public AuditProfile() {
+            CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
+
             CreateMap(typeof(PagedResult<>), typeof(PagedResult<>));
             CreateMap<AuditLogCreateDto, AuditLog>();
             CreateMap<AuditLog, AuditLogDto>();

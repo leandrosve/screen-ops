@@ -11,12 +11,10 @@ namespace CinemasService.Services.Audit
 
         public Task<ApiResult<RoomDto>> Update(Guid id, RoomUpdateDto dto, AuthorInfo info);
 
-        public Task<ApiResult<RoomDto>> Publish(Guid id, AuthorInfo info);
-
         public Task<ApiResult<bool>> Delete(Guid id, AuthorInfo info);
 
         // Not audited for now
-        public Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished);
+        public Task<ApiResult<RoomDto>> GetById(Guid id);
         public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id);
         public Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto dto);
     }

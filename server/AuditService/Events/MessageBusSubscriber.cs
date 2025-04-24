@@ -88,7 +88,7 @@ namespace AuditService.Events
 
         public async override void Dispose()
         {
-            if (_channel.IsOpen)
+            if (_channel != null && _channel.IsOpen)
             {
                 await _channel.CloseAsync();
                 await _connection.CloseAsync();

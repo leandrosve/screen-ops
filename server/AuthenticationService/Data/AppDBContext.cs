@@ -1,5 +1,5 @@
-﻿using ScreenOps.AuthenticationService.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using AuthenticationService.Models;
 
 namespace ScreenOps.AuthenticationService.Data
 {

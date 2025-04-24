@@ -1,6 +1,6 @@
 ﻿using Common.Enums;
 
-namespace ScreenOps.AuthenticationService.Models
+namespace AuthenticationService.Models
 {
     public class User
     {

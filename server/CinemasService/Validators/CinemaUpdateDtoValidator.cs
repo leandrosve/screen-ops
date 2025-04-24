@@ -22,7 +22,14 @@ namespace CinemasService.Validators
                 .MaximumLength(500).WithMessage(CinemaErrors.Update.DescriptionMaxLength);
 
             RuleFor(x => x.Capacity)
-                .GreaterThan(0).WithMessage(CinemaErrors.Update.CapacityInvalid);
+               .GreaterThan(0).WithMessage(CinemaErrors.Update.CapacityInvalid);
+
+            RuleFor(x => x.Status)
+              .IsInEnum().WithMessage(CinemaErrors.Update.StatusInvalid);
+
+            RuleFor(x => x.ImageUrl)
+               .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _)).WithMessage(CinemaErrors.Create.ImageUrlInvalid)
+               .When(x => x.ImageUrl != null);
         }
     }
 }

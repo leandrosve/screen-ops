@@ -55,24 +55,6 @@ namespace CinemasService.Services.Audit
             });
             return res;
         }
-
-        public async Task<ApiResult<RoomDto>> Publish(Guid id, AuthorInfo author)
-        {
-            var res = await _service.Publish(id);
-
-            if (res.HasError) return res;
-
-            await _auditClient.Log(new AuditLogDto
-            {
-                Action = "ROOM_PUBLISHED",
-                EntityType = _modelType,
-                EntityGuid = id,
-                UserId = author.Id,
-                IpAddress = author.IpAddress
-            });
-            return res;
-        }
-
         public async Task<ApiResult<RoomDto>> Update(Guid id, RoomUpdateDto dto, AuthorInfo author)
         {
             var res = await _service.Update(id, dto);
@@ -95,9 +77,9 @@ namespace CinemasService.Services.Audit
             return _service.GetByFilters(dto);
         }
 
-        public Task<ApiResult<RoomDto>> GetById(Guid id, bool includeDeleted, bool includeUnpublished)
+        public Task<ApiResult<RoomDto>> GetById(Guid id)
         {
-            return _service.GetById(id, includeDeleted, includeUnpublished);
+            return _service.GetById(id);
         }
 
         public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id)

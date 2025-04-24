@@ -1,4 +1,4 @@
-﻿using ScreenOps.AuthenticationService.Models;
+﻿using AuthenticationService.Models;
 
 namespace ScreenOps.AuthenticationService.Repositories
 {

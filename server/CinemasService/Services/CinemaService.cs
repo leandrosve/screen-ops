@@ -28,15 +28,15 @@ namespace CinemasService.Services
                 return Fail<CinemaDto>(CinemaErrors.Create.NameAlreadyExists);
             }
 
-            Cinema cinema = new Cinema
+            Cinema cinema = new()
             {
                 Name = dto.Name.Trim(),
                 Description = dto.Description,
                 Location = dto.Location,
                 Capacity = dto.Capacity,
-                CreatedAt = new DateTime(),
-                CreatedBy = userId,
-                IsPublished = false
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = dto.ImageUrl,
+                CreatedBy = userId
             };
 
             await _repository.Insert(cinema);
@@ -51,7 +51,7 @@ namespace CinemasService.Services
                 return Fail<bool>(CinemaErrors.Delete.CinemaNotFound);
             
             cinema.DeletedBy = userId;
-            cinema.DeletedAt = new DateTime();
+            cinema.DeletedAt = DateTime.UtcNow;
 
             await _repository.SaveChanges();
             return Ok(true);
@@ -91,6 +91,12 @@ namespace CinemasService.Services
 
             if (dto.Capacity.HasValue)
                 cinema.Capacity = dto.Capacity.Value;
+
+            if (dto.Status.HasValue)
+                cinema.Status = dto.Status.Value;
+
+            if(dto.ImageUrl != null)
+                cinema.ImageUrl = dto.ImageUrl;
 
             await _repository.SaveChanges();
 
