@@ -32,6 +32,17 @@ namespace CinemasService.Controllers
             return Ok(res.Data);
         }
 
+        [HttpPatch("{id}", Name = "Update Layout")]
+        [ProducesResponseType(typeof(RoomDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Update(Guid id, LayoutUpdateDto dto)
+        {
+            ApiResult<LayoutDto> res = await _service.Update(id, dto, GetAuthorInfo());
+
+            if (res.HasError) return BadRequest(res.Error);
+
+            return Ok(res.Data);
+        }
+
         [HttpGet("{id}", Name = "Get Layout")]
         [ProducesResponseType(typeof(LayoutDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(Guid id)
@@ -44,7 +55,7 @@ namespace CinemasService.Controllers
         }
 
         [HttpGet(Name = "Search Layouts")]
-        [ProducesResponseType(typeof(ICollection<LayoutDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ICollection<LayoutSummaryDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] string? name, [FromQuery] bool includeDeleted)
         {
             var filters = new LayoutSearchFiltersDto
@@ -52,7 +63,7 @@ namespace CinemasService.Controllers
                 IncludeDeleted = includeDeleted,
                 Name = name
             };
-            ApiResult<ICollection<LayoutDto>> res = await _service.GetByFilters(filters);
+            ApiResult<ICollection<LayoutSummaryDto>> res = await _service.GetByFilters(filters);
 
             if (res.HasError) return BadRequest(res.Error);
 

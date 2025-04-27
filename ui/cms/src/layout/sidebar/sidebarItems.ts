@@ -4,6 +4,7 @@ import { SidebarItemGroup } from "./Sidebar";
 import Role from "@/model/user/Role";
 import { LuTheater } from "react-icons/lu";
 import { IoTicketSharp } from "react-icons/io5";
+import { MdGridOn } from "react-icons/md";
 
 const sidebarItems: SidebarItemGroup[] = [
   {
@@ -12,7 +13,7 @@ const sidebarItems: SidebarItemGroup[] = [
       {
         path: "/movies",
         label: "Películas",
-        icon: {type:FaFilm, boxSize: '1.25em'},
+        icon: { type: FaFilm, boxSize: "1.25em" },
         roles: [Role.ADMIN, Role.MANAGER],
         subItems: [
           { path: "/movies", label: "Todas las películas" },
@@ -23,7 +24,7 @@ const sidebarItems: SidebarItemGroup[] = [
         path: "/cinemas",
         label: "Cines",
         roles: [Role.ADMIN, Role.MANAGER],
-        icon: {type: RiBuilding3Line},
+        icon: { type: RiBuilding3Line },
         subItems: [
           { path: "/cinemas", label: "Todos los cines" },
           { path: "/cinemas/create", label: "Añadir un cine" },
@@ -33,27 +34,34 @@ const sidebarItems: SidebarItemGroup[] = [
         path: "/rooms",
         label: "Salas",
         roles: [Role.ADMIN, Role.MANAGER],
-        icon: {type: LuTheater, boxSize: '1.3em'},
+        icon: { type: LuTheater, boxSize: "1.3em" },
         subItems: [
           { path: "/rooms", label: "Todas las salas" },
           { path: "/rooms/create", label: "Añadir una sala" },
         ],
       },
+
       {
         path: "/screenings",
         label: "Funciones",
         roles: [Role.ADMIN, Role.MANAGER],
-        icon: {type: FaCirclePlay, boxSize: '1.3em'},
+        icon: { type: FaCirclePlay, boxSize: "1.3em" },
         subItems: [
           { path: "/screenings", label: "Buscar funciones" },
           { path: "/screenings/create", label: "Añadir funciones" },
         ],
       },
       {
+        path: "/layouts",
+        label: "Layouts",
+        roles: [Role.ADMIN, Role.MANAGER],
+        icon: { type: MdGridOn, boxSize: "1.3em" },
+      },
+      {
         path: "/tickets",
         label: "Tickets",
         roles: [Role.ADMIN, Role.MANAGER],
-        icon: {type: IoTicketSharp, boxSize: '1.4em'},
+        icon: { type: IoTicketSharp, boxSize: "1.4em" },
       },
     ],
   },

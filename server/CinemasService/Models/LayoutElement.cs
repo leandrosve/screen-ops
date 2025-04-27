@@ -8,8 +8,7 @@ namespace CinemasService.Models
         public Guid Id { get; set; }
         public Guid LayoutId { get; set; }
         public required Layout Layout{ get; set; }
-        public required int PositionX { get; set; }
-        public required int PositionY { get; set; }
+        public required int Index { get; set; }
 
         [MaxLength(24)]
         public LayoutElementType Type { get; set; }

@@ -96,7 +96,7 @@ const CinemaForm = ({
             disabled={isSubmitting}
             required
             error={errors.capacity?.message}
-            {...register("capacity")}
+            inputProps={register("capacity")}
           />
           <TextField
             label="Imágen"

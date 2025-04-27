@@ -1,8 +1,7 @@
 import { EntityStatus } from "@/model/common/EntityStatus";
-import { MovieStatus } from "@/model/movies/Movie";
-import { Badge } from "@chakra-ui/react";
+import { Badge, BadgeProps } from "@chakra-ui/react";
 
-interface Props {
+interface Props extends BadgeProps{
   status: EntityStatus;
   genre?: "femenine" | "masculine";
 }
@@ -35,9 +34,9 @@ const options = {
   },
 };
 
-const EntityStatusBadge = ({ status, genre }: Props) => {
+const EntityStatusBadge = ({ status, genre, ...rest}: Props) => {
   return (
-    <Badge paddingX={4} variant="subtle" colorPalette={options[status]?.color}>
+    <Badge paddingX={4} variant="subtle" colorPalette={options[status]?.color} {...rest}>
       {genre == "masculine"
         ? options[status]?.labelMasculine ?? options[status]?.label
         : options[status]?.label}

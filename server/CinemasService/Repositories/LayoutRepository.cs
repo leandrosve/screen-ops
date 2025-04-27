@@ -17,20 +17,21 @@ namespace CinemasService.Repositories
         public async Task<IEnumerable<Layout>> GetAll(bool includeDeleted)
         {
             var query = _context.Layouts
-               .Include(m => m.Elements)
+               .Include(m => m.Elements.OrderBy(e => e.Index))
                .AsQueryable();
 
             if (!includeDeleted)
             {
                 query = query.Where(m => m.DeletedAt == null);
             }
+
+            query = query.OrderByDescending(x => x.CreatedAt);
             return await query.AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Layout>> GetByFilters(LayoutSearchFiltersDto filters)
         {
             var query = _context.Layouts
-                .Include(m => m.Elements)
                 .AsQueryable();
 
             if (!filters.IncludeDeleted)
@@ -48,7 +49,7 @@ namespace CinemasService.Repositories
         public async Task<Layout?> GetById(Guid id, bool includeDeleted)
         {
             var query = _context.Layouts
-                .Include(m => m.Elements)
+                .Include(m => m.Elements.OrderBy(e => e.Index))
                 .AsQueryable();
             if (!includeDeleted)
             {
@@ -57,13 +58,10 @@ namespace CinemasService.Repositories
             return await query.Where(u => u.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<Layout?> GetByName(string name, bool includeDeleted)
+        public async Task<Layout?> GetByName(string name)
         {
             var query = _context.Layouts.AsQueryable();
-            if (!includeDeleted)
-            {
-                query.Where(c => c.DeletedAt == null);
-            }
+           
             return await query.Where(c => c.Name.ToLower() == name.ToLower()).FirstOrDefaultAsync();
         }
 

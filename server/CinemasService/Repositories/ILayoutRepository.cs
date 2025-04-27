@@ -8,6 +8,8 @@ namespace CinemasService.Repositories
 
         Task<IEnumerable<Layout>> GetByFilters(LayoutSearchFiltersDto filters);
 
+        Task<Layout?> GetByName(string name);
+
         Task<Layout?> GetById(Guid id, bool includeDeleted);
 
         Task<Layout> Insert(Layout layout);

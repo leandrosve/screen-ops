@@ -4,6 +4,7 @@ using CinemasService.Services.Interfaces;
 using Common.Audit;
 using Common.Utils;
 using ScreenOps.Common;
+using System.Text.Json;
 
 namespace CinemasService.Services.Audit
 {
@@ -39,6 +40,23 @@ namespace CinemasService.Services.Audit
 
             return res;
         }
+        public async Task<ApiResult<LayoutDto>> Update(Guid id, LayoutUpdateDto dto, AuthorInfo author)
+        {
+            var res = await _service.Update(id, dto);
+
+            if (res.HasError) return res;
+
+            await _auditClient.Log(new AuditLogDto
+            {
+                Action = "LAYOUT_UPDATED",
+                UserId = author.Id,
+                EntityType = _modelType,
+                EntityGuid = res.Data?.Id,
+                IpAddress = author.IpAddress,
+                AdditionalData = JsonSerializer.Serialize(DtoUtils.GetNonNullFields(dto, "Elements"))
+            });
+            return res;
+        }
 
         public async Task<ApiResult<bool>> Delete(Guid id, AuthorInfo author)
         {
@@ -58,7 +76,7 @@ namespace CinemasService.Services.Audit
             return res;
         }
 
-        public Task<ApiResult<ICollection<LayoutDto>>> GetByFilters(LayoutSearchFiltersDto filters)
+        public Task<ApiResult<ICollection<LayoutSummaryDto>>> GetByFilters(LayoutSearchFiltersDto filters)
         {
             return _service.GetByFilters(filters);
         }

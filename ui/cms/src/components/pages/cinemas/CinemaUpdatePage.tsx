@@ -4,6 +4,7 @@ import PageLoader from "@/components/common/PageLoader";
 import CinemaForm from "@/components/features/cinema/CinemaForm";
 import { toaster } from "@/components/ui/toaster";
 import useEntityDetail from "@/hooks/useEntityDetail";
+import PageContent from "@/layout/PageContent";
 import { Cinema, CinemaCreateDto } from "@/model/cinema/Cinema";
 import { CmsRoutes } from "@/router/routes";
 import CinemaService from "@/services/api/CinemaService";
@@ -94,7 +95,7 @@ const CinemaUpdateForm = ({ cinema }: { cinema: Cinema }) => {
   );
 
   return (
-    <Flex direction="column" gap={3} width="fit-content">
+    <PageContent direction="column" gap={3} width="fit-content">
       <Heading size="2xl">Editar Cine</Heading>
 
       <CinemaForm
@@ -103,7 +104,7 @@ const CinemaUpdateForm = ({ cinema }: { cinema: Cinema }) => {
         isSubmitting={loading}
         error={error}
       />
-    </Flex>
+    </PageContent>
   );
 };
 

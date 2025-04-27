@@ -25,6 +25,20 @@ const CinemaUpdatePage = lazy(
   () => import("@/components/pages/cinemas/CinemaUpdatePage")
 );
 
+const LayoutCreatePage = lazy(
+  () => import("@/components/pages/layouts/LayoutCreatePage")
+);
+const LayoutUpdatePage = lazy(
+  () => import("@/components/pages/layouts/LayoutUpdatePage")
+);
+
+const LayoutPage = lazy(
+  () => import("@/components/pages/layouts/LayoutsPage")
+);
+
+const LayoutDetailPage = lazy(
+  () => import("@/components/pages/layouts/LayoutDetailPage")
+);
 export enum CmsRoutes {
   HOME = "/",
   SIGNUP = "/signup",
@@ -37,6 +51,10 @@ export enum CmsRoutes {
   CINEMA_CREATE = "/cinemas/create",
   CINEMA_DETAIL = "/cinemas/detail/:id",
   CINEMA_UPDATE = "/cinemas/update/:id",
+  LAYOUTS = "/layouts",
+  LAYOUT_CREATE = "/layouts/create",
+  LAYOUT_DETAIL = "/layouts/detail/:id",
+  LAYOUT_UPDATE = "/layouts/update/:id",
 }
 
 interface CmsRoute {
@@ -121,6 +139,43 @@ const routes: CmsRoute[] = [
     hasSubroutes: false,
     subroutes: [],
     lazy: CinemasPage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+
+  {
+    path: CmsRoutes.LAYOUT_CREATE,
+    type: "private",
+    title: "Crear Layout",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: LayoutCreatePage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.LAYOUT_UPDATE,
+    type: "private",
+    title: "Editar Layout",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: LayoutUpdatePage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.LAYOUT_DETAIL,
+    type: "private",
+    title: "Detalle de Layout",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: LayoutDetailPage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.LAYOUTS,
+    type: "private",
+    title: "Layouts",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: LayoutPage,
     roles: [Role.MANAGER, Role.ADMIN],
   },
   {

@@ -57,6 +57,8 @@ services.AddValidatorsFromAssemblyContaining<CinemaCreateDto>();
 services.AddValidatorsFromAssemblyContaining<CinemaUpdateDto>();
 services.AddValidatorsFromAssemblyContaining<RoomCreateDto>();
 services.AddValidatorsFromAssemblyContaining<RoomUpdateDto>();
+services.AddValidatorsFromAssemblyContaining<LayoutCreateDto>();
+services.AddValidatorsFromAssemblyContaining<LayoutUpdateDto>();
 
 AuditClientConfiguration.Configure(builder);
 

@@ -16,6 +16,7 @@ import { toMovieStatus } from "@/utils/EnumUtils";
 import { Link } from "react-router-dom";
 import { Paginator } from "@/components/common/Pagination";
 import MovieCardItem from "@/components/features/movies/MovieCardItem";
+import PageContent from "@/layout/PageContent";
 
 const statusOptions = [
   {
@@ -39,7 +40,7 @@ const MoviesPage = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <Flex direction="column" gap={3} flex={1} alignSelf="stretch">
+    <PageContent>
       <Heading size="2xl">Películas</Heading>
       <Flex justifyContent="space-between">
         <form
@@ -113,7 +114,7 @@ const MoviesPage = () => {
         onPageChange={(p) => updateFilters({ page: p })}
         onPageSizeChange={(ps) => updateFilters({ pageSize: ps })}
       />
-    </Flex>
+    </PageContent>
   );
 };
 

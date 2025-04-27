@@ -50,7 +50,7 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
     formState: { errors },
   } = useForm<MovieCreateDto>({
     resolver: yupResolver(movieCreateSchema),
-    defaultValues: {genreIds: [], ...initialValues},
+    defaultValues: { genreIds: [], ...initialValues },
   });
   const [extraImageUrls, setExtraImageUrls] = useState<string[]>(
     initialValues?.extraImageUrls ?? []
@@ -69,7 +69,6 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
   const genreIdOptions = useMemo(() => {
     return genreOptions.filter((v) => genreIds.includes(v.value)) ?? [];
   }, [genreIds]);
-
 
   return (
     <Flex
@@ -131,7 +130,7 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
             placeholder="Descripción"
             required
             error={errors.description?.message}
-            autoresize= {true}
+            autoresize={true}
             minHeight={200}
             {...register("description")}
           />
@@ -155,7 +154,7 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
               placeholder="Duración"
               required
               error={errors.duration?.message}
-              {...register("duration")}
+              inputProps={register("duration")}
             />
 
             <NumberField
@@ -163,8 +162,8 @@ const MovieForm = ({ isSubmitting, onSubmit, error, initialValues }: Props) => {
               placeholder="Año de estreno"
               required
               error={errors.originalReleaseYear?.message}
-              defaultValue = {new Date().getFullYear() }
-              {...register("originalReleaseYear")}
+              defaultValue={new Date().getFullYear().toString()}
+              inputProps={register("originalReleaseYear")}
             />
           </HStack>
           <Field.Root invalid={!!errors.countryCode}>

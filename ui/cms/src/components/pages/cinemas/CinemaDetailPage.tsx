@@ -5,6 +5,7 @@ import PageLoader from "@/components/common/PageLoader";
 import SafeImage from "@/components/common/SafeImage";
 import { toaster } from "@/components/ui/toaster";
 import useEntityDetail from "@/hooks/useEntityDetail";
+import PageContent from "@/layout/PageContent";
 import { Cinema } from "@/model/cinema/Cinema";
 import { EntityStatus } from "@/model/common/EntityStatus";
 import Movie from "@/model/movies/Movie";
@@ -103,61 +104,65 @@ const CinemaDetailPage = () => {
       />
     );
   return (
-    <VStack gap={5} align="start" width="100%">
-      <Flex justifyContent="space-between" alignSelf="stretch">
-        <Heading size="2xl">{cinema.name}</Heading>
-        <Flex gap={3} wrap="wrap">
-          <EntityStatusBadge status={cinema.status} genre="masculine" />
-          {[EntityStatus.DRAFT, EntityStatus.HIDDEN].includes(cinema.status) ? (
-            <Button
-              colorPalette="green"
-              fontWeight="bold"
-              loading={updateStatus.loading}
-              onClick={() => handleStatusChange(EntityStatus.PUBLISHED)}
-            >
-              <Icon as={BiWorld} boxSize="1em" /> Publicar
-            </Button>
-          ) : (
-            <Button
-              fontWeight="bold"
-              variant="subtle"
-              loading={updateStatus.loading}
-              onClick={() => handleStatusChange(EntityStatus.HIDDEN)}
-            >
-              <Icon as={FaEyeSlash} boxSize="1em" /> Ocultar
-            </Button>
-          )}
+    <PageContent>
+      <VStack gap={5} align="start" width="100%">
+        <Flex justifyContent="space-between" alignSelf="stretch">
+          <Heading size="2xl">{cinema.name}</Heading>
+          <Flex gap={3} wrap="wrap">
+            <EntityStatusBadge status={cinema.status} genre="masculine" />
+            {[EntityStatus.DRAFT, EntityStatus.HIDDEN].includes(
+              cinema.status
+            ) ? (
+              <Button
+                colorPalette="green"
+                fontWeight="bold"
+                loading={updateStatus.loading}
+                onClick={() => handleStatusChange(EntityStatus.PUBLISHED)}
+              >
+                <Icon as={BiWorld} boxSize="1em" /> Publicar
+              </Button>
+            ) : (
+              <Button
+                fontWeight="bold"
+                variant="subtle"
+                loading={updateStatus.loading}
+                onClick={() => handleStatusChange(EntityStatus.HIDDEN)}
+              >
+                <Icon as={FaEyeSlash} boxSize="1em" /> Ocultar
+              </Button>
+            )}
 
-          <Link to={CmsRoutes.CINEMA_UPDATE.replace(":id", cinema.id)}>
-            <Button as="span" colorPalette="brand" fontWeight="bold">
-              <Icon as={FaPaintBrush} boxSize="1em" /> Editar
-            </Button>
-          </Link>
+            <Link to={CmsRoutes.CINEMA_UPDATE.replace(":id", cinema.id)}>
+              <Button as="span" colorPalette="brand" fontWeight="bold">
+                <Icon as={FaPaintBrush} boxSize="1em" /> Editar
+              </Button>
+            </Link>
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex alignItems="center" wrap="wrap" gap={3}>
-        <Badge variant="outline" size="lg" padding={2}>
-          <LuMapPin />
-          Dirección: {cinema.location}
-        </Badge>
-        <Badge variant="outline" size="lg" padding={2} fontWeight="bold">
-          <MdPeople />
-          Capacidad: {cinema.capacity}
-        </Badge>
-      </Flex>
-      <Text color="text.subtle">{cinema.description}</Text>
-      {!!cinema.imageUrl && (
-        <SafeImage
-          height="auto"
-          maxWidth={600}
-          objectFit="cover"
-          objectPosition="top"
-          borderRadius="md"
-          src={cinema.imageUrl}
-          fill="border.subtle"
-        />
-      )}
-    </VStack>
+        <Flex alignItems="center" wrap="wrap" gap={3}>
+          <Badge variant="outline" size="lg" padding={2}>
+            <LuMapPin />
+            Dirección: {cinema.location}
+          </Badge>
+          <Badge variant="outline" size="lg" padding={2} fontWeight="bold">
+            <MdPeople />
+            Capacidad: {cinema.capacity}
+          </Badge>
+        </Flex>
+        <Text color="text.subtle">{cinema.description}</Text>
+        {!!cinema.imageUrl && (
+          <SafeImage
+            height="auto"
+            maxWidth={600}
+            objectFit="cover"
+            objectPosition="top"
+            borderRadius="md"
+            src={cinema.imageUrl}
+            fill="border.subtle"
+          />
+        )}
+      </VStack>
+    </PageContent>
   );
 };
 

@@ -17,11 +17,12 @@ const PrivateLayout = ({ children }: Props) => {
       justify="space-between"
       direction={"column"}
       maxWidth="100%"
+      height='100vh'
       bg="bg"
     >
       <Navbar   />
 
-      <Flex grow={1} alignSelf="stretch">
+      <Flex grow={1} alignSelf="stretch" overflow='hidden'>
         <Sidebar />
 
         <Flex
@@ -30,12 +31,11 @@ const PrivateLayout = ({ children }: Props) => {
           grow={1}
           alignSelf="stretch"
           direction="column"
-          paddingBottom={35}
-          marginBottom={10}
-          paddingTop={5}
+          position='relative'
           alignItems="start"
           as="main"
-          paddingX={5}
+          overflowY='auto'
+          
         >
           <Flex id="breadcrumb-container" />
           

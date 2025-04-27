@@ -8,6 +8,7 @@ import { EntityStatus } from "@/model/common/EntityStatus";
 import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { CmsRoutes } from "@/router/routes";
+import PageContent from "@/layout/PageContent";
 
 const CinemasPage = () => {
   const [cinemas, setCinemas] = useState<Cinema[]>([]);
@@ -60,7 +61,7 @@ const CinemasPage = () => {
   }, []);
 
   return (
-    <Flex
+    <PageContent
       direction="column"
       gap={3}
       flex={1}
@@ -108,7 +109,7 @@ const CinemasPage = () => {
       {filtered.map((c) => (
         <CinemaCardItem.Card cinema={c} />
       ))}
-    </Flex>
+    </PageContent>
   );
 };
 

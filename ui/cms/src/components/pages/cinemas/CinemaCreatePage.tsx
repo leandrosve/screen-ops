@@ -1,6 +1,7 @@
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
 import CinemaForm from "@/components/features/cinema/CinemaForm";
 import { toaster } from "@/components/ui/toaster";
+import PageContent from "@/layout/PageContent";
 import { CinemaCreateDto } from "@/model/cinema/Cinema";
 import { CmsRoutes } from "@/router/routes";
 import CinemaService from "@/services/api/CinemaService";
@@ -43,14 +44,14 @@ const CinemaCreatePage = () => {
   );
 
   return (
-    <Flex direction="column" gap={3} width="fit-content">
+    <PageContent direction="column" gap={3} width="fit-content">
       <Heading size="2xl">Añadir Cine</Heading>
       <CinemaForm
         onSubmit={(data) => submitAsync(data)}
         isSubmitting={loading}
         error={error}
       />
-    </Flex>
+    </PageContent>
   );
 };
 

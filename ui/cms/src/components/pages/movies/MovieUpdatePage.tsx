@@ -4,6 +4,7 @@ import PageLoader from "@/components/common/PageLoader";
 import MovieForm from "@/components/features/movies/MovieForm";
 import { toaster } from "@/components/ui/toaster";
 import useMovieDetail from "@/hooks/movies/useMovieDetail";
+import PageContent from "@/layout/PageContent";
 import Movie from "@/model/movies/Movie";
 import { MovieCreateDto } from "@/model/movies/MovieCreateDto";
 import { CmsRoutes } from "@/router/routes";
@@ -33,7 +34,7 @@ const MovieUpdatePage = () => {
   if (!loading && movie) {
     return <MovieUpdateForm movie={movie} />;
   }
-  return <></>
+  return <></>;
 };
 
 const mapMovieToMovieCreateDto = (movie: Movie): MovieCreateDto => {
@@ -115,16 +116,18 @@ const MovieUpdateForm = ({ movie }: { movie: Movie }) => {
   );
 
   return (
-    <Flex direction="column" gap={3} width="fit-content">
-      <Heading size="2xl">Editar Pelicula</Heading>
+    <PageContent>
+      <Flex direction="column" gap={3} width="fit-content">
+        <Heading size="2xl">Editar Pelicula</Heading>
 
-      <MovieForm
-        onSubmit={(data) => submitAsync(data, false)}
-        initialValues={initialValues}
-        isSubmitting={loading}
-        error={error}
-      />
-    </Flex>
+        <MovieForm
+          onSubmit={(data) => submitAsync(data, false)}
+          initialValues={initialValues}
+          isSubmitting={loading}
+          error={error}
+        />
+      </Flex>
+    </PageContent>
   );
 };
 

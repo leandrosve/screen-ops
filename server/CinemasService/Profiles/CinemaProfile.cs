@@ -28,6 +28,7 @@ namespace CinemasService.Profiles
             CreateMap<LayoutElementCreateDto, LayoutElement>();
             CreateMap<LayoutCreateDto, Layout>();
             CreateMap<Layout, LayoutDto>();
+            CreateMap<Layout, LayoutSummaryDto>();
             CreateMap<LayoutElement, LayoutElementDto>();
 
             CreateMap<Room, RoomSummaryDto>();

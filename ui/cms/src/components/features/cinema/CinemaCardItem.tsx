@@ -44,7 +44,7 @@ const CinemaCardItem = ({ cinema }: Props) => {
           </Link>
 
           <Flex gap={4} onClick={(e) => e.preventDefault()}>
-            <EntityStatusBadge status={cinema.status} />
+            <EntityStatusBadge status={cinema.status} genre="masculine" minHeight='none' />
             {renderMenu(cinema.id)}
           </Flex>
         </Flex>

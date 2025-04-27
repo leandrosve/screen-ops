@@ -58,7 +58,7 @@ const MovieCreatePage = () => {
   );
 
   return (
-    <Flex direction="column" gap={3} width="fit-content">
+    <Flex direction="column" gap={3} width="fit-content" padding={5}>
       <Heading size="2xl">Añadir Pelicula</Heading>
       <MovieForm
         onSubmit={(data) => submitAsync(data, false)}

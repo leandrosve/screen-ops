@@ -4,29 +4,25 @@ using FluentValidation;
 
 namespace CinemasService.Validators
 {
-    public class LayoutCreateDtoValidator : AbstractValidator<LayoutCreateDto>
+    public class LayoutUpdateDtoValidator : AbstractValidator<LayoutUpdateDto>
     {
-        public LayoutCreateDtoValidator()
+        public LayoutUpdateDtoValidator()
         {
             ClassLevelCascadeMode = CascadeMode.Stop;
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage(LayoutErrors.Create.NameRequired)
+                .MinimumLength(1).WithMessage(LayoutErrors.Create.NameRequired)
                 .MaximumLength(100).WithMessage(LayoutErrors.Create.NameMaxLength);
 
             RuleFor(x => x.Rows)
-                .NotEmpty().WithMessage(LayoutErrors.Create.RowsRequired)
                 .GreaterThan(0).WithMessage(LayoutErrors.Create.DimensionsTooSmall);
 
             RuleFor(x => x.Columns)
-                .NotEmpty().WithMessage(LayoutErrors.Create.ColumnsRequired)
                 .GreaterThan(0).WithMessage(LayoutErrors.Create.DimensionsTooSmall);
 
-            RuleFor(x => x.Name)
-                .NotEmpty().WithMessage(LayoutErrors.Create.NameRequired)
-                .MaximumLength(100).WithMessage(LayoutErrors.Create.NameMaxLength);
             RuleFor(x => x.Elements)
                 .NotEmpty()
-                .WithMessage(LayoutErrors.Create.ElementsRequired);
+                .WithMessage(LayoutErrors.Create.ElementsRequired)
+                .When(x => x.Elements != null);
         }
     }
 }
