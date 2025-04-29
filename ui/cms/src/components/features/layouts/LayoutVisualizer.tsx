@@ -14,6 +14,7 @@ const LayoutVisualizer = ({ layout }: { layout: Layout }) => {
       borderRadius="md"
       overflow="hidden"
       width='fit-content'
+      maxWidth='100%'
     >
       <Flex
         height="2em"

@@ -12,5 +12,6 @@ namespace CinemasService.Dtos
         public EntityStatus Status  { get; set; }
         public string ImageUrl { get; set; } = "";
         public DateTime CreatedAt { get; set; }
+        public ICollection<RoomSummaryShortDto> Rooms { get; set; } = new List<RoomSummaryShortDto>();
     }
 }

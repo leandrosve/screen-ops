@@ -3,7 +3,6 @@ using CinemasService.Models;
 using CinemasService.Services.Interfaces;
 using Common.Audit;
 using Common.Utils;
-using Contracts.Rooms;
 using ScreenOps.Common;
 
 namespace CinemasService.Services.Audit
@@ -72,7 +71,7 @@ namespace CinemasService.Services.Audit
             return res;
         }
 
-        public Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto dto)
+        public Task<ApiResult<IEnumerable<RoomSummaryDto>>> GetByFilters(RoomSearchFiltersDto dto)
         {
             return _service.GetByFilters(dto);
         }
@@ -80,11 +79,6 @@ namespace CinemasService.Services.Audit
         public Task<ApiResult<RoomDto>> GetById(Guid id)
         {
             return _service.GetById(id);
-        }
-
-        public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id)
-        {
-            return _service.GetSummary(id);
         }
     }
 }

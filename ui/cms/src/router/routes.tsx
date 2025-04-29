@@ -32,13 +32,24 @@ const LayoutUpdatePage = lazy(
   () => import("@/components/pages/layouts/LayoutUpdatePage")
 );
 
-const LayoutPage = lazy(
-  () => import("@/components/pages/layouts/LayoutsPage")
-);
+const LayoutPage = lazy(() => import("@/components/pages/layouts/LayoutsPage"));
 
 const LayoutDetailPage = lazy(
   () => import("@/components/pages/layouts/LayoutDetailPage")
 );
+
+const RoomCreatePage = lazy(
+  () => import("@/components/pages/rooms/RoomCreatePage")
+);
+
+const RoomUpdatePage = lazy(
+  () => import("@/components/pages/rooms/RoomUpdatePage")
+);
+const RoomDetailPage = lazy(
+  () => import("@/components/pages/rooms/RoomDetailPage")
+);
+const RoomsPage = lazy(() => import("@/components/pages/rooms/RoomsPage"));
+
 export enum CmsRoutes {
   HOME = "/",
   SIGNUP = "/signup",
@@ -55,6 +66,10 @@ export enum CmsRoutes {
   LAYOUT_CREATE = "/layouts/create",
   LAYOUT_DETAIL = "/layouts/detail/:id",
   LAYOUT_UPDATE = "/layouts/update/:id",
+  ROOMS = "/rooms",
+  ROOM_CREATE = "/rooms/create",
+  ROOM_DETAIL = "/rooms/detail/:id",
+  ROOM_UPDATE = "/rooms/update/:id",
 }
 
 interface CmsRoute {
@@ -176,6 +191,42 @@ const routes: CmsRoute[] = [
     hasSubroutes: false,
     subroutes: [],
     lazy: LayoutPage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.ROOM_CREATE,
+    type: "private",
+    title: "Crear Sala",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: RoomCreatePage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.ROOM_UPDATE,
+    type: "private",
+    title: "Editar Sala",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: RoomUpdatePage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.ROOM_DETAIL,
+    type: "private",
+    title: "Detalle de Sala",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: RoomDetailPage,
+    roles: [Role.MANAGER, Role.ADMIN],
+  },
+  {
+    path: CmsRoutes.ROOMS,
+    type: "private",
+    title: "Todas las Salas",
+    hasSubroutes: false,
+    subroutes: [],
+    lazy: RoomsPage,
     roles: [Role.MANAGER, Role.ADMIN],
   },
   {

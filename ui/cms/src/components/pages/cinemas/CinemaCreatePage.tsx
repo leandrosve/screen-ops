@@ -1,8 +1,10 @@
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
 import CinemaForm from "@/components/features/cinema/CinemaForm";
 import { toaster } from "@/components/ui/toaster";
 import PageContent from "@/layout/PageContent";
 import { CinemaCreateDto } from "@/model/cinema/Cinema";
+import { cinemaBreadcrumbs } from "@/router/breadcrumbs";
 import { CmsRoutes } from "@/router/routes";
 import CinemaService from "@/services/api/CinemaService";
 import { CinemaErrors } from "@/validation/api-errors/CinemaErrors";
@@ -45,6 +47,7 @@ const CinemaCreatePage = () => {
 
   return (
     <PageContent direction="column" gap={3} width="fit-content">
+      <Breadcrumb items={cinemaBreadcrumbs.create}/>
       <Heading size="2xl">Añadir Cine</Heading>
       <CinemaForm
         onSubmit={(data) => submitAsync(data)}

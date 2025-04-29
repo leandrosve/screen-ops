@@ -14,6 +14,6 @@ namespace CinemasService.Services.Audit
 
         Task<ApiResult<CinemaDto>> GetById(Guid id, bool includeUnpublished) ;
 
-        Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished);
+        Task<ApiResult<IEnumerable<CinemaSummaryDto>>> GetAll(bool includeDeleted, bool includeUnpublished);
     }
 }

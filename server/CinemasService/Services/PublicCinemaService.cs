@@ -13,7 +13,7 @@ namespace CinemasService.Services
             _cinemaService = cinemaService;
         }
 
-        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll()
+        public Task<ApiResult<IEnumerable<CinemaSummaryDto>>> GetAll()
         {
            return _cinemaService.GetAll(false, false);
         }

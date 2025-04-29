@@ -1,8 +1,8 @@
-import { MovieStatus } from "./Movie";
+import { EntityStatus } from "../common/EntityStatus";
 import { MovieCreateDto } from "./MovieCreateDto";
 
 interface MovieUpdateDto extends Partial<MovieCreateDto> {
-  status?: MovieStatus;
+  status?: EntityStatus;
 }
 
 export default MovieUpdateDto;

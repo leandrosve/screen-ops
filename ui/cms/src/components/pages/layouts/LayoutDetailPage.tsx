@@ -59,9 +59,7 @@ const LayoutDetailPage = () => {
         <Flex justifyContent="space-between" alignSelf="stretch">
           <Heading size="2xl">{layout.name}</Heading>
           <Flex gap={3} wrap="wrap">
-            <Button fontWeight="bold" variant="subtle">
-              <Icon as={FaTrash} boxSize="1em" /> Eliminar
-            </Button>
+           
             <Link to={CmsRoutes.LAYOUT_UPDATE.replace(":id", layout.id)}>
               <Button as="span" colorPalette="brand" fontWeight="bold">
                 <Icon as={FaPaintBrush} boxSize="1em" /> Editar

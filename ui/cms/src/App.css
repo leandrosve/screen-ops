@@ -3,7 +3,15 @@
   min-width: 100vw;
   display: flex;
   overflow-x: hidden;
- /** background: rgb(12, 12, 12); */
+  /** background: rgb(12, 12, 12); */
+}
+
+:root.dark .smooth-gradient {
+  background: linear-gradient(83.21deg, #bb6c2773 50%, #510d46b0);
+  -webkit-mask-composite: source-in, xor;
+  mask-composite: intersect;
+  -webkit-mask-image: radial-gradient(#000, #0000 85%),
+    linear-gradient(#000 70%, #0000);
 }
 
 @keyframes scale-in {

@@ -51,13 +51,13 @@ namespace ScreeningsService.Services
                 return Fail<ScreeningDto>(ScreeningErrors.Create.EndTimeBeforeMovieEnds);
             }
 
-            ApiResult<RoomSummaryDto?> roomRes = await _roomDataClient.GetSummary(dto.RoomId);
+            ApiResult<RoomSummaryContractDto?> roomRes = await _roomDataClient.GetSummary(dto.RoomId);
 
             if (roomRes.HasError || roomRes.Data == null)
             {
                 return Fail<ScreeningDto>(roomRes.Error.Error);
             }
-            RoomSummaryDto room = roomRes.Data;
+            RoomSummaryContractDto room = roomRes.Data;
 
             var screening = new Screening
             {

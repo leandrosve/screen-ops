@@ -1,15 +1,17 @@
 import Alert from "@/components/common/Alert";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
+import EntityStatusBadge from "@/components/common/EntityStatusBadge";
 import PageLoader from "@/components/common/PageLoader";
 import SafeImage from "@/components/common/SafeImage";
 import YouTubePlayer from "@/components/common/YouTubePlayer";
-import MovieStatusBadge from "@/components/features/movies/MovieStatusBadge";
 import { toaster } from "@/components/ui/toaster";
 import useMovieDetail from "@/hooks/movies/useMovieDetail";
-import { useYoutubeEmbedUrl } from "@/hooks/movies/useYoutubeEmbedUrl";
 import { useYoutubeVideoId } from "@/hooks/movies/useYoutubeVideoId";
 import PageContent from "@/layout/PageContent";
-import Movie, { MovieStatus } from "@/model/movies/Movie";
+import { EntityStatus } from "@/model/common/EntityStatus";
+import Movie from "@/model/movies/Movie";
+import { movieBreadcrumbs } from "@/router/breadcrumbs";
 import { CmsRoutes } from "@/router/routes";
 import MoviesService from "@/services/api/MoviesService";
 import { MovieCreateErrors } from "@/validation/api-errors/MovieErrors";
@@ -81,6 +83,8 @@ const details: {
   },
 ];
 
+const breadcrumbs = [{title: "Películas", path: CmsRoutes.MOVIES}]
+
 const MovieDetailPage = () => {
   const { movie, loading, error, setMovie } = useMovieDetail();
 
@@ -92,11 +96,11 @@ const MovieDetailPage = () => {
   const { confirm } = useConfirmDialog();
 
   const handleStatusChange = useCallback(
-    async (status: MovieStatus) => {
+    async (status: EntityStatus) => {
       if (!movie) return;
-      const friendly = status == MovieStatus.PUBLISHED ? "Publicar" : "Ocultar";
+      const friendly = status == EntityStatus.PUBLISHED ? "Publicar" : "Ocultar";
       const friendlyPast =
-        status == MovieStatus.PUBLISHED ? "publicado" : "ocultado";
+        status == EntityStatus.PUBLISHED ? "publicado" : "ocultado";
 
       const confirmed = await confirm({
         title: `${friendly} Película`,
@@ -147,6 +151,7 @@ const MovieDetailPage = () => {
     );
   return (
     <PageContent>
+      <Breadcrumb items={movieBreadcrumbs.detail(movie.id, movie.localizedTitle)} />
       <VStack gap={5} align="start" width="100%" padding={5}>
         <Flex gap={5} width="100%">
           <Image
@@ -161,8 +166,8 @@ const MovieDetailPage = () => {
             <Flex justifyContent="space-between" alignSelf="stretch">
               <Heading size="2xl">{movie.localizedTitle}</Heading>
               <Flex gap={3} wrap="wrap">
-                <MovieStatusBadge status={movie.status} />
-                {[MovieStatus.DRAFT, MovieStatus.HIDDEN].includes(
+                <EntityStatusBadge status={movie.status} />
+                {[EntityStatus.DRAFT, EntityStatus.HIDDEN].includes(
                   movie.status
                 ) ? (
                   <Button
@@ -170,7 +175,7 @@ const MovieDetailPage = () => {
                     fontWeight="bold"
                     variant="subtle"
                     loading={updateStatus.loading}
-                    onClick={() => handleStatusChange(MovieStatus.PUBLISHED)}
+                    onClick={() => handleStatusChange(EntityStatus.PUBLISHED)}
                   >
                     <Icon as={BiWorld} boxSize="1em" /> Publicar
                   </Button>
@@ -179,7 +184,7 @@ const MovieDetailPage = () => {
                     fontWeight="bold"
                     variant="subtle"
                     loading={updateStatus.loading}
-                    onClick={() => handleStatusChange(MovieStatus.HIDDEN)}
+                    onClick={() => handleStatusChange(EntityStatus.HIDDEN)}
                   >
                     <Icon as={FaEyeSlash} boxSize="1em" /> Ocultar
                   </Button>

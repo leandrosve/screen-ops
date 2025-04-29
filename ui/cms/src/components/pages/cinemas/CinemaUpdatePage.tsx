@@ -1,4 +1,5 @@
 import Alert from "@/components/common/Alert";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
 import PageLoader from "@/components/common/PageLoader";
 import CinemaForm from "@/components/features/cinema/CinemaForm";
@@ -6,6 +7,7 @@ import { toaster } from "@/components/ui/toaster";
 import useEntityDetail from "@/hooks/useEntityDetail";
 import PageContent from "@/layout/PageContent";
 import { Cinema, CinemaCreateDto } from "@/model/cinema/Cinema";
+import { cinemaBreadcrumbs } from "@/router/breadcrumbs";
 import { CmsRoutes } from "@/router/routes";
 import CinemaService from "@/services/api/CinemaService";
 import DtoUtils from "@/utils/DtoUtils";
@@ -96,6 +98,7 @@ const CinemaUpdateForm = ({ cinema }: { cinema: Cinema }) => {
 
   return (
     <PageContent direction="column" gap={3} width="fit-content">
+      <Breadcrumb items={cinemaBreadcrumbs.update(cinema.id, cinema.name)}/>
       <Heading size="2xl">Editar Cine</Heading>
 
       <CinemaForm

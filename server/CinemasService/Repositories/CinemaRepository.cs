@@ -31,7 +31,7 @@ namespace CinemasService.Repositories
 
         public async Task<Cinema?> GetById(Guid id, bool includeUnpublished)
         {
-            var query = _context.Cinemas.AsQueryable();
+            var query = _context.Cinemas.Include(c => c.Rooms).AsQueryable();
             if (!includeUnpublished) {
                 query.Where(c => c.Status == Common.Enums.EntityStatus.Published);
             }

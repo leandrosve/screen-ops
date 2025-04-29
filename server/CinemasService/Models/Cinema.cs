@@ -19,5 +19,6 @@ namespace CinemasService.Models
         [MaxLength(256)]
         public string? ImageUrl { get; set; }
         public EntityStatus Status { get; set; } = EntityStatus.Draft;
+        public ICollection<Room> Rooms { get; set; } = new List<Room>();
     }
 }

@@ -6,6 +6,6 @@ namespace CinemasService.Services.Interfaces
     public interface IPublicCinemaService
     {
         public Task<ApiResult<CinemaDto>> GetById(Guid id);
-        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll();
+        public Task<ApiResult<IEnumerable<CinemaSummaryDto>>> GetAll();
     }
 }

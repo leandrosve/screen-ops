@@ -1,14 +1,16 @@
 import Alert from "@/components/common/Alert";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
 import EntityStatusBadge from "@/components/common/EntityStatusBadge";
 import PageLoader from "@/components/common/PageLoader";
 import SafeImage from "@/components/common/SafeImage";
+import RoomCardItem from "@/components/features/rooms/RoomCardItem";
 import { toaster } from "@/components/ui/toaster";
 import useEntityDetail from "@/hooks/useEntityDetail";
 import PageContent from "@/layout/PageContent";
 import { Cinema } from "@/model/cinema/Cinema";
 import { EntityStatus } from "@/model/common/EntityStatus";
-import Movie from "@/model/movies/Movie";
+import { cinemaBreadcrumbs } from "@/router/breadcrumbs";
 import { CmsRoutes } from "@/router/routes";
 import CinemaService from "@/services/api/CinemaService";
 import { MovieCreateErrors } from "@/validation/api-errors/MovieErrors";
@@ -16,19 +18,20 @@ import {
   Flex,
   Heading,
   VStack,
-  Tag,
   Button,
   Icon,
   Text,
   Badge,
+  Separator,
+  Grid,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { BiWorld } from "react-icons/bi";
 import { FaPaintBrush } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
+import { FaEyeSlash, FaPlus } from "react-icons/fa6";
 import { LuMapPin } from "react-icons/lu";
 import { MdPeople } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const CinemaDetailPage = () => {
   const {
@@ -105,6 +108,8 @@ const CinemaDetailPage = () => {
     );
   return (
     <PageContent>
+      <Breadcrumb items={cinemaBreadcrumbs.detail(cinema.id, cinema.name)} />
+
       <VStack gap={5} align="start" width="100%">
         <Flex justifyContent="space-between" alignSelf="stretch">
           <Heading size="2xl">{cinema.name}</Heading>
@@ -162,6 +167,23 @@ const CinemaDetailPage = () => {
           />
         )}
       </VStack>
+      <Separator width="full" />
+      <Flex justifyContent="space-between" alignSelf="stretch">
+        <Heading>Salas</Heading>
+        <Link to={CmsRoutes.ROOM_CREATE + `?cinema=${cinema.id}`}>
+          <Button as="span" colorPalette="brand" fontWeight="bold">
+            <Icon as={FaPlus} boxSize="1em" /> Agregar Sala
+          </Button>
+        </Link>
+      </Flex>
+      {!cinema.rooms?.length && (
+        <Text color="text.subtle">Aún no se han agregado salas</Text>
+      )}
+      <Grid templateColumns="repeat(auto-fit, minmax(400px, 5fr))" gridGap={5}>
+        {cinema.rooms?.map((r) => (
+          <RoomCardItem.ShortCard room={r} key={r.id} />
+        ))}
+      </Grid>
     </PageContent>
   );
 };

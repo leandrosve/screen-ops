@@ -1,3 +1,5 @@
+import { EntityStatus } from "../common/EntityStatus";
+
 export type MediaType = "POSTER" | "TRAILER" | "BACKDROP";
 export enum MovieStatus {
   DRAFT = 0,
@@ -41,7 +43,7 @@ interface Movie {
   trailerUrl: string;
   posterUrl: string;
   extraImageUrls: string[];
-  status: MovieStatus;
+  status: EntityStatus;
   createdAt: Date;
   deletedAt: Date | null;
 }
@@ -49,7 +51,7 @@ interface Movie {
 export interface MovieSearchFilters {
   searchTerm?: string;
   includeDeleted?: boolean;
-  status?: MovieStatus[];
+  status?: EntityStatus[];
   page: number;
   pageSize: number;
 }

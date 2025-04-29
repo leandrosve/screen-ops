@@ -1,7 +1,9 @@
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
 import MovieForm from "@/components/features/movies/MovieForm";
 import { toaster } from "@/components/ui/toaster";
 import { MovieCreateDto } from "@/model/movies/MovieCreateDto";
+import { movieBreadcrumbs } from "@/router/breadcrumbs";
 import { CmsRoutes } from "@/router/routes";
 import MoviesService from "@/services/api/MoviesService";
 import { MovieCreateErrors } from "@/validation/api-errors/MovieErrors";
@@ -59,6 +61,7 @@ const MovieCreatePage = () => {
 
   return (
     <Flex direction="column" gap={3} width="fit-content" padding={5}>
+      <Breadcrumb items={movieBreadcrumbs.create} />
       <Heading size="2xl">Añadir Pelicula</Heading>
       <MovieForm
         onSubmit={(data) => submitAsync(data, false)}

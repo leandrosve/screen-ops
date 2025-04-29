@@ -1,4 +1,6 @@
-﻿namespace CinemasService.Dtos
+﻿using Common.Enums;
+
+namespace CinemasService.Dtos
 {
     public class RoomDto
     {
@@ -7,6 +9,7 @@
         public string Description { get; set; } = "";
         public LayoutDto Layout { get; set; } = null!;
         public DateTime? PublishedAt { get; set; }
-
+        public EntityStatus status { get; set; }
+        public CinemaDto Cinema { get; set; } = null!;
     }
 }

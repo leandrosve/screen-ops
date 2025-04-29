@@ -21,7 +21,7 @@ namespace ScreeningsService.Grpc
             _address = _configuration["GrpcRooms"] ?? throw new ArgumentException("GrpcRooms URL unspecified");
         }
 
-        public async Task<ApiResult<RoomSummaryDto?>> GetSummary(Guid id)
+        public async Task<ApiResult<RoomSummaryContractDto?>> GetSummary(Guid id)
         {
             Console.WriteLine($"Calling Grpc Service {_address}");
             var channel = GrpcChannel.ForAddress(_address);
@@ -32,14 +32,14 @@ namespace ScreeningsService.Grpc
 
                 if (res.Error != null)
                 {
-                    return ApiResult<RoomSummaryDto?>.Fail(res.Error);
+                    return ApiResult<RoomSummaryContractDto?>.Fail(res.Error);
                 }
-                return ApiResult<RoomSummaryDto?>.Ok(_mapper.Map<RoomSummaryDto>(res.Data));
+                return ApiResult<RoomSummaryContractDto?>.Ok(_mapper.Map<RoomSummaryContractDto>(res.Data));
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Could not call GRPC Server {ex.Message}");
-                return ApiResult<RoomSummaryDto?>.Fail("internal_error");
+                return ApiResult<RoomSummaryContractDto?>.Fail("internal_error");
             }
         }
 

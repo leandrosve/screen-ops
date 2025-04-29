@@ -1,6 +1,5 @@
 ﻿using CinemasService.Dtos;
 using Common.Audit;
-using Contracts.Rooms;
 using ScreenOps.Common;
 
 namespace CinemasService.Services.Audit
@@ -15,7 +14,6 @@ namespace CinemasService.Services.Audit
 
         // Not audited for now
         public Task<ApiResult<RoomDto>> GetById(Guid id);
-        public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id);
-        public Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto dto);
+        public Task<ApiResult<IEnumerable<RoomSummaryDto>>> GetByFilters(RoomSearchFiltersDto dto);
     }
 }

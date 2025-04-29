@@ -21,7 +21,7 @@ namespace CinemasService.Grpc
 
         public override async Task<GrpcRoomSummaryResponse> GetRoomById(GetRoomByIdRequest req, ServerCallContext context)
         {
-            ApiResult<RoomSummaryDto> res = await _roomService.GetSummary(Guid.Parse(req.Id));
+            ApiResult<RoomSummaryContractDto> res = await _roomService.GetSummary(Guid.Parse(req.Id));
 
             if (res.HasError)
             {

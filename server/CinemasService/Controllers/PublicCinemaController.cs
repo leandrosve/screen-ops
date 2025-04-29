@@ -32,7 +32,7 @@ namespace CinemasService.Controllers
         [ProducesResponseType(typeof(IEnumerable<CinemaDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            ApiResult<IEnumerable<CinemaDto>> res = await _service.GetAll();
+            ApiResult<IEnumerable<CinemaSummaryDto>> res = await _service.GetAll();
 
             if (res.HasError) return BadRequest(res.Error);
 

@@ -54,7 +54,7 @@ namespace CinemasService.Controllers
         }
 
         [HttpGet(Name = "Get All Rooms")]
-        [ProducesResponseType(typeof(IEnumerable<RoomDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<RoomSummaryDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] Guid? cinemaId, [FromQuery] bool includeDeleted, [FromQuery] ICollection<int>? status)
         {
             var filters = new RoomSearchFiltersDto
@@ -62,7 +62,7 @@ namespace CinemasService.Controllers
                 CinemaId = cinemaId,
                 Status = status,
             };
-            ApiResult<IEnumerable<RoomDto>> res = await _service.GetByFilters(filters);
+            ApiResult<IEnumerable<RoomSummaryDto>> res = await _service.GetByFilters(filters);
 
             if (res.HasError) return BadRequest(res.Error);
 

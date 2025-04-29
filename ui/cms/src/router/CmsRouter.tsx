@@ -1,8 +1,5 @@
 import { Suspense } from "react";
-import {
-  createBrowserRouter,
-  redirect,
-} from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import Layout from "../layout/Layout";
 import routes, { CmsRoutes } from "./routes";
 import Role from "../model/user/Role";
@@ -66,20 +63,15 @@ export const routerV2 = createBrowserRouter([
         const LazyComponent = r.lazy;
         return {
           protection,
-          Component: () => (
-            <Suspense
-              fallback={
-                <PageLoader/>
-              }
-            >
-              <LazyComponent/>
+          Component: () => {
+            document.title = r.title;
+            return <Suspense fallback={<PageLoader />}>
+              <LazyComponent />
             </Suspense>
-          ),
+          },
         };
       },
-      hydrateFallbackElement: (
-        <PageLoader/>
-      ),
+      hydrateFallbackElement: <PageLoader />,
     })),
   },
 ]);

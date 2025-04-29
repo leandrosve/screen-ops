@@ -57,10 +57,10 @@ namespace CinemasService.Services
             return Ok(true);
         }
 
-        public async Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished)
+        public async Task<ApiResult<IEnumerable<CinemaSummaryDto>>> GetAll(bool includeDeleted, bool includeUnpublished)
         {
             var cinemas = await _repository.GetAll(includeDeleted, includeUnpublished);
-            var dtos = _mapper.Map<IEnumerable<CinemaDto>>(cinemas);
+            var dtos = _mapper.Map<IEnumerable<CinemaSummaryDto>>(cinemas);
             return Ok(dtos);
         }
 

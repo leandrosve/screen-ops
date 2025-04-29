@@ -7,6 +7,7 @@ import {
   Box,
   Card,
   Flex,
+  HStack,
   Icon,
   IconButton,
   Menu,
@@ -44,7 +45,11 @@ const CinemaCardItem = ({ cinema }: Props) => {
           </Link>
 
           <Flex gap={4} onClick={(e) => e.preventDefault()}>
-            <EntityStatusBadge status={cinema.status} genre="masculine" minHeight='none' />
+            <EntityStatusBadge
+              status={cinema.status}
+              genre="masculine"
+              minHeight="none"
+            />
             {renderMenu(cinema.id)}
           </Flex>
         </Flex>
@@ -53,14 +58,16 @@ const CinemaCardItem = ({ cinema }: Props) => {
             <Text color="text.subtle" lineClamp={3}>
               {cinema.description}
             </Text>
-            <Badge variant="outline" size="lg" padding={2}>
-              <LuMapPin />
-              Dirección: {cinema.location}
-            </Badge>
-            <Badge variant="outline" size="lg" padding={2} fontWeight="bold">
-              <MdPeople />
-              Capacidad: {cinema.capacity}
-            </Badge>
+            <HStack>
+              <Badge variant="outline" size="lg" padding={2}>
+                <LuMapPin />
+                Dirección: {cinema.location}
+              </Badge>
+              <Badge variant="outline" size="lg" padding={2} fontWeight="bold">
+                <MdPeople />
+                Capacidad: {cinema.capacity}
+              </Badge>
+            </HStack>
           </Flex>
         </Flex>
       </Card.Body>
@@ -91,7 +98,7 @@ const renderMenu = (cinemaId: string) => (
   </Menu.Root>
 );
 const CinemaCardItemSkeleton = () => {
-  return <Skeleton height="250px" borderRadius='lg' />;
+  return <Skeleton height="250px" borderRadius="lg" />;
 };
 
 export default {

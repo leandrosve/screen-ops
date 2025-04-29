@@ -1,4 +1,5 @@
 import { EntityStatus } from "../common/EntityStatus";
+import { RoomSummaryShort } from "../room/Room";
 
 export interface Cinema {
   id: string;
@@ -8,6 +9,26 @@ export interface Cinema {
   capacity: number;
   imageUrl?: string;
   status: EntityStatus;
+  createdAt: Date;
+  rooms: RoomSummaryShort[];
+}
+
+export interface CinemaSummary {
+  id: string;
+  name: string;
+  location: string;
+  description: string;
+  capacity: number;
+  imageUrl?: string;
+  status: EntityStatus;
+  createdAt: Date;
+}
+
+export interface CinemaSummaryShort {
+  id: string;
+  name: string;
+  location: string;
+  imageUrl?: string;
   createdAt: Date;
 }
 

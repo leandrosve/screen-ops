@@ -15,13 +15,16 @@ namespace CinemasService.Services
     {
         private readonly IRoomRepository _repository;
         private readonly ICinemaRepository _cinemaRepository;
+        private readonly ILayoutRepository _layoutRepository;
+
 
         private readonly IMapper _mapper;
 
-        public RoomService(IRoomRepository repository, ICinemaRepository cinemaRepository, IMapper mapper)
+        public RoomService(IRoomRepository repository, ICinemaRepository cinemaRepository, ILayoutRepository layoutRepository, IMapper mapper)
         {
             _repository = repository;
             _cinemaRepository = cinemaRepository;
+            _layoutRepository = layoutRepository;
             _mapper = mapper;
         }
 
@@ -34,6 +37,13 @@ namespace CinemasService.Services
                 return Fail<RoomDto>(RoomErrors.Create.CinemaNotFound);
             }
 
+            var layout = await _layoutRepository.GetById(dto.LayoutId, false);
+
+            if (layout == null)
+            {
+                return Fail<RoomDto>(RoomErrors.Create.LayoutNotFound);
+            }
+
             Room room = new Room
             {
                 Name = dto.Name,
@@ -41,6 +51,7 @@ namespace CinemasService.Services
                 CreatedAt = DateTime.UtcNow,
                 Cinema = cinema,
             };
+
 
             await _repository.Insert(room);
 
@@ -56,8 +67,32 @@ namespace CinemasService.Services
                 return Fail<RoomDto>(RoomErrors.Update.RoomNotFound);
             }
 
+            if (dto.Name != null)
+            {
+                room.Name = dto.Name;
+            }
 
-            _mapper.Map(dto, room);
+            if (dto.Description != null)
+            {
+                room.Description = dto.Description;
+            }
+
+
+            if (dto.Status != null)
+            {
+                room.Status = dto.Status.Value;
+            }
+
+            if (dto.LayoutId != null)
+            {
+                var layout = await _layoutRepository.GetById(dto.LayoutId.Value, false);
+
+                if (layout == null)
+                {
+                    return Fail<RoomDto>(RoomErrors.Create.LayoutNotFound);
+                }
+                room.Layout = layout;
+            }
 
             if (room.Status == EntityStatus.Published && room.Layout == null)
             {
@@ -84,10 +119,10 @@ namespace CinemasService.Services
             return Ok(true);
         }
 
-        public async Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto filters)
+        public async Task<ApiResult<IEnumerable<RoomSummaryDto>>> GetByFilters(RoomSearchFiltersDto filters)
         {
             var rooms = await _repository.GetByFilters(filters);
-            var dtos = _mapper.Map<IEnumerable<RoomDto>>(rooms);
+            var dtos = _mapper.Map<IEnumerable<RoomSummaryDto>>(rooms);
             return Ok(dtos);
         }
 
@@ -101,14 +136,14 @@ namespace CinemasService.Services
             return Ok(_mapper.Map<RoomDto>(room));
         }
 
-        public async Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id)
+        public async Task<ApiResult<RoomSummaryContractDto>> GetSummary(Guid id)
         {
             var room = await _repository.GetById(id);
 
             if (room == null)
-                return Fail<RoomSummaryDto>(RoomErrors.Get.RoomNotFound);
+                return Fail<RoomSummaryContractDto>(RoomErrors.Get.RoomNotFound);
 
-            return Ok(_mapper.Map<RoomSummaryDto>(room));
+            return Ok(_mapper.Map<RoomSummaryContractDto>(room));
         }
 
     }

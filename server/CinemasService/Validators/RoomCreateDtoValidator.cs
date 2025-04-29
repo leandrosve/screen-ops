@@ -16,6 +16,8 @@ namespace CinemasService.Validators
                 .MaximumLength(100).WithMessage(RoomErrors.Create.DescriptionMaxLength);
             RuleFor(x => x.CinemaId).Must(id => id != Guid.Empty)
                 .WithMessage(RoomErrors.Create.CinemaIdRequired);
+            RuleFor(x => x.LayoutId).Must(id => id != Guid.Empty)
+               .WithMessage(RoomErrors.Create.LayoutIdRequired);
         }
     }
 }

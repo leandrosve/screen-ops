@@ -15,7 +15,7 @@ namespace ScreeningsService.Profiles
             CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
             CreateMap<Screening, ScreeningDto>();
             CreateMap<GrpcMovieSummaryModel, MovieSummaryDto>();
-            CreateMap<GrpcRoomSummaryModel, RoomSummaryDto>();
+            CreateMap<GrpcRoomSummaryModel, RoomSummaryContractDto>();
 
             CreateMap<ScreeningSchedule, ScreeningScheduleDto>();
             CreateMap<ScreeningScheduleTime, ScreeningTimeDto>();

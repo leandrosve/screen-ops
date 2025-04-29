@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Rooms
 {
-    public class RoomSummaryDto
+    public class RoomSummaryContractDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = "";

@@ -1,4 +1,5 @@
 import Alert from "@/components/common/Alert";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
 import { useConfirmDialog } from "@/components/common/ConfirmationDialog";
 import PageLoader from "@/components/common/PageLoader";
 import MovieForm from "@/components/features/movies/MovieForm";
@@ -54,6 +55,8 @@ const mapMovieToMovieCreateDto = (movie: Movie): MovieCreateDto => {
     genreIds: movie.genres.map((genre) => genre.id), // Suponiendo que 'genre' tiene un campo 'id'
   };
 };
+
+const breadcrumbs = [{title: "Películas", path: CmsRoutes.MOVIES}]
 
 const MovieUpdateForm = ({ movie }: { movie: Movie }) => {
   const [error, setError] = useState<string>("");
@@ -118,6 +121,8 @@ const MovieUpdateForm = ({ movie }: { movie: Movie }) => {
   return (
     <PageContent>
       <Flex direction="column" gap={3} width="fit-content">
+        <Breadcrumb items={[...breadcrumbs, {title: movie.localizedTitle, path: CmsRoutes.MOVIE_DETAIL.replace(":id", movie.id)}, {title:"Editar", path:""}]} />
+        
         <Heading size="2xl">Editar Pelicula</Heading>
 
         <MovieForm

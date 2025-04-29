@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa6";
 import { CmsRoutes } from "@/router/routes";
 import PageContent from "@/layout/PageContent";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
+import { cinemaBreadcrumbs } from "@/router/breadcrumbs";
 
 const CinemasPage = () => {
   const [cinemas, setCinemas] = useState<Cinema[]>([]);
@@ -68,6 +70,7 @@ const CinemasPage = () => {
       alignSelf="stretch"
       maxWidth={1000}
     >
+      <Breadcrumb items={cinemaBreadcrumbs.list} />
       <Heading size="2xl">Cines</Heading>
 
       {status.error && <Alert description={status.error} status="error" />}
@@ -107,7 +110,7 @@ const CinemasPage = () => {
         <Heading>No se encontraron resultados</Heading>
       )}
       {filtered.map((c) => (
-        <CinemaCardItem.Card cinema={c} />
+        <CinemaCardItem.Card cinema={c} key={c.id}/>
       ))}
     </PageContent>
   );

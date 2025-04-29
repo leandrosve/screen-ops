@@ -11,7 +11,7 @@ namespace CinemasService.Services.Interfaces
 
         public Task<ApiResult<CinemaDto>> GetById(Guid id, bool includeUnpublished);
 
-        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished);
+        public Task<ApiResult<IEnumerable<CinemaSummaryDto>>> GetAll(bool includeDeleted, bool includeUnpublished);
 
         public Task<ApiResult<bool>> Delete(Guid id, Guid userId);
     }

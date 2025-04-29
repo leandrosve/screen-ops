@@ -5,6 +5,6 @@ namespace ScreeningsService.Grpc
 {
      public interface IRoomDataClient
     {
-        public Task<ApiResult<RoomSummaryDto?>> GetSummary(Guid id);
+        public Task<ApiResult<RoomSummaryContractDto?>> GetSummary(Guid id);
     }
 }

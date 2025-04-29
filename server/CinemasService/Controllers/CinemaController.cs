@@ -58,7 +58,7 @@ namespace CinemasService.Controllers
         [ProducesResponseType(typeof(IEnumerable<CinemaDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromQuery] bool deleted = false, [FromQuery] bool unpublished = true)
         {
-            ApiResult<IEnumerable<CinemaDto>> res = await _service.GetAll(deleted, unpublished);
+            ApiResult<IEnumerable<CinemaSummaryDto>> res = await _service.GetAll(deleted, unpublished);
 
             if (res.HasError) return BadRequest(res.Error);
 

@@ -11,9 +11,9 @@ namespace CinemasService.Services.Interfaces
         public Task<ApiResult<RoomDto>> Update(Guid id, RoomUpdateDto dto);
 
         public Task<ApiResult<RoomDto>> GetById(Guid id);
-        public Task<ApiResult<RoomSummaryDto>> GetSummary(Guid id);
+        public Task<ApiResult<RoomSummaryContractDto>> GetSummary(Guid id);
 
-        public Task<ApiResult<IEnumerable<RoomDto>>> GetByFilters(RoomSearchFiltersDto dto);
+        public Task<ApiResult<IEnumerable<RoomSummaryDto>>> GetByFilters(RoomSearchFiltersDto dto);
 
         public Task<ApiResult<bool>> Delete(Guid id);
     }

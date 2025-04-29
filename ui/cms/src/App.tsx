@@ -11,7 +11,7 @@ import { routerV2 } from "./router/CmsRouter";
 function App() {
   return (
     <ChakraProvider value={customSystem}>
-      <ColorModeProvider>
+      <ColorModeProvider defaultTheme="dark">
         <SessionProvider>
           <ConfirmationDialogProvider />
           <Toaster />

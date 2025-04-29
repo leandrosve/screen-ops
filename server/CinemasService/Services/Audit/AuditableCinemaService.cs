@@ -82,7 +82,7 @@ namespace CinemasService.Services.Audit
             return _service.GetById(id, includeUnpublished);
         }
 
-        public Task<ApiResult<IEnumerable<CinemaDto>>> GetAll(bool includeDeleted, bool includeUnpublished)
+        public Task<ApiResult<IEnumerable<CinemaSummaryDto>>> GetAll(bool includeDeleted, bool includeUnpublished)
         {
             return _service.GetAll(includeDeleted, includeUnpublished);
         }

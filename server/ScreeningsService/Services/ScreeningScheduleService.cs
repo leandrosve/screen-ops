@@ -56,11 +56,11 @@ namespace ScreeningsService.Services
                 }
             }
 
-            ApiResult<RoomSummaryDto?> roomRes = await _roomDataClient.GetSummary(dto.RoomId);
+            ApiResult<RoomSummaryContractDto?> roomRes = await _roomDataClient.GetSummary(dto.RoomId);
 
             if (roomRes.Data == null) return Fail<ScreeningScheduleDto>(roomRes.Error.Error);
 
-            RoomSummaryDto room = roomRes.Data;
+            RoomSummaryContractDto room = roomRes.Data;
 
             var features = dto.Features.ToHashSet().ToList();
 

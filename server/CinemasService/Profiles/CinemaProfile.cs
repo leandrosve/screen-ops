@@ -12,6 +12,8 @@ namespace CinemasService.Profiles
         public CinemaProfile() {
 
             CreateMap<Cinema, CinemaDto>();
+            CreateMap<Cinema, CinemaSummaryDto>();
+            CreateMap<Cinema, CinemaSummaryShortDto>();
 
             CreateMap<Room, RoomDto>();
 
@@ -31,9 +33,10 @@ namespace CinemasService.Profiles
             CreateMap<Layout, LayoutSummaryDto>();
             CreateMap<LayoutElement, LayoutElementDto>();
 
+            CreateMap<Room, RoomSummaryContractDto>();
             CreateMap<Room, RoomSummaryDto>();
-            CreateMap<RoomSummaryDto, GrpcRoomSummaryModel>();
-
+            CreateMap<Room, RoomSummaryShortDto>();
+            CreateMap<RoomSummaryContractDto, GrpcRoomSummaryModel>();
         }
 
     }

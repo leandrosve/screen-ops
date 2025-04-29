@@ -9,7 +9,7 @@ const usePageTitle = () => {
     const pathname = location.pathname;
     const route = routes.find((r) => r.path === pathname || pathname.includes(`${r.path}/`));
     if (!route) {
-      document.title = 'ScreenOps - Página no encontrada';
+      document.title = 'ScreenOps';
       return;
     }
     let title = 'ScreenOps' + (route.title ? ` - ${route.title}` : '');

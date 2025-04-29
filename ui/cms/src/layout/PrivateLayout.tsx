@@ -18,7 +18,6 @@ const PrivateLayout = ({ children }: Props) => {
       direction={"column"}
       maxWidth="100%"
       height='100vh'
-      bg="bg"
     >
       <Navbar   />
 

@@ -12,11 +12,13 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { MovieStatus } from "@/model/movies/Movie";
 import { MultiSelect } from "@/components/common/MultiSelect";
-import { toMovieStatus } from "@/utils/EnumUtils";
+import { toEntityStatus } from "@/utils/EnumUtils";
 import { Link } from "react-router-dom";
 import { Paginator } from "@/components/common/Pagination";
 import MovieCardItem from "@/components/features/movies/MovieCardItem";
 import PageContent from "@/layout/PageContent";
+import { Breadcrumb } from "@/components/common/Breadcrumb";
+import { movieBreadcrumbs } from "@/router/breadcrumbs";
 
 const statusOptions = [
   {
@@ -36,11 +38,14 @@ const MoviesPage = () => {
   const { data, loading, error, updateFilters, filters } = useMovies();
 
   const [searchTerm, setSearchTerm] = useState(filters.searchTerm);
-  const [status, setStatus] = useState<string[]>(filters.status?.map(s => s.toString()) ?? []);
+  const [status, setStatus] = useState<string[]>(
+    filters.status?.map((s) => s.toString()) ?? []
+  );
   if (error) return <div>{error}</div>;
 
   return (
     <PageContent>
+      <Breadcrumb items={movieBreadcrumbs.list} />
       <Heading size="2xl">Películas</Heading>
       <Flex justifyContent="space-between">
         <form
@@ -49,7 +54,7 @@ const MoviesPage = () => {
             updateFilters({
               searchTerm,
               page: 1,
-              status: toMovieStatus(status),
+              status: toEntityStatus(status),
             });
           }}
         >
